@@ -210,14 +210,14 @@ You see, using `getList()` is a costly operation. If we would have 10 000 people
 
 ```java
 // Count people
-System.out(String.format("There are %s people in our database!", sql.count());
+System.out.println(String.format("There are %s people in our database!", sql.count());
 
 // Truncate the table
 sql.truncate();
-System.out("Table truncated!");
+System.out.println("Table truncated!");
 
 // Count again.
-System.out(String.format("Now there are %s people in our database. It's lonely here ...", sql.count());
+System.out.println(String.format("Now there are %s people in our database. It's lonely here ...", sql.count());
 ```
 
 Output in your console would be:

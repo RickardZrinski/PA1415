@@ -99,10 +99,11 @@ public class Demo2 {
     public static void main(String[] args) {
         // ...
         Person[] people = new Person[4];
+
         people[0] = new Person("Brad", "Shoemaker");
         people[1] = new Person("Jeff", "Gerstmann");
         people[2] = new Person("Vinny", "Caravella");
-        people[3] = new Person("Ryan, "Davis");
+        people[3] = new Person("Ryan", "Davis");
     
         for(Person person: people) 
             sql.insert(person);
@@ -111,13 +112,14 @@ public class Demo2 {
 ```
 
 The table should now be populated and look like this:
-id | firstnam | lastname
--- | --------- | --------
-1  | Patrick   | Klepek
-2  | Brad      | Shoemaker
-3  | Jeff      | Gerstmann
-4  | Vinny     | Caravella
-5  | Ryan      | Davis
+
+| id | firstname | lastname  |
+| -- | --------- | --------- |
+| 1  | Patrick   | Klepek    |
+| 2  | Brad      | Shoemaker |
+| 3  | Jeff      | Gerstmann |
+| 4  | Vinny     | Caravella |
+| 5  | Ryan      | Davis     | 
 
 The dapper also allows you to remove fields from the table. However, we won't go into it here - see the source for more information.
 

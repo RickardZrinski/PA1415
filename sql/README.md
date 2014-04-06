@@ -5,7 +5,7 @@ You need to download the Java MySQL ODBC connector from Oracle and include the c
 
 
 ## Dapper
-The Dapper is a way for us to abstract away the database interaction and use native objects to create, read, update and delete content from a database. This process is known as CRUD. The Dapper also interacts with the database and assigns values to our object - ultimately acting as a object mapper. 
+The Dapper is a way for us to abstract away the database interaction and use native objects to create, read, update and delete content from a database. This process is known as CRUD. The Dapper also interacts with the database and assigns values to our object - ultimately acting as a object mapper.
 Let's get into it:
 
 ## The Person Object
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `Person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
 
+### Inserting a Person
 In your main class, create a new instance of the Dapper. Prepare your Person object and watch the magic happen!
 ```java
 public class Demo {
@@ -73,55 +74,150 @@ public class Demo {
     }
 }
 ```
+Our table now looks like this:
+
+id | firstname | lastname
+---|-----------|---------
+1 | Patrick | Stewart
+
+### Updating a Person
 
 The important thing to remember is that we're dealing with objects. Objects go in, objects go out. For example, to edit "Patrick Stewart":
-```java
-public class Demo1 {
-    public static void main(String[] args) {
-        // ...
-        int id = 1;
 
-        // Retrieve the person
-        Person firstPerson = sql.getId(id);
+```java
+Dapper<Person> sql = new Dapper(Person.class);
         
-        // Change the last name 
-        firstPerson.setLastname("Klepek");
-        
-        // Update
-        sql.update(id, firstPerson); 
-    }
-}
+int id = 1;
+
+// Retrieve the person
+Person firstPerson = sql.getId(id);
+
+// Change the last name 
+firstPerson.setLastname("Klepek");
+
+// Update
+sql.update(id, firstPerson); 
 ```
+
+
+### Inserting multiple Person objects
 
 To add several people, do as you normally would:
 ```java
-public class Demo2 {
-    public static void main(String[] args) {
-        // ...
-        Person[] people = new Person[4];
+Dapper<Person> sql = new Dapper(Person.class);
+        
+Person[] people = new Person[]{
+    new Person("Brad", "Shoemaker"),
+    new Person("Jeff", "Gerstmann"),
+    new Person("Vinny", "Caravella"),
+    new Person("Ryan", "Davis")
+};
 
-        people[0] = new Person("Brad", "Shoemaker");
-        people[1] = new Person("Jeff", "Gerstmann");
-        people[2] = new Person("Vinny", "Caravella");
-        people[3] = new Person("Ryan", "Davis");
-    
-        for(Person person: people) 
-            sql.insert(person);
-    }
-}
+// Iterate through each Person object and insert it into the 
+// database
+for(Person person: people) 
+    sql.insert(person);
 ```
 
 The table should now be populated and look like this:
 
-| id | firstname | lastname  |
-| -- | --------- | --------- |
-| 1  | Patrick   | Klepek    |
-| 2  | Brad      | Shoemaker |
-| 3  | Jeff      | Gerstmann |
-| 4  | Vinny     | Caravella |
-| 5  | Ryan      | Davis     | 
+id | firstname | lastname
+---|-----------|---------
+1 | Patrick | Klepek
+2 | Brad | Shoemaker
+3 | Jeff | Gerstmann
+4 | Vinny | Caravella
+5 | Ryan | Davis
 
-The dapper also allows you to remove fields from the table. However, we won't go into it here - see the source for more information.
+
+### Deleting a Person
+Thought experiment: How would we remove `Ryan Davis` from the table? The answer is *not* to use `sql.getId(sql.getLastInsertId())`. When we use `Dapper#getLastInsertId()`, the Dapper returns the last id of the current session. If the person using the program quits out and starts the program, the `Dapper#getLastInsertId()` method would return `null`. With that warning, let's take a look at how you can remove data from the table:
+```java
+Dapper<Person> sql = new Dapper(Person.class);
+
+// Let's remove "Ryan Davis".
+int id = 5;
+        
+// Delete Ryan.
+sql.delete(id);
+```
+
+
+### Retrieving a list of Person objects.
+The Dapper provides a way for you to retrieve several people using variations on the `getList()` method.
+#### To retrive all Person objects
+```java
+ArrayList<Person> all = sql.getList();
+
+for(Person person: all) 
+    System.out.println(person);
+```
+
+Output in console:
+```
+Id: 1, Firstname: Patrick, Lastname: Klepek
+Id: 2, Firstname: Brad, Lastname: Shoemaker
+Id: 3, Firstname: Jeff, Lastname: Gerstmann
+Id: 4, Firstname: Vinny, Lastname: Caravella
+```
+
+#### To retrive 2 Person objects
+```java
+ArrayList<Person> two = sql.getList(2);
+
+for(Person person: all) 
+    System.out.println(person);
+```
+
+Output in console:
+```
+Id: 1, Firstname: Patrick, Lastname: Klepek
+Id: 2, Firstname: Brad, Lastname: Shoemaker
+```
+
+#### To retrive all Person objects, sorted by lastname first:
+```java
+ArrayList<Person> allByLastname = sql.getList("lastname", Sort.ASC); 
+
+for(Person person: all) 
+    System.out.println(person);
+```
+
+Output in console:
+```
+Id: 4, Firstname: Vinny, Lastname: Caravella
+Id: 3, Firstname: Jeff, Lastname: Gerstmann
+Id: 1, Firstname: Patrick, Lastname: Klepek
+Id: 2, Firstname: Brad, Lastname: Shoemaker
+```
+
+
+### Counting people and truncating tables
+Sometimes you need to know how many people there are in a database. For this you need to use the `Dapper#count()` method. Also, while developing your app you might need to remove all entries from your table. How would one go about to do that? 
+
+Again, a tought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(int)` method on each person?
+
+You see, using `sql.getList()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrive the dataset, (2) map the dataset to our ArrayList and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `Dapper#truncate()`! Please note that you **should not use** `Dapper#drop()` as that method removes the table **and** all of its contents!
+
+```java
+// Count people
+System.out(String.format("There are %s people in our database!", sql.count());
+
+// Truncate the table
+sql.truncate();
+System.out("Table truncated!");
+
+// Count again.
+System.out(String.format("Now there are %s people in our database. It's lonely here.", sql.count());
+```
+
+Output in your console would be:
+```
+There are 4 people in our database!
+Table truncated!
+Now there are 0 people in our database. It's lonely here.
+```
+
 
 ## Known bugs
 Some type-fields such as YEAR, SMALLINT and TINYINT do not work. This a known limitation in the java.sql API. Use INT(X) where X is your range instead.

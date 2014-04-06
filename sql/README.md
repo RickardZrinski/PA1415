@@ -1,4 +1,4 @@
-## Prerequsites
+## Prerequisites
 You need to download the Java MySQL ODBC connector from Oracle and include the corresponding .jar file to your project.
 
 **Download:** [Connector/J](https://dev.mysql.com/downloads/connector/j/)

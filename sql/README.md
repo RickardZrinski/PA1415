@@ -152,7 +152,7 @@ sql.delete(5);
 ### Retrieving a list of Person objects.
 The Dapper provides a way for you to retrieve several people using variations on the `getList()` method.
 
-#### To retrive all person objects
+#### To retrieve all person objects
 ```java
 ArrayList<Person> all = sql.getList();
 
@@ -168,7 +168,7 @@ Id: 3, Firstname: Jeff, Lastname: Gerstmann
 Id: 4, Firstname: Vinny, Lastname: Caravella
 ```
 
-#### To retrive 2 person objects
+#### To retrieve 2 person objects
 ```java
 ArrayList<Person> two = sql.getList(2);
 
@@ -182,7 +182,7 @@ Id: 1, Firstname: Patrick, Lastname: Klepek
 Id: 2, Firstname: Brad, Lastname: Shoemaker
 ```
 
-#### To retrive all person objects, sorted by lastname first:
+#### To retrieve all person objects, sorted by lastname first:
 ```java
 ArrayList<Person> allByLastname = sql.getList("lastname", Sort.ASC); 
 
@@ -206,7 +206,7 @@ Sometimes you need to know how many people there are in a database. For this you
 
 Again, a tought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(int)` method on each person?
 
-You see, using `getList()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrive the dataset, (2) map the dataset to our ArrayList and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `truncate()`! Please note that you **should not use** `drop()` as that method removes the table **and** all of its contents!
+You see, using `getList()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrieve the dataset, (2) map the dataset to our ArrayList and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `truncate()`! Please note that you **should not use** `drop()` as that method removes the table **and** all of its contents!
 
 ```java
 // Count people

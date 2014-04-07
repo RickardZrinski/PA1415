@@ -6,7 +6,21 @@ You need to download the Java MySQL ODBC connector from Oracle and include the c
 
 ## Dapper
 The Dapper is a way for us to abstract away the database interaction and use native objects to create, read, update and delete content from a database. This process is known as CRUD. The Dapper also interacts with the database and assigns values to our object - ultimately acting as a object mapper.
-Let's get into it:
+
+#### Before proceeding: Short introduction to databases
+Every novice programmer has had this problem: You have large set of data ("100 people") and you need to write 100 lines of code just to add all these people.
+
+But then you run in to the problem of having to re-insert everything once the program restarts. "Okay", you say. "Let's use a textfile!". You define a set of strict rules, and go "First name is on one line and last name is on the next line". Every time you add a new user, you update a number in the top of that textfile. 
+
+But what happens when you want to delete a person in the middle? Or, what happens if you for some reason want to store their address? You can't add a new line because your retrieval algorithm only reads lines in a specific way and your storage function only stores them in another. This is madness.
+
+
+##### The solution
+The solution for all this is to use databases! They come in many flavors but they all have something in common - the Structured Query Language (SQL). 
+
+In order to store large quantites of data. Databases use something called **tables** to store data. A table is exactly what you think it is - a dataset with a heading and rows with data. When you define how a table is supposed to look, you create a structure (there's a example further down in this README). The structure contains information about the columns, such as `int(1)` or `varchar(30)` and the names of the columns: `id` and `firstname`. `int(1)` means that you can store numbers from 0-9, and `varchar(30)` means that you can store 30 characters.
+
+The Dapper helps us to ignore the "talking to" the MySQL database directly. All it does is to act as an translator between objects and the structured query language. Now, let's get into it:
 
 ## The Person Object
 
@@ -139,7 +153,7 @@ id | firstname | lastname
 
 
 ### Deleting a Person
-Thought experiment: How would we remove `Ryan Davis` from the table? The answer is *not* to use `sql.getId(sql.getLastInsertId())`. When we use `getLastInsertId()`, the Dapper returns the last id of the current session. If the person using the program quits out and starts the program, the `getLastInsertId()` method would return `null`. With that warning, let's take a look at how you can remove data from the table:
+Thought experiment: How would we remove `Ryan Davis` from the table? The answer is *not* to use `sql.getId(sql.getLastInsertId())`. When we use `getLastInsertId()`, the Dapper returns the last id of the current session. If the person using the program quits out and starts the program, the `getLastInsertId()` method would return `-1`. With that warning, let's take a look at how you can remove data from the table:
 ```java
 Dapper<Person> sql = new Dapper(Person.class);
 
@@ -158,6 +172,10 @@ ArrayList<Person> all = sql.getList();
 
 for(Person person: all) 
     System.out.println(person);
+    
+// If you like to condense your code, you can also do:
+for(Person person: sql.getList())
+    System.out.println(Person);
 ```
 
 Output in console:
@@ -172,7 +190,7 @@ Id: 4, Firstname: Vinny, Lastname: Caravella
 ```java
 ArrayList<Person> two = sql.getList(2);
 
-for(Person person: all) 
+for(Person person: two) 
     System.out.println(person);
 ```
 
@@ -186,7 +204,7 @@ Id: 2, Firstname: Brad, Lastname: Shoemaker
 ```java
 ArrayList<Person> allByLastname = sql.getList("lastname", Sort.ASC); 
 
-for(Person person: all) 
+for(Person person: allByLastname) 
     System.out.println(person);
 ```
 
@@ -204,7 +222,7 @@ As briefly mentioned before, there are several variations of `getList()` method.
 ### Counting people and truncating tables
 Sometimes you need to know how many people there are in a database. For this you need to use the `count()` method. Also, while developing your app you might need to remove all entries from your table. How would one go about to do that? 
 
-Again, a tought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(int)` method on each person?
+Again, a tought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(n)` method on each person?
 
 You see, using `getList()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrieve the dataset, (2) map the dataset to our ArrayList and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `truncate()`! Please note that you **should not use** `drop()` as that method removes the table **and** all of its contents!
 

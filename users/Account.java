@@ -11,6 +11,21 @@ public class Account {
     private float balance;
 
     /**
+     * Creates a Account object with 0 funds.
+     */
+    public Account() {
+        this.balance = 0.0f;
+    }
+
+    /**
+     * Creates a Account object with a given balance
+     * @param   amount  The starting balance
+     */
+    public Account(float amount) {
+        this.balance = amount;
+    }
+
+    /**
      * Retrieves the current balance of the account
      * @return  A float of the current balance on the account
      */

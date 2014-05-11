@@ -5,7 +5,7 @@ package users;
  * performed on a account.
  *
  * @author  Dino Opijac
- * @since    11/05/14
+ * @since   11/05/14
  */
 public class Account {
     private float balance;
@@ -42,5 +42,10 @@ public class Account {
      */
     public boolean isWithdrawable(float amount) {
         return (this.balance > amount);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Balance: %f", this.balance);
     }
 }

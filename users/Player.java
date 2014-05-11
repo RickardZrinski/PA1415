@@ -7,6 +7,7 @@ package users;
  * @since   11/05/14
  */
 public class Player extends User {
+    private Account account;
     private int numberOfTrials;
     private int ssn;
     private String email;
@@ -33,6 +34,15 @@ public class Player extends User {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Retrieves the player's game account
+     * @see     users.Account
+     * @return  The instance of the game account
+     */
+    public Account getAccount() {
+        return this.account;
     }
 
     /**

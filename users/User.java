@@ -4,7 +4,7 @@ package users;
  * This class models a user
  *
  * @author  Dino Opijac
- * @since    11/05/14
+ * @since   11/05/14
  */
 public abstract class User {
     private int id;

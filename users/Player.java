@@ -8,9 +8,35 @@ package users;
  */
 public class Player extends User {
     private Account account;
-    private int numberOfTrials;
-    private int ssn;
-    private String email;
+    private int numberOfTrials = 0;
+    private int ssn = 0;
+    private String email = null;
+
+    /**
+     * Creates an empty player object
+     */
+    public Player() {
+        this.account = new Account();
+    }
+
+    /**
+     * Creates a new player object
+     * @param   username    The username of the player
+     * @param   firstName   The first name of the player
+     * @param   lastName    The last name of the player
+     * @param   ssn         The social security number of the player
+     * @param   email       The email address of the player
+     * @param   balance     The balance of the account
+     */
+    public Player(String username, String firstName, String lastName, int ssn, String email, float balance) {
+        super.setUsername(username);
+        super.setFirstName(firstName);
+        super.setLastName(lastName);
+
+        this.account = new Account(balance);
+        this.ssn = ssn;
+        this.email = email;
+    }
 
     /**
      * Sets the number of trials
@@ -71,6 +97,6 @@ public class Player extends User {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" numberOfTrials: %d, ssn: %d, email: %s", this.numberOfTrials, this.ssn, this.email);
+        return super.toString() + String.format(" numberOfTrials: %d, ssn: %d, email: %s, Balance: %f", this.numberOfTrials, this.ssn, this.email, this.account.getBalance());
     }
 }

@@ -7,12 +7,12 @@ package users;
  * @since   11/05/14
  */
 public abstract class User {
-    private int id;
+    private int id = 0;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
-
+    
     /**
      * Sets a username
      * @param   username    The desired username

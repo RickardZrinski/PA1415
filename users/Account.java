@@ -38,14 +38,24 @@ public class Account {
      * @param   amount  the amount to deposit to the account
      */
     public void deposit(double amount) {
-        this.balance = this.balance + amount;
+        if (amount > 0)
+            this.balance = this.balance + amount;
     }
 
     /**
-     * Decreases the balance of the account by a given value
+     * Decreases the balance of the account by a given value.
+     *
+     * IMPORTANT: This method DOES NOT evaluate the balance! You can still
+     * withdraw amounts that are larger than the balance.
+     * Use {@link Account#isWithdrawable(double)} before attempting to
+     * withdraw money.
+     *
      * @param   amount  the amount to withdraw from the account
      */
     public void withdraw(double amount) {
+        if (amount < 0)
+            amount = 0 - amount;
+
         this.balance = this.balance - amount;
     }
 

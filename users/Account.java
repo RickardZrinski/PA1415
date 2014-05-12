@@ -8,20 +8,20 @@ package users;
  * @since   11/05/14
  */
 public class Account {
-    private float balance;
+    private double balance;
 
     /**
      * Creates a Account object with 0 funds.
      */
     public Account() {
-        this.balance = 0.0f;
+        this.balance = 0.0;
     }
 
     /**
      * Creates a Account object with a given balance
      * @param   amount  The starting balance
      */
-    public Account(float amount) {
+    public Account(double amount) {
         this.balance = amount;
     }
 
@@ -29,7 +29,7 @@ public class Account {
      * Retrieves the current balance of the account
      * @return  A float of the current balance on the account
      */
-    public float getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -37,7 +37,7 @@ public class Account {
      * Increases the balance of the account by a given value
      * @param   amount  the amount to deposit to the account
      */
-    public void deposit(float amount) {
+    public void deposit(double amount) {
         this.balance = this.balance + amount;
     }
 
@@ -45,7 +45,7 @@ public class Account {
      * Decreases the balance of the account by a given value
      * @param   amount  the amount to withdraw from the account
      */
-    public void withdraw(float amount) {
+    public void withdraw(double amount) {
         this.balance = this.balance - amount;
     }
 
@@ -55,7 +55,7 @@ public class Account {
      * @param   amount  the amount to withdraw from the account
      * @return  true if the amount is withdrawable, else false
      */
-    public boolean isWithdrawable(float amount) {
+    public boolean isWithdrawable(double amount) {
         return (this.balance > amount);
     }
 

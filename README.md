@@ -1,13 +1,13 @@
 ## Contents
-1. [Getting started](https://github.com/devinant/PA1415#getting-started)
-2. [Conventions](https://github.com/devinant/PA1415#conventions)
-3. [Setting up your GitHub account with IntelliJ](https://github.com/devinant/PA1415#setting-up-your-github-account-with-intellij)
-4. [Creating a main()-method in IntelliJ](https://github.com/devinant/PA1415#creating-a-main-method-in-intellij)
-5. [Creating a new test configuration in IntelliJ](https://github.com/devinant/PA1415#creating-a-main-method-in-intellij)
-6. [Creating a test in IntelliJ](https://github.com/devinant/PA1415#creating-a-test-in-intellij)
-7. [Adding a library to your IntelliJ project](https://github.com/devinant/PA1415#adding-a-library-to-your-intellij-project)
-8. [Adding a test library](https://github.com/devinant/PA1415#adding-a-test-library)
-8. [Known issues](https://github.com/devinant/PA1415#known-issues)
+1. [Getting started](#getting-started)
+2. [Conventions](#conventions)
+3. [Setting up your GitHub account with IntelliJ](#setting-up-your-github-account-with-intellij)
+4. [Creating a main()-method in IntelliJ](#creating-a-main-method-in-intellij)
+5. [Creating a new test configuration in IntelliJ](#creating-a-main-method-in-intellij)
+6. [Creating a test in IntelliJ](#creating-a-test-in-intellij)
+7. [Adding a library to your IntelliJ project](#adding-a-library-to-your-intellij-project)
+8. [Adding a test library](#adding-a-test-library)
+8. [Known issues](#known-issues)
 
 
 ### Getting started

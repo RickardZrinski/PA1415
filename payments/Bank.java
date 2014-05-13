@@ -10,4 +10,5 @@ public class Bank {
     public boolean authorized() {
         return false;
     }
+    private int fuckthis;
 }

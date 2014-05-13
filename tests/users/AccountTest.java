@@ -35,7 +35,6 @@ public class AccountTest {
         account.deposit(-50.0);
 
         assertEquals("It should not be possible to deposit negative values", 100.0, account.getBalance(), 2);
-        System.out.println(account.getBalance());
     }
 
     @Test

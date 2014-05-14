@@ -63,6 +63,14 @@ public class GameData {
     }
 
     /**
+     * Adds a die to the game
+     * @param die   the die
+     */
+    public void addDie(Die die){
+        dice.add(die);
+    }
+
+    /**
      * Checks for fulfilled winning conditions
      * @param dice  the dice that will be checked.
      * @return  The fulfilled winning condition with the highest reward
@@ -75,8 +83,10 @@ public class GameData {
             if (fulfilled)
                 conditionIndex = i;
         }
-
-        return winningConditions.get(conditionIndex);
+        if (conditionIndex != -1)
+            return winningConditions.get(conditionIndex);
+        else
+            return new WinningCondition();
     }
 
     /**
@@ -91,11 +101,20 @@ public class GameData {
         }
     }
 
+    /**
+     * Removes winningCondition at specified index
+     * @param index index of winningCondition
+     */
+    public void removeWinningCondition(int index) {
+        winningConditions.remove(index);
+    }
 
-    /*Compares existing WinningConditions with the chosen WinningConds parameters,
-and removes the existing ones that are not chosen.*/
-    public void setGameWinningCondition(ArrayList<WinningCondition> winningConds)
-    {
+    /**
+     * Compares existing WinningConditions with the chosen WinningConds parameters,
+     * and removes the existing ones that are not chosen
+     * @param winningConds The conditions to compare with
+     */
+    public void setGameWinningCondition(ArrayList<WinningCondition> winningConds) {
         for (int i=0; i< this.winningConditions.size(); i++)
         {
             if (!this.winningConditions.get(i).equals(winningConds.get(i)))
@@ -103,9 +122,7 @@ and removes the existing ones that are not chosen.*/
                 winningConditions.remove(i);
             }
         }
-
     }
-
 
     public int getId() {
         return id;
@@ -151,4 +168,7 @@ and removes the existing ones that are not chosen.*/
         return winningConditions.get(index);
     }
 
+    public Die getDie(int index){
+        return  dice.get(index);
+    }
 }

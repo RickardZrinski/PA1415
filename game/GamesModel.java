@@ -11,6 +11,7 @@ public class GamesModel
     public GamesModel()
     {
         this.nrOfGames = 0;
+        games = new ArrayList<GameData>();
     }
 
     public int getNrOfGames()

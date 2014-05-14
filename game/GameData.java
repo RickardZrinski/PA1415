@@ -63,9 +63,16 @@ public class GameData {
     }
 
     /**
+     * Adds a die to the game
+     * @param die   the die
+     */
+    public void addDie(Die die){
+        dice.add(die);
+    }
+    /**
      * Checks for fulfilled winning conditions
      * @param dice  the dice that will be checked.
-     * @return  The fulfilled winning condition with the highest reward
+     * @return  The fulfilled winning condition with the highest reward, if none: default WinningCondition
      */
     public WinningCondition checkWinningConditions(Die[] dice){
         int conditionIndex = -1;
@@ -75,8 +82,10 @@ public class GameData {
             if (fulfilled)
                 conditionIndex = i;
         }
-
-        return winningConditions.get(conditionIndex);
+        if (conditionIndex != -1)
+            return winningConditions.get(conditionIndex);
+        else
+            return new WinningCondition();
     }
 
     /**
@@ -133,6 +142,10 @@ public class GameData {
 
     public WinningCondition getWinningCondition(int index){
         return winningConditions.get(index);
+    }
+
+    public Die getDie(int index){
+        return  dice.get(index);
     }
 
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Combination {
     private int quantity;
     private ArrayList<String> faces;
+    private String name;
 
     /**
      * Creates an empty Combination object
@@ -15,7 +16,13 @@ public class Combination {
     public Combination() {
         this.quantity = 0;
         this.faces = new ArrayList<String>();
+        name = "No name";
+    }
 
+    public Combination(String name){
+        this.quantity = 0;
+        this.faces = new ArrayList<String>();
+        this.name = name;
     }
 
     /**
@@ -71,5 +78,17 @@ public class Combination {
 
     public int getQuantity(){
         return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

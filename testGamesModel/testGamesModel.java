@@ -1,4 +1,4 @@
-package tests.GamesModel;
+package testGamesModel;
 
 import game.GamesModel;
 

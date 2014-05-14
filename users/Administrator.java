@@ -14,4 +14,10 @@ public class Administrator extends User
         super.setUsername(username);
         super.setId(id);
     }
+
+    @Override
+    public String toString()
+    {
+        return super.toString();
+    }
 }

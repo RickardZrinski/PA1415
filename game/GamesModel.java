@@ -33,9 +33,13 @@ public class GamesModel
     /*Sends Edited Parameters for a specific game*/
 	public void sendEditedParameters(int index, int nrOfThrows, int nrOfDices, ArrayList<WinningCondition> winningCondition)
 	{
-		games.get(index).setNumberOfThrows(nrOfThrows);
-        games.get(index).setNumberOfDice(nrOfDices);
-        games.get(index).setGameWinningCondition(winningCondition);
+        if(index < games.size())
+        {
+            games.get(index).setNumberOfThrows(nrOfThrows);
+            games.get(index).setNumberOfDice(nrOfDices);
+            games.get(index).setGameWinningCondition(winningCondition);
+        }
+
 	}
 	
 	public GameData getGame(int index)

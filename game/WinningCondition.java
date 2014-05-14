@@ -8,13 +8,21 @@ import java.util.ArrayList;
 public class WinningCondition {
     private ArrayList<Combination> combinations;
     private float reward;
+    private String name;
 
     /**
      * Creates a new empty WinningCondition
      */
     public WinningCondition(){
         combinations = new ArrayList<Combination>();
-        reward = 1f;
+        reward = 0f;
+        name = "No reward";
+    }
+
+    public WinningCondition(String name){
+        combinations = new ArrayList<Combination>();
+        reward = 0f;
+        this.name = name;
     }
 
     /**
@@ -59,8 +67,6 @@ public class WinningCondition {
             usedFace = combinations.get(i).isFulfilled(dice);
             if (usedFace == null)
                 fulfilled = false;
-
-
         }
 
         return fulfilled;
@@ -76,4 +82,11 @@ public class WinningCondition {
             combinations.get(i).removeFace(usedFace);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

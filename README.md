@@ -7,14 +7,15 @@ Welcome to the PA1415 repository for Group 11 and Group 12.
 * Everything you need to know [about testing](https://github.com/devinant/PA1415/wiki/Testing-with-IntelliJ)
 * Altough not required, you should learn to [conform to some programming standards](https://github.com/devinant/PA1415/wiki/Conventions) other than your own. You'll most likely encounter this in the future.
 * Are you having some problems with your IntelliJ project? [Read all about known issues, it might help!](https://github.com/devinant/PA1415/wiki/Known-Issues-(IntelliJ))
-* [Read more at our Wiki](https://github.com/devinant/PA1415/wiki)
-* 
+* Read the [wiki](https://github.com/devinant/PA1415/wiki)
+
+
 #### Resources
 * Learn about Java Swing and some more advanced/sophisticated uses of the Java language [with these excellent YouTube-videos](https://www.youtube.com/user/OverG88/videos)
 * Learn about [the Model-View-Controller](https://www.youtube.com/watch?v=dTVVa2gfht8) in Java
 
 
-#### Remember to ...
+#### Finally
 * Throw a glance [at issues](https://github.com/devinant/PA1415/issues) on a daily basis and report your issues! It's okay to make mistakes.
 * Always download the latest version of the repository __before__ you start programming
 * Have fun and finally:

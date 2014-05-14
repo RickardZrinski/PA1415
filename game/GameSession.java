@@ -1,7 +1,6 @@
 package game;
 
 import users.Player;
-
 import java.util.ArrayList;
 
 /**

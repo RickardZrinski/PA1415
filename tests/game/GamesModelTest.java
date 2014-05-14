@@ -1,5 +1,6 @@
 package tests.game;
 
+import game.GamesModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,10 @@ import static org.junit.Assert.*;
 public class GamesModelTest
 {
 
+    public static void main()
+    {
+        GamesModel test;
+    }
     @Before
     public void setUp() throws Exception
     {

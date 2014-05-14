@@ -6,6 +6,7 @@ package users;
  * @author  Dino Opijac
  * @since   11/05/14
  */
+
 public abstract class User {
     private int id = 0;
     private String username;
@@ -97,5 +98,10 @@ public abstract class User {
     @Override
     public String toString() {
         return String.format("Id: %d, Username: %s, Password: %s, First Name: %s, Last Name: %s", this.id, this.username, this.password, this.firstName, this.lastName);
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 }

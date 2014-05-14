@@ -100,6 +100,14 @@ public class GameData {
         }
     }
 
+    /**
+     * Removes winningCondition at specified index
+     * @param index index of winningCondition
+     */
+    public void removeWinningCondition(int index){
+        winningConditions.remove(index);
+    }
+
     public int getId() {
         return id;
     }

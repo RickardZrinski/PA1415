@@ -46,6 +46,14 @@ public class GameSession {
     }
 
     /**
+     * Sets bet
+     * @param bet player's bet
+     */
+    public void bet(int bet){
+        this.bet = bet;
+    }
+
+    /**
      * Sets the game to active
      */
     public void start(){

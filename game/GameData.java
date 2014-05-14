@@ -63,16 +63,9 @@ public class GameData {
     }
 
     /**
-     * Adds a die to the game
-     * @param die   the die
-     */
-    public void addDie(Die die){
-        dice.add(die);
-    }
-    /**
      * Checks for fulfilled winning conditions
      * @param dice  the dice that will be checked.
-     * @return  The fulfilled winning condition with the highest reward, if none: default WinningCondition
+     * @return  The fulfilled winning condition with the highest reward
      */
     public WinningCondition checkWinningConditions(Die[] dice){
         int conditionIndex = -1;
@@ -82,10 +75,8 @@ public class GameData {
             if (fulfilled)
                 conditionIndex = i;
         }
-        if (conditionIndex != -1)
-            return winningConditions.get(conditionIndex);
-        else
-            return new WinningCondition();
+
+        return winningConditions.get(conditionIndex);
     }
 
     /**
@@ -100,13 +91,21 @@ public class GameData {
         }
     }
 
-    /**
-     * Removes winningCondition at specified index
-     * @param index index of winningCondition
-     */
-    public void removeWinningCondition(int index){
-        winningConditions.remove(index);
+
+    /*Compares existing WinningConditions with the chosen WinningConds parameters,
+and removes the existing ones that are not chosen.*/
+    public void setGameWinningCondition(ArrayList<WinningCondition> winningConds)
+    {
+        for (int i=0; i< this.winningConditions.size(); i++)
+        {
+            if (!this.winningConditions.get(i).equals(winningConds.get(i)))
+            {
+                winningConditions.remove(i);
+            }
+        }
+
     }
+
 
     public int getId() {
         return id;
@@ -150,10 +149,6 @@ public class GameData {
 
     public WinningCondition getWinningCondition(int index){
         return winningConditions.get(index);
-    }
-
-    public Die getDie(int index){
-        return  dice.get(index);
     }
 
 }

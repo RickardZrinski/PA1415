@@ -1,17 +1,20 @@
 package game;
 
+import sql.annotations.Ignore;
+import sql.annotations.PrimaryKey;
+
 import java.util.ArrayList;
 
 /**
  * Created by Oliver on 2014-05-13.
  */
 public class GameData {
-    private int id;
+    @PrimaryKey("ID") private int id;
     private String gameName;
     private int numberOfThrows;
     private int numberOfDice;
-    private ArrayList<WinningCondition> winningConditions;
-    private ArrayList<Die> dice;
+    @Ignore private ArrayList<WinningCondition> winningConditions;
+    @Ignore private ArrayList<Die> dice;
     private String rules;
 
     /**
@@ -22,9 +25,9 @@ public class GameData {
         this.gameName = "Unknown";
         this.numberOfDice = 0;
         this.numberOfThrows = 0;
-        winningConditions = new ArrayList<WinningCondition>();
-        dice = new ArrayList<Die>();
-        rules = "No rules available";
+        this.winningConditions = new ArrayList<>();
+        this.dice = new ArrayList<>();
+        this.rules = "No rules available";
     }
 
     /**
@@ -35,22 +38,22 @@ public class GameData {
      * @param numberOfThrows    number of throws done by player
      * @param rules rules of the game
      */
-    public GameData(int id, String gameName, int numberOfDice, int numberOfThrows, String rules){
+    public GameData(int id, String gameName, int numberOfDice, int numberOfThrows, String rules) {
         this.id = id;
         this.gameName = gameName;
         this.numberOfThrows = numberOfThrows;
         this.numberOfDice = numberOfDice;
+        this.winningConditions = new ArrayList<>();
+        this.dice = new ArrayList<>();
         this.rules = rules;
-        winningConditions = new ArrayList<WinningCondition>();
-        dice = new ArrayList<Die>();
     }
 
     /**
      * Tosses all the dice
      */
-    public void toss(){
-        for (int i = 0; i < dice.size(); i++)
-            dice.get(i).toss();
+    public void toss() {
+        for(Die die: dice)
+            die.toss();
     }
 
     /**
@@ -58,7 +61,7 @@ public class GameData {
      * @param index index of the die
      * @return the removed die
      */
-    public Die removeDie(int index){
+    public Die removeDie(int index) {
         return dice.remove(index);
     }
 
@@ -66,7 +69,7 @@ public class GameData {
      * Adds a die to the game
      * @param die   the die
      */
-    public void addDie(Die die){
+    public void addDie(Die die) {
         dice.add(die);
     }
 
@@ -91,12 +94,12 @@ public class GameData {
 
     /**
      * Adds a new winning condition, list is sorted by highest-lowest reward
-     * @param wCondition    the new winning condition
+     * @param winningCondition    the new winning condition
      */
-    public void addWinningCondition(WinningCondition wCondition){
-        for (int i = 0; i < winningConditions.size(); i++){
-            if (wCondition.getReward() > winningConditions.get(i).getReward()){
-                winningConditions.add(i, wCondition);
+    public void addWinningCondition(WinningCondition winningCondition){
+        for (int i = 0; i < this.winningConditions.size(); i++){
+            if (winningCondition.getReward() > this.winningConditions.get(i).getReward()){
+                this.winningConditions.add(i, winningCondition);
             }
         }
     }
@@ -106,7 +109,7 @@ public class GameData {
      * @param index index of winningCondition
      */
     public void removeWinningCondition(int index) {
-        winningConditions.remove(index);
+        this.winningConditions.remove(index);
     }
 
     /**

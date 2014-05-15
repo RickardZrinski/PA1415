@@ -94,4 +94,8 @@ public class WinningCondition {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setReward(float reward){
+        this.reward = reward;
+    }
 }

@@ -64,7 +64,7 @@ public class Combination {
            exist in faces.*/
         for (int i = 0; i < faces.size() && usedFace == null; i++){
             count = 0;
-            for (int j = 1; j < dice.length; j++){
+            for (int j = 0; j < dice.length; j++){
                 if (faces.get(i).equals(String.valueOf(dice[j].getFace()))){
                     count++;
                 }

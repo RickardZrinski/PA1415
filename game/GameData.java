@@ -99,9 +99,13 @@ public class GameData {
      * @param winningCondition    the new winning condition
      */
     public void addWinningCondition(WinningCondition winningCondition){
-        for (int i = 0; i < this.winningConditions.size(); i++){
-            if (winningCondition.getReward() > this.winningConditions.get(i).getReward()){
-                this.winningConditions.add(i, winningCondition);
+        if (this.winningConditions.size() == 0)
+            winningConditions.add(winningCondition);
+        else {
+            for (int i = 0; i < this.winningConditions.size(); i++) {
+                if (winningCondition.getReward() > this.winningConditions.get(i).getReward()) {
+                    this.winningConditions.add(i, winningCondition);
+                }
             }
         }
     }
@@ -177,5 +181,11 @@ public class GameData {
 
     public Die getDie(int index){
         return  dice.get(index);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules);
+
     }
 }

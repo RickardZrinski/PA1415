@@ -1,12 +1,16 @@
 package game;
 
+import sql.annotations.Ignore;
+import sql.annotations.PrimaryKey;
+
 import java.util.ArrayList;
 
 /**
  * Created by Oliver on 2014-05-13.
  */
 public class WinningCondition {
-    private ArrayList<Combination> combinations;
+    @PrimaryKey("ID") private int id;
+    @Ignore private ArrayList<Combination> combinations;
     private float reward;
     private String name;
 
@@ -100,5 +104,10 @@ public class WinningCondition {
 
     public void setReward(float reward){
         this.reward = reward;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %d, reward: %f, name: %s\ncombinations: %s", this.id, this.reward, this.name, this.combinations);
     }
 }

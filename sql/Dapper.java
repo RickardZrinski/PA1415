@@ -88,7 +88,11 @@ public class Dapper<AnyType> {
     private void computeAnnotations(Class<AnyType> clazz) {
         for (Field field: this.getInheritedFields(clazz, false)) {
             if (field.isAnnotationPresent(PrimaryKey.class)) {
-                this.primaryKeyFieldName = field.getAnnotation(PrimaryKey.class).value();
+                // Annotation value
+                String value = field.getAnnotation(PrimaryKey.class).value();
+
+                // If the annotation is empty, use the attribute name instead.
+                this.primaryKeyFieldName = value.isEmpty() ? field.getName() : value;
             }
         }
     }
@@ -504,23 +508,6 @@ public class Dapper<AnyType> {
             }
 
             result = statement.executeQuery();
-
-            /*while (result.next()) {
-                AnyType object = this.tableType.getConstructor().newInstance();
-
-                for(Field field: this.getInheritedFields(object.getClass(), true)) {
-                    // Set this field to accessible
-                    field.setAccessible(true);
-
-                    // Get the object data from the resultset
-                    field.set(object, result.getObject(field.getName()));
-                }
-
-                // Add to our array
-                list.add(object);
-
-            }*/
-
             collection = this.map(result);
         } catch (SQLException e) {
             e.printStackTrace();

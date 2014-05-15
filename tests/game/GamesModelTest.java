@@ -1,9 +1,12 @@
+
 package tests.game;
 
+import game.GameData;
 import game.GamesModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import sql.Dapper;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +15,12 @@ public class GamesModelTest
 
     public static void main()
     {
-        GamesModel test;
+        Dapper<GameData> sql = new Dapper<>(GameData.class);
+
+        for(GameData data : sql.getCollection())
+        {
+            System.out.println(data);
+        }
     }
     @Before
     public void setUp() throws Exception

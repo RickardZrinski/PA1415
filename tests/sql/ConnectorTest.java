@@ -1,10 +1,12 @@
 package tests.sql;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sql.Connector;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -16,8 +18,13 @@ public class ConnectorTest {
     private static Connection connection;
 
     @BeforeClass
-    public static void connect() {
+    public static void connect() throws SQLException {
         ConnectorTest.connection = Connector.getConnection();
+    }
+
+    @AfterClass
+    public static void disconnect() throws SQLException {
+        ConnectorTest.connection.close();
     }
 
     @Test

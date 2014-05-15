@@ -191,7 +191,6 @@ public class GameData {
 
     @Override
     public String toString() {
-        return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules);
-
+        return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s\nWinningConditions: %s\nDice: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules, this.winningConditions, this.dice);
     }
 }

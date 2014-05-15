@@ -2,14 +2,13 @@ package sql;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
 
 public class Connector {
-    private static String HOSTNAME = "****";
+    private static String HOSTNAME = "opij.ac";
     private static Integer PORT = 3306;
-    private static String DATABASE = "****";
-    private static String USERNAME = "****";
-    private static String PASSWORD = "****";
+    private static String DATABASE = "pa1415";
+    private static String USERNAME = "dino";
+    private static String PASSWORD = "AYSWM8NZvrNQPyqX";
 
     public static Connection getConnection() {
         Connection connection = null;

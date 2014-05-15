@@ -37,12 +37,17 @@ public class WinningCondition {
         if (combinations.size() == 0)
             combinations.add(combination);
         else {
+            boolean added = false;
             int nrOfCombinations = combinations.size();
             for (int i = 0; i < nrOfCombinations; i++) {
                 if (combination.getQuantity() > combinations.get(i).getQuantity()) {
                     combinations.add(i, combination);
+                    added = true;
                 }
             }
+            //Add last
+            if (!added)
+                combinations.add(combination);
         }
     }
 

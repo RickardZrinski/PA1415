@@ -66,8 +66,8 @@ public class GameSession {
     public WinningCondition end(){
         active = false;
         //Save all remaining dice
-        for (int i = 0; i < gameData.getNumberOfDice(); i++){
-            saveDie(i);
+        while(gameData.getNumberOfDice() > 0){
+            saveDie(0);
         }
         return calculateReward();
     }
@@ -87,8 +87,7 @@ public class GameSession {
      * @param index index of die in gameData
      */
     public void saveDie(int index){
-        diceHand.add(gameData.getDie(index));
-        gameData.removeDie(index);
+        diceHand.add(gameData.removeDie(index));
     }
 
     /**

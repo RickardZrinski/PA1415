@@ -154,6 +154,8 @@ public class GameData {
 
     public void setNumberOfDice(int numberOfDice) {
         this.numberOfDice = numberOfDice;
+        for (int i = dice.size(); i < numberOfDice; i++)
+            dice.add(new Die());
     }
 
     public String getRules() {

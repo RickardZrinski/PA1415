@@ -71,8 +71,10 @@ public class WinningCondition {
         String usedFace = null;
         for (int i = 0; i < combinations.size() && fulfilled; i++){
             usedFace = combinations.get(i).isFulfilled(dice);
-            if (usedFace == null)
+            if (usedFace == null){
                 fulfilled = false;
+                removeUsedFace(i, usedFace);
+            }
         }
 
         return fulfilled;

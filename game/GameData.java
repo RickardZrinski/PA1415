@@ -62,6 +62,7 @@ public class GameData {
      * @return the removed die
      */
     public Die removeDie(int index) {
+        numberOfDice--;
         return dice.remove(index);
     }
 
@@ -71,6 +72,7 @@ public class GameData {
      */
     public void addDie(Die die) {
         dice.add(die);
+        numberOfDice++;
     }
 
     /**

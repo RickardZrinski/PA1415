@@ -349,7 +349,7 @@ public class Dapper<AnyType> {
 
     /**
      * Maps a result set to a object
-     * @param   result The resultset to map
+     * @param   result The result set to map
      * @return  a collection with mapped objects
      */
     private Collection<AnyType> map(ResultSet result) {
@@ -390,7 +390,7 @@ public class Dapper<AnyType> {
      * @param primaryKey    The primary key
      * @return a generic object with mapped values
      */
-    public AnyType getId(int primaryKey) {
+    public AnyType get(int primaryKey) {
         Collection<AnyType> collection = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -461,19 +461,19 @@ public class Dapper<AnyType> {
      * are {@link Dapper#primaryKeyFieldName} ASCENDING with no limit
      * @return          ArrayList with generic objects
      */
-    public Collection<AnyType> getList() {
-        return this.getList(0, this.primaryKeyFieldName, Sort.ASC);
+    public Collection<AnyType> getCollection() {
+        return this.getCollection(0, this.primaryKeyFieldName, Sort.ASC);
     }
 
 
     /**
      * Retrieves an array with objects using default values with an limit.
-     * @see             Dapper#getList() for default values
+     * @see             Dapper#getCollection() for default values
      * @param limit     Amount of results to retrieve
      * @return          ArrayList with generic objects
      */
-    public Collection<AnyType> getList(int limit) {
-        return this.getList(limit, this.primaryKeyFieldName, Sort.ASC);
+    public Collection<AnyType> getCollection(int limit) {
+        return this.getCollection(limit, this.primaryKeyFieldName, Sort.ASC);
     }
 
 
@@ -486,7 +486,7 @@ public class Dapper<AnyType> {
      * @param limit     Amount of results to retrieve
      * @return          Collection with generic objects
      */
-    public Collection<AnyType> getList(int limit, String column, String order) {
+    public Collection<AnyType> getCollection(int limit, String column, String order) {
         Collection<AnyType> collection = new ArrayList<>();
 
         PreparedStatement statement = null;
@@ -554,7 +554,7 @@ public class Dapper<AnyType> {
      * @param order     The order to retrieve values in. Can be "ASC" or "DESC"
      * @return          ArrayList with generic objects
      */
-    public Collection<AnyType> getList(String column, String order) {
-        return this.getList(0, column, order);
+    public Collection<AnyType> getCollection(String column, String order) {
+        return this.getCollection(0, column, order);
     }
 }

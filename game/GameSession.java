@@ -101,7 +101,9 @@ public class GameSession {
 
 
     private WinningCondition calculateReward(){
-        return gameData.checkWinningConditions((Die[]) diceHand.toArray());
+        Die[] dice = new Die[diceHand.size()];
+        dice = diceHand.toArray(dice);
+        return gameData.checkWinningConditions(dice);
     }
     /**
      * Retrieves a die from gameData

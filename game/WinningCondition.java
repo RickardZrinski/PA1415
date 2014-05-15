@@ -30,12 +30,17 @@ public class WinningCondition {
      * @param combination   the new combination
      */
     public void addCombination(Combination combination){
-        for (int i = 0; i < combinations.size(); i++){
-            if (combination.getQuantity() > combinations.get(i).getQuantity()){
-                combinations.add(i, combination);
+        if (combinations.size() == 0)
+            combinations.add(combination);
+        else {
+            for (int i = 0; i < combinations.size(); i++) {
+                if (combination.getQuantity() > combinations.get(i).getQuantity()) {
+                    combinations.add(i, combination);
+                }
             }
         }
     }
+
     /**
      * Retrieves number of combinations.
      * @return number of combinations.

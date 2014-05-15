@@ -4,11 +4,11 @@ import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 
 public class Connector {
-    private static String HOSTNAME = "opij.ac";
+    private static String HOSTNAME = "****";
     private static Integer PORT = 3306;
-    private static String DATABASE = "pa1415";
-    private static String USERNAME = "dino";
-    private static String PASSWORD = "AYSWM8NZvrNQPyqX";
+    private static String DATABASE = "****";
+    private static String USERNAME = "****";
+    private static String PASSWORD = "****";
 
     public static Connection getConnection() {
         Connection connection = null;

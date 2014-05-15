@@ -119,7 +119,7 @@ public class GameData {
      * and removes the existing ones that are not chosen
      * @param winningConds The conditions to compare with
      */
-    public void setGameWinningCondition(ArrayList<WinningCondition> winningConds) {
+    public void setWinningCondition(ArrayList<WinningCondition> winningConds) {
         for (int i=0; i< this.winningConditions.size(); i++)
         {
             if (!this.winningConditions.get(i).equals(winningConds.get(i)))

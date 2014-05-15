@@ -1,5 +1,6 @@
 package game;
 
+import sql.annotations.Ignore;
 import sql.annotations.PrimaryKey;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  */
 public class WinningCondition {
     @PrimaryKey("ID") private int id;
-    private ArrayList<Combination> combinations;
+    @Ignore private ArrayList<Combination> combinations;
     private float reward;
     private String name;
 

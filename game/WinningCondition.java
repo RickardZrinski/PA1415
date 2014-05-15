@@ -36,7 +36,8 @@ public class WinningCondition {
         if (combinations.size() == 0)
             combinations.add(combination);
         else {
-            for (int i = 0; i < combinations.size(); i++) {
+            int nrOfCombinations = combinations.size();
+            for (int i = 0; i < nrOfCombinations; i++) {
                 if (combination.getQuantity() > combinations.get(i).getQuantity()) {
                     combinations.add(i, combination);
                 }

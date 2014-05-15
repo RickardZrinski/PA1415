@@ -102,7 +102,8 @@ public class GameData {
         if (this.winningConditions.size() == 0)
             winningConditions.add(winningCondition);
         else {
-            for (int i = 0; i < this.winningConditions.size(); i++) {
+            int nrOfConditions = winningConditions.size();
+            for (int i = 0; i < nrOfConditions; i++) {
                 if (winningCondition.getReward() > this.winningConditions.get(i).getReward()) {
                     this.winningConditions.add(i, winningCondition);
                 }

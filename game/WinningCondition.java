@@ -100,6 +100,10 @@ public class WinningCondition {
         this.name = name;
     }
 
+    public void setReward(float reward){
+        this.reward = reward;
+    }
+
     @Override
     public String toString() {
         return String.format("id: %d, reward: %f, name: %s\ncombinations: %s", this.id, this.reward, this.name, this.combinations);

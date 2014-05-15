@@ -1,7 +1,9 @@
 package sql;
 
+import sql.annotations.Ignore;
+import sql.annotations.PrimaryKey;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -9,6 +11,7 @@ import java.sql.ResultSet;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This object is a data wrapper
@@ -24,12 +27,6 @@ import java.util.ArrayList;
  */
 public class Dapper<AnyType> {
     /**
-     * Fields in objects prefixed with the given value
-     * will be ignored by the dapper.
-     */
-    public final static String FIELD_IGNORE_PREFIX = "_";
-
-    /**
      * Used for debugging purposes.
      * If set to true:  Statements will be printed.
      * If set to false: Statements will not be printed.
@@ -42,7 +39,6 @@ public class Dapper<AnyType> {
      * If set to false: Statements will not be executed.
      */
     public static boolean EXECUTE_STATEMENTS = true;
-
 
     /**
      * Sorting Orders
@@ -60,7 +56,7 @@ public class Dapper<AnyType> {
     private final String sqlSelectId = "SELECT * FROM %s WHERE id = ?;";
 
     /**
-     * Name of the primary key field
+     * Name of the primary key field. This should be set using the annotation @PrimaryKey
      */
     private String primaryKeyFieldName;
 
@@ -68,22 +64,11 @@ public class Dapper<AnyType> {
     private final Class<AnyType> tableType;
     private int lastInsertId;
 
-
     public Dapper(Class<AnyType> type) {
-        this(type, "id", Connector.getConnection());
+        this(type, Connector.getConnection());
     }
-
-    public Dapper(Class<AnyType> type, String primaryKeyFieldName) {
-        this(type, primaryKeyFieldName, Connector.getConnection());
-    }
-
     public Dapper(Class<AnyType> type, Connection connection) {
-        this(type, "id", connection);
-    }
-
-    public Dapper(Class<AnyType> type, String primaryKeyFieldName, Connection connection) {
         this.connection = connection;
-        this.primaryKeyFieldName = primaryKeyFieldName;
         this.tableType = type;
         this.lastInsertId = -1;
 
@@ -92,19 +77,24 @@ public class Dapper<AnyType> {
 
         if (!Dapper.EXECUTE_STATEMENTS)
             System.out.println("Dapper: Statements will NOT execute.");
+
+        this.computeAnnotations(type);
     }
 
-
     /**
-     * Sets the name of the primary key column
-     * @param primaryKeyFieldName String representation of the primary key column name
+     * Compute all annotations to get data from them
+     * @param clazz the class to retrieve all annotations from
      */
-    public void setPrimaryKeyFieldName(String primaryKeyFieldName) {
-        this.primaryKeyFieldName = getPrimaryKeyFieldName();
+    private void computeAnnotations(Class<AnyType> clazz) {
+        for (Field field: this.getInheritedFields(clazz, false)) {
+            if (field.isAnnotationPresent(PrimaryKey.class)) {
+                this.primaryKeyFieldName = field.getAnnotation(PrimaryKey.class).value();
+            }
+        }
     }
 
     /**
-     * @return String representation of the column
+     * @return the primary key field name as set by @PrimaryKey
      */
     public String getPrimaryKeyFieldName() {
         return this.primaryKeyFieldName;
@@ -252,7 +242,8 @@ public class Dapper<AnyType> {
     }
 
     /**
-     * Returns the total amount of items in a table
+     * Retrieve a count of rows in a table
+     * @return the total amounts of rows in a table
      */
     public int count() {
         int count = 0;
@@ -283,27 +274,32 @@ public class Dapper<AnyType> {
 
     /**
      * Retrieves all properties from a class via reflection.
-     * Fields with the {@link Dapper#FIELD_IGNORE_PREFIX} prefix are ignored!
-     * @return      Array of fields
+     * Fields with the annotation {@link sql.annotations.Ignore} are
+     * ignored
+     * @param clazz     the class type to check (table)
+     * @param filter    boolean that determines if filtering is applied
+     * @return All fields
      */
-    private Field[] getInheritedFields(Class<?> table) {
-
+    private Field[] getInheritedFields(Class<?> clazz, boolean filter) {
         ArrayList<Field> fields = new ArrayList<>();
 
-        for (Class<?> c = table; c != null; c = c.getSuperclass()) {
+        for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
             for (Field field: c.getDeclaredFields())
-                /** Fields with the {@link Dapper#FIELD_IGNORE_PREFIX} prefix are ignored! **/
-                if (!field.getName().substring(0, 1).equals(FIELD_IGNORE_PREFIX))
-                    fields.add(field);
+            {
+                if (!filter)
+                    fields.add(field); // Add all
+                else
+                    if (!field.isAnnotationPresent(Ignore.class))
+                        fields.add(field); // Only add those without filters
+            }
         }
 
         return fields.toArray(new Field[fields.size()]);
     }
 
     private Field[] getInheritedFields() {
-        return this.getInheritedFields(this.tableType);
+        return this.getInheritedFields(this.tableType, true);
     }
-
 
     /**
      * Executes a statement and closes it properly
@@ -351,14 +347,51 @@ public class Dapper<AnyType> {
         this.execute(statement, false);
     }
 
+    /**
+     * Maps a result set to a object
+     * @param   result The resultset to map
+     * @return  a collection with mapped objects
+     */
+    private Collection<AnyType> map(ResultSet result) {
+        ArrayList<AnyType> collection = new ArrayList<>();
+
+        try {
+            while (result.next()) {
+                AnyType object = this.tableType.getConstructor().newInstance();
+
+                for(Field field: this.getInheritedFields(object.getClass(), true)) {
+                    // Set this field to accessible
+                    field.setAccessible(true);
+
+                    // Get the object data from the resultset
+                    field.set(object, result.getObject(field.getName()));
+                }
+
+                // Add to our array
+                collection.add(object);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (result != null) {
+                try {
+                    result.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return collection;
+    }
 
     /**
-     * Retrieves an row from the given table and returns an genric object
+     * Retrieves an row from the given table and returns an generic object
      * @param primaryKey    The primary key
-     * @return              Generic object
+     * @return a generic object with mapped values
      */
     public AnyType getId(int primaryKey) {
-        AnyType type = null;
+        Collection<AnyType> collection = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
 
@@ -368,26 +401,8 @@ public class Dapper<AnyType> {
 
             result = statement.executeQuery();
 
-            if (result.next()) {
-                type = this.tableType.getConstructor().newInstance();
-
-                for(Field field: this.getInheritedFields(type.getClass())) {
-                    // Set this field to accessible
-                    field.setAccessible(true);
-
-                    // Get the object data from the resultset
-                    field.set(type, result.getObject(field.getName()));
-                }
-            }
+            collection = this.map(result);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } finally {
             if (statement != null) {
@@ -407,8 +422,38 @@ public class Dapper<AnyType> {
             }
         }
 
-        return type;
+        return ((ArrayList<AnyType>)collection).get(0);
     }
+
+    /**
+     * Returns a collection of objects using a specific query
+     * @param query The query to the database
+     * @return A collection of objects of type AnyType
+     */
+    public Collection<AnyType> query(String query) {
+        PreparedStatement statement = null;
+        Collection<AnyType> collection = new ArrayList<>();
+
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet result = statement.executeQuery();
+
+            collection = this.map(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return collection;
+    }
+
 
 
     /**
@@ -416,8 +461,8 @@ public class Dapper<AnyType> {
      * are {@link Dapper#primaryKeyFieldName} ASCENDING with no limit
      * @return          ArrayList with generic objects
      */
-    public ArrayList<AnyType> getList() {
-        return this.getList(0, this.getPrimaryKeyFieldName(), Sort.ASC);
+    public Collection<AnyType> getList() {
+        return this.getList(0, this.primaryKeyFieldName, Sort.ASC);
     }
 
 
@@ -427,8 +472,8 @@ public class Dapper<AnyType> {
      * @param limit     Amount of results to retrieve
      * @return          ArrayList with generic objects
      */
-    public ArrayList<AnyType> getList(int limit) {
-        return this.getList(limit, this.getPrimaryKeyFieldName(), Sort.ASC);
+    public Collection<AnyType> getList(int limit) {
+        return this.getList(limit, this.primaryKeyFieldName, Sort.ASC);
     }
 
 
@@ -439,10 +484,10 @@ public class Dapper<AnyType> {
      *                  AnyType property.
      * @param order     The order to retrieve values in. Can be "ASC" or "DESC"
      * @param limit     Amount of results to retrieve
-     * @return          ArrayList with generic objects
+     * @return          Collection with generic objects
      */
-    public ArrayList<AnyType> getList(int limit, String column, String order) {
-        ArrayList<AnyType> list = new ArrayList<>();
+    public Collection<AnyType> getList(int limit, String column, String order) {
+        Collection<AnyType> collection = new ArrayList<>();
 
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -460,10 +505,10 @@ public class Dapper<AnyType> {
 
             result = statement.executeQuery();
 
-            while (result.next()) {
+            /*while (result.next()) {
                 AnyType object = this.tableType.getConstructor().newInstance();
 
-                for(Field field: this.getInheritedFields(object.getClass())) {
+                for(Field field: this.getInheritedFields(object.getClass(), true)) {
                     // Set this field to accessible
                     field.setAccessible(true);
 
@@ -474,16 +519,10 @@ public class Dapper<AnyType> {
                 // Add to our array
                 list.add(object);
 
-            }
+            }*/
+
+            collection = this.map(result);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } finally {
             if (statement != null) {
@@ -503,7 +542,7 @@ public class Dapper<AnyType> {
             }
         }
 
-        return list;
+        return collection;
     }
 
 
@@ -515,7 +554,7 @@ public class Dapper<AnyType> {
      * @param order     The order to retrieve values in. Can be "ASC" or "DESC"
      * @return          ArrayList with generic objects
      */
-    public ArrayList<AnyType> getList(String column, String order) {
+    public Collection<AnyType> getList(String column, String order) {
         return this.getList(0, column, order);
     }
 }

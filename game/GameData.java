@@ -99,9 +99,13 @@ public class GameData {
      * @param winningCondition    the new winning condition
      */
     public void addWinningCondition(WinningCondition winningCondition){
-        for (int i = 0; i < this.winningConditions.size(); i++){
-            if (winningCondition.getReward() > this.winningConditions.get(i).getReward()){
-                this.winningConditions.add(i, winningCondition);
+        if (this.winningConditions.size() == 0)
+            winningConditions.add(winningCondition);
+        else {
+            for (int i = 0; i < this.winningConditions.size(); i++) {
+                if (winningCondition.getReward() > this.winningConditions.get(i).getReward()) {
+                    this.winningConditions.add(i, winningCondition);
+                }
             }
         }
     }

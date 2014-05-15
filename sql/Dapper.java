@@ -467,6 +467,7 @@ public class Dapper<AnyType> {
      * @param primaryKey the id of the primary key
      * @return the mapped object
      */
+    @Deprecated
     public AnyType getId(int primaryKey) {
         return this.getUsingPrimaryKey(primaryKey);
     }

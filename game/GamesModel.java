@@ -37,7 +37,7 @@ public class GamesModel
         {
             games.get(index).setNumberOfThrows(nrOfThrows);
             games.get(index).setNumberOfDice(nrOfDices);
-            games.get(index).setGameWinningCondition(winningCondition);
+            games.get(index).setWinningCondition(winningCondition);
         }
 
 	}

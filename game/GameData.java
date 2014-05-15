@@ -102,12 +102,17 @@ public class GameData {
         if (this.winningConditions.size() == 0)
             winningConditions.add(winningCondition);
         else {
+            boolean added = false;
             int nrOfConditions = winningConditions.size();
             for (int i = 0; i < nrOfConditions; i++) {
                 if (winningCondition.getReward() > this.winningConditions.get(i).getReward()) {
                     this.winningConditions.add(i, winningCondition);
+                    added = true;
                 }
             }
+            //Add last
+            if (!added)
+                winningConditions.add(winningCondition);
         }
     }
 

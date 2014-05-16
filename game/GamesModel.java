@@ -10,14 +10,13 @@ public class GamesModel
 
     public GamesModel()
     {
-        this.nrOfGames = 0;
         games = new ArrayList<GameData>();
-           int test = 55; int pol = 1988;
     }
 
     public int getNrOfGames()
 	{
-		return nrOfGames;
+		return games.size();
+
 	}
 
     // more work needed on this method, not quite sure how to fetch game attributes from database yet.

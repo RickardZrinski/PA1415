@@ -1,4 +1,6 @@
-package controllers;
+package administrator.controllers;
+
+import administrator.GUI;
 
 import java.util.ArrayList;
 
@@ -9,8 +11,8 @@ public class ListAllGamesController extends Controller
 {
     private ArrayList<Controller> controller;
 
-    public ListAllGamesController() //MainFrame object as parameter? ....
+    public ListAllGamesController(GUI gui)
     {
-
+        super(gui);
     }
 }

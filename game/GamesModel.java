@@ -22,16 +22,16 @@ public class GamesModel
     // more work needed on this method, not quite sure how to fetch game attributes from database yet.
 	public boolean addGame(String title)
 	{
-         boolean gameExist = false;
+        boolean gameAdded = false;
         for(int i = 0; i<games.size(); i++)
         {
            if(gameExist(title) == false )
            {
-
+                gameAdded = true;
            }
         }
 
-        return gameExist;
+        return gameAdded;
 	}
 
     /*Sends Edited Parameters for a specific game*/

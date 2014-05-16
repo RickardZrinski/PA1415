@@ -6,9 +6,7 @@ import java.util.ArrayList;
 
 public class GamesModel
 {
-	private int nrOfGames;
     private ArrayList<GameData> games;
-
 
     public GamesModel()
     {

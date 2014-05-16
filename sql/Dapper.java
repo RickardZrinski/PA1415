@@ -53,7 +53,7 @@ public class Dapper<AnyType> {
     private final String sqlDrop = "DROP TABLE IF EXISTS %s;";
     private final String sqlCount = "SELECT COUNT(*) FROM %s;";
     private final String sqlSelect = "SELECT %s FROM %s ORDER BY %s LIMIT %s;";
-    private final String sqlSelectId = "SELECT * FROM %s WHERE id = ?;";
+    private final String sqlSelectId = "SELECT * FROM %s WHERE %s = ?;";
 
     /**
      * Name of the primary key field. This should be set using the annotation @PrimaryKey
@@ -389,19 +389,22 @@ public class Dapper<AnyType> {
         return collection;
     }
 
+
+
     /**
-     * Retrieves an row from the given table and returns an generic object
-     * @param primaryKey    The primary key
-     * @return a generic object with mapped values
+     * Returns a collection of objects using a predefined key
+     * @param column the column to match
+     * @param key the key to match with
+     * @return
      */
-    public AnyType get(int primaryKey) {
+    public Collection<AnyType> getCollectionUsingForeignKey(String column, int key) {
         Collection<AnyType> collection = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
 
         try {
-            statement = connection.prepareStatement(String.format(this.sqlSelectId, this.getTableName()));
-            statement.setInt(1, primaryKey);
+            statement = connection.prepareStatement(String.format(this.sqlSelectId, this.getTableName(), column));
+            statement.setInt(1, key);
 
             result = statement.executeQuery();
 
@@ -426,7 +429,47 @@ public class Dapper<AnyType> {
             }
         }
 
-        return ((ArrayList<AnyType>)collection).get(0);
+        return collection;
+    }
+
+    /**
+     * Returns a collection of objects with the primaryKey
+     * @param primaryKey    The primary key
+     * @return a collection with generic objects
+     */
+    public Collection<AnyType> getCollectionUsingPrimaryKey(int primaryKey) {
+        return this.getCollectionUsingForeignKey(this.primaryKeyFieldName, primaryKey);
+    }
+
+    /**
+     * Returns a single instance of the mapped object using the
+     * foreign key
+     * @param column the column to match
+     * @param key the key to get
+     * @return instance of the mapped object
+     */
+    public AnyType getUsingForeignKey(String column, int key) {
+        return ((ArrayList<AnyType>)this.getCollectionUsingForeignKey(column, key)).get(0);
+    }
+
+    /**
+     * Returns a single instance of the mapped object using the
+     * primary key
+     * @param key the key to get
+     * @return instance of the mapped object
+     */
+    public AnyType getUsingPrimaryKey(int key) {
+        return ((ArrayList<AnyType>)this.getCollectionUsingPrimaryKey(key)).get(0);
+    }
+
+    /**
+     * @see Dapper#getUsingPrimaryKey(int) this is only here for legacy purposes
+     * @param primaryKey the id of the primary key
+     * @return the mapped object
+     */
+    @Deprecated
+    public AnyType getId(int primaryKey) {
+        return this.getUsingPrimaryKey(primaryKey);
     }
 
     /**
@@ -457,7 +500,6 @@ public class Dapper<AnyType> {
 
         return collection;
     }
-
 
 
     /**

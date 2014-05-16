@@ -1,12 +1,16 @@
 package game;
 
+import sql.annotations.Ignore;
+import sql.annotations.PrimaryKey;
+
 import java.util.ArrayList;
 
 /**
  * Created by Oliver on 2014-05-13.
  */
 public class WinningCondition {
-    private ArrayList<Combination> combinations;
+    @PrimaryKey("ID") private int id;
+    @Ignore private ArrayList<Combination> combinations;
     private float reward;
     private String name;
 
@@ -33,11 +37,17 @@ public class WinningCondition {
         if (combinations.size() == 0)
             combinations.add(combination);
         else {
-            for (int i = 0; i < combinations.size(); i++) {
+            boolean added = false;
+            int nrOfCombinations = combinations.size();
+            for (int i = 0; i < nrOfCombinations; i++) {
                 if (combination.getQuantity() > combinations.get(i).getQuantity()) {
                     combinations.add(i, combination);
+                    added = true;
                 }
             }
+            //Add last
+            if (!added)
+                combinations.add(combination);
         }
     }
 
@@ -72,6 +82,8 @@ public class WinningCondition {
             usedFace = combinations.get(i).isFulfilled(dice);
             if (usedFace == null)
                 fulfilled = false;
+            else
+                removeUsedFace(i, usedFace);
         }
 
         return fulfilled;
@@ -97,5 +109,13 @@ public class WinningCondition {
 
     public void setReward(float reward){
         this.reward = reward;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+    @Override
+    public String toString() {
+        return String.format("id: %d, reward: %f, name: %s\n\tcombinations: %s", this.id, this.reward, this.name, this.combinations);
     }
 }

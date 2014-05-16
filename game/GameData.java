@@ -102,11 +102,17 @@ public class GameData {
         if (this.winningConditions.size() == 0)
             winningConditions.add(winningCondition);
         else {
-            for (int i = 0; i < this.winningConditions.size(); i++) {
+            boolean added = false;
+            int nrOfConditions = winningConditions.size();
+            for (int i = 0; i < nrOfConditions; i++) {
                 if (winningCondition.getReward() > this.winningConditions.get(i).getReward()) {
                     this.winningConditions.add(i, winningCondition);
+                    added = true;
                 }
             }
+            //Add last
+            if (!added)
+                winningConditions.add(winningCondition);
         }
     }
 
@@ -185,7 +191,6 @@ public class GameData {
 
     @Override
     public String toString() {
-        return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules);
-
+        return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s\nWinningConditions:\n%s\nDice: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules, this.winningConditions, this.dice);
     }
 }

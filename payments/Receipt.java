@@ -14,7 +14,7 @@ public class Receipt {
      * Comments.
      */
     public Receipt() {
-        this.timestamp = 0;
+        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.dateFormat = "?";
         this.amount = 0.0;
     }
@@ -22,8 +22,8 @@ public class Receipt {
     /**
      * Comments.
      */
-    public Receipt(int timestamp, String dateFormat, double amount) {
-        this.timestamp = timestamp;
+    public Receipt(String dateFormat, double amount) {
+        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.dateFormat = dateFormat;
         this.amount = amount;
     }

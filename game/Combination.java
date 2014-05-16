@@ -1,13 +1,17 @@
 package game;
 
+import sql.annotations.Ignore;
+import sql.annotations.PrimaryKey;
+
 import java.util.ArrayList;
 
 /**
  * Created by Oliver on 2014-05-13.
  */
 public class Combination {
+    @PrimaryKey("ID") private int id;
     private int quantity;
-    private ArrayList<String> faces;
+    @Ignore private ArrayList<String> faces;
     private String name;
 
     /**
@@ -90,5 +94,14 @@ public class Combination {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %d name: %s, faces: %s, quantity: %d\n", this.id, this.name, this.faces, this.quantity);
     }
 }

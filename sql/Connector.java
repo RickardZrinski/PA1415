@@ -2,7 +2,6 @@ package sql;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
 
 public class Connector {
     private static String HOSTNAME = "****";

@@ -6,7 +6,7 @@ package controllers;
 public class Controller
 {
 
-    public Controller()// MainFrame object som parameter?
+    public Controller()// MainFrame object som parameter? ...
     {
 
     }

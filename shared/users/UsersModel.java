@@ -1,4 +1,4 @@
-package users;
+package shared.users;
 
 import java.util.ArrayList;
 
@@ -7,18 +7,17 @@ import java.util.ArrayList;
  */
 public class UsersModel
 {
+    private ArrayList<users.User> users;
     private int nrOfUsers;
-    private ArrayList<User> users;
-
     public UsersModel()
     {
-        this.nrOfUsers = 0;
-        users = new ArrayList<User>();
+        nrOfUsers = 0;
+        users = new ArrayList<users.User>();
     }
 
     public int getNrOfUsers()
     {
-        return nrOfUsers;
+        return nrOfUsers
     }
 
     public void editUser(int index, String userName, String password, String firstName, String lastName)
@@ -32,7 +31,7 @@ public class UsersModel
         }
     }
 
-    public User getUser(int index)
+    public users.User getUser(int index)
     {
         return users.get(index);
     }

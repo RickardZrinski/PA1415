@@ -7,16 +7,16 @@ import java.util.ArrayList;
 public class GamesModel
 {
     private ArrayList<GameData> games;
-
+    private int nrOfGames;
     public GamesModel()
     {
         games = new ArrayList<GameData>();
+        nrOfGames = 0;
     }
 
     public int getNrOfGames()
 	{
-		return games.size();
-
+		return nrOfGames;
 	}
 
     // more work needed on this method, not quite sure how to fetch game attributes from database yet.

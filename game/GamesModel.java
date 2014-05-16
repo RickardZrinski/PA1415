@@ -1,12 +1,12 @@
 package game;
 
+import sql.Dapper;
+
 import java.util.ArrayList;
 
 public class GamesModel
 {
-	private int nrOfGames;
     private ArrayList<GameData> games;
-
 
     public GamesModel()
     {
@@ -22,16 +22,22 @@ public class GamesModel
     // more work needed on this method, not quite sure how to fetch game attributes from database yet.
 	public boolean addGame(String title)
 	{
-         boolean gameExist = false;
+        boolean gameAdded = false;
         for(int i = 0; i<games.size(); i++)
         {
            if(gameExist(title) == false )
            {
-
+               GameData newGame = new GameData(title);
+               games.add(newGame);
+               Dapper<GameData> sql = new Dapper<>(GameData.class);
+               //inserts game into database NOTE: this only works with 4 GameData base attributes so far
+               // the winning condition and combinations attributes will be added soon!
+               sql.insert(newGame);
+               gameAdded = true;
            }
         }
 
-        return gameExist;
+        return gameAdded;
 	}
 
     /*Sends Edited Parameters for a specific game*/

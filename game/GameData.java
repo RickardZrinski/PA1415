@@ -45,6 +45,10 @@ public class GameData {
         this.rules = rules;
     }
 
+    public GameData(String gameName) {
+        this.gameName = gameName;
+    }
+
     /**
      * Tosses all the dice
      */

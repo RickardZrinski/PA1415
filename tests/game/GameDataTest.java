@@ -11,7 +11,7 @@ public class GameDataTest
     {
         Dapper<GameData> sql = new Dapper<>(GameData.class);
 
-        for(GameData data : sql.getCollection())
+        for(GameData data : sql.getCollection()) //test
         {
             System.out.println(data);
         }

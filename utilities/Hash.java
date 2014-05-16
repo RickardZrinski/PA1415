@@ -41,7 +41,7 @@ import java.security.spec.InvalidKeySpecException;
  */
 public class Hash
 {
-    public static final String PBKDF2_ALGORITHM = "vPu2LkAeYK4HJpCRxZAhhRCHbJvTMr";
+    public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
     // The following constants may be changed without breaking existing hashes.
     public static final int SALT_BYTE_SIZE = 24;

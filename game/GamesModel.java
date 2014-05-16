@@ -22,12 +22,16 @@ public class GamesModel
     // more work needed on this method, not quite sure how to fetch game attributes from database yet.
 	public boolean addGame(String title)
 	{
-        //contact database and fetch all attributes for a new game, id, and check if inputted
-        // parameter title == gameName exists in the database
+         boolean gameExist = false;
+        for(int i = 0; i<games.size(); i++)
+        {
+           if(gameExist(title) == false )
+           {
 
-        //GameData newGame = new GameData(fetched attributes)
-        //games.add(GameData newGame);
-        return true;
+           }
+        }
+
+        return gameExist;
 	}
 
     /*Sends Edited Parameters for a specific game*/
@@ -46,5 +50,18 @@ public class GamesModel
 	{
 		return games.get(index);
 	}
-	
+
+    private boolean gameExist(String title)
+    {
+        boolean exist = false;
+        for(int i = 0; i<games.size(); i++)
+        {
+            if( games.get(i).getGameName() == title)
+            {
+                exist = true;
+            }
+        }
+
+        return exist;
+    }
 }

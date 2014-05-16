@@ -1,4 +1,6 @@
-package users;
+package shared;
+
+import users.User;
 
 /**
  * Created by JamJaws.

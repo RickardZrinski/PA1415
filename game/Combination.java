@@ -102,7 +102,6 @@ public class Combination {
 
     @Override
     public String toString() {
-        return String.format("id: %d name: %s, faces: %s, quantity: %d", this.id, this.name, this.faces, this.quantity);
-
+        return String.format("id: %d name: %s, faces: %s, quantity: %d\n", this.id, this.name, this.faces, this.quantity);
     }
 }

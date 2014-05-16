@@ -111,8 +111,11 @@ public class WinningCondition {
         this.reward = reward;
     }
 
+    public int getId() {
+        return this.id;
+    }
     @Override
     public String toString() {
-        return String.format("id: %d, reward: %f, name: %s\ncombinations: %s", this.id, this.reward, this.name, this.combinations);
+        return String.format("id: %d, reward: %f, name: %s\n\tcombinations: %s", this.id, this.reward, this.name, this.combinations);
     }
 }

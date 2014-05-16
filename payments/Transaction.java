@@ -15,7 +15,7 @@ public abstract class Transaction {
      * Comments.
      */
     public Transaction () {
-        this.timestamp = 0;
+        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.amount = 0.0;
         this.payment = null;
         this.player = null;
@@ -25,7 +25,7 @@ public abstract class Transaction {
      * Comments.
      */
     public Transaction(double amount, Payment payment, Player player) {
-        this.timestamp = 0;
+        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.amount = amount;
         this.payment = payment;
         this.player = player;

@@ -1,5 +1,7 @@
 package game;
 
+import sql.Dapper;
+
 import java.util.ArrayList;
 
 public class GamesModel
@@ -29,6 +31,10 @@ public class GamesModel
            {
                GameData newGame = new GameData(title);
                games.add(newGame);
+               Dapper<GameData> sql = new Dapper<>(GameData.class);
+               //inserts game into database NOTE: this only works with 4 GameData base attributes so far
+               // the winning condition and combinations attributes will be added soon!
+               sql.insert(newGame);
                gameAdded = true;
            }
         }

@@ -20,8 +20,7 @@ public class GameData {
     /**
      * Creates new empty GameData
      */
-    public GameData(){
-        this.id = -1;
+    public GameData() {
         this.gameName = "Unknown";
         this.numberOfDice = 0;
         this.numberOfThrows = 0;
@@ -32,7 +31,6 @@ public class GameData {
 
     /**
      * Creates new GameData
-     * @param id    identification
      * @param gameName  name of the game
      * @param numberOfDice  number of dice in game
      * @param numberOfThrows    number of throws done by player
@@ -141,6 +139,8 @@ public class GameData {
     public int getId() {
         return id;
     }
+
+    public void setId(int id) { this.id = id; }
 
     public String getGameName() {
         return gameName;

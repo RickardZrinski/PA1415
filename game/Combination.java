@@ -100,6 +100,10 @@ public class Combination {
         return this.id;
     }
 
+    public int getNumberrOfFaces(){
+        return faces.size();
+    }
+
     @Override
     public String toString() {
         return String.format("id: %d name: %s, faces: %s, quantity: %d\n", this.id, this.name, this.faces, this.quantity);

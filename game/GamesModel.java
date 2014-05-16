@@ -12,6 +12,7 @@ public class GamesModel
     {
         this.nrOfGames = 0;
         games = new ArrayList<GameData>();
+           int test = 55;
     }
 
     public int getNrOfGames()

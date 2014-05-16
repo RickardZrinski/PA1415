@@ -7,13 +7,19 @@ import static org.junit.Assert.*;
 
 public class GameDataTest
 {
-    public static void main(String[] args)
+    public class Gamedata
     {
-        Dapper<GameData> sql = new Dapper<>(GameData.class);
-
-        for(GameData data : sql.getCollection()) //test
+        public void main(String[] args)
         {
-            System.out.println(data);
+            Dapper<GameData> sql = new Dapper<>(GameData.class);
+
+            for(GameData data : sql.getCollection()) //test
+            {
+                System.out.println(data);
+            }
         }
+
     }
+
+
 }

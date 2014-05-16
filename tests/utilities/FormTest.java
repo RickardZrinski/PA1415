@@ -2,8 +2,8 @@ package tests.utilities;
 
 import org.junit.*;
 import utilities.Form;
-import utilities.mock.FormTestObject;
-import utilities.mock.FormTestView;
+import tests.utilities.mock.FormTestObject;
+import tests.utilities.mock.FormTestView;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package utilities.mock;
+package tests.utilities.mock;
 
 import utilities.IForm;
 import javax.swing.*;

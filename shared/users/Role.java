@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * @since   16/05/14
  */
 public class Role {
-    @PrimaryKey int id;
+    @PrimaryKey int id = 1;
     private String name;
 
     private boolean canAccessAdministration = false;
@@ -44,6 +44,7 @@ public class Role {
     }
 
     public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
     public String getName() {
         return this.name;
     }

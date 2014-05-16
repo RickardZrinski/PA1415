@@ -100,8 +100,12 @@ public class Combination {
         return this.id;
     }
 
-    public int getNumberrOfFaces(){
+    public int getNumberOfFaces(){
         return faces.size();
+    }
+
+    public String getFace(int index){
+        return faces.get(index);
     }
 
     @Override

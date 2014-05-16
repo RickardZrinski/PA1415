@@ -17,7 +17,7 @@ public class UsersModel
 
     public int getNrOfUsers()
     {
-        return nrOfUsers
+        return nrOfUsers;
     }
 
     public void editUser(int index, String userName, String password, String firstName, String lastName)

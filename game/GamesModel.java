@@ -12,7 +12,7 @@ public class GamesModel
     {
         this.nrOfGames = 0;
         games = new ArrayList<GameData>();
-           int test = 55;
+           int test = 55; int pol = 1988;
     }
 
     public int getNrOfGames()

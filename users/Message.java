@@ -5,7 +5,7 @@ package users;
  */
 public class Message {
     private int id;
-    private long timestamp;
+    private int timestamp;
     private String subject;
     private String category;
     private String message;
@@ -18,7 +18,7 @@ public class Message {
      */
     public Message() {
         this.id = 0; // should be some other value
-        this.timestamp = System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
         this.subject = "?";
         this.category = "?";
         this.message = "?";
@@ -31,7 +31,7 @@ public class Message {
      */
     public Message(String subject, String category, String message, String contact) {
         this.id = 0; // should be some other value
-        this.timestamp = System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
         this.subject = subject;
         this.category = category;
         this.message = message;
@@ -56,14 +56,14 @@ public class Message {
     /**
      * Gets timestamp.
      */
-    public long getTimestamp() {
+    public int getTimestamp() {
         return this.timestamp;
     }
 
     /**
      * Sets timestamp.
      */
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
     }
 

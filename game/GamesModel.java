@@ -27,7 +27,9 @@ public class GamesModel
         {
            if(gameExist(title) == false )
            {
-                gameAdded = true;
+               GameData newGame = new GameData(title);
+               games.add(newGame);
+               gameAdded = true;
            }
         }
 

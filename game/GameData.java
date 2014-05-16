@@ -172,6 +172,9 @@ public class GameData {
             dice.add(new Die());
     }
 
+    public int getNumberOfWinningConditions(){
+        return winningConditions.size();
+    }
     public String getRules() {
         return rules;
     }

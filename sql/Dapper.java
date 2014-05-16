@@ -52,6 +52,7 @@ public class Dapper<AnyType> {
     private final String sqlTruncate = "TRUNCATE TABLE %s;";
     private final String sqlDrop = "DROP TABLE IF EXISTS %s;";
     private final String sqlCount = "SELECT COUNT(*) FROM %s;";
+    private final String sqlCountWhere = "SELECT COUNT(*) FROM %s WHERE %s = ?;";
     private final String sqlSelect = "SELECT %s FROM %s ORDER BY %s LIMIT %s;";
     private final String sqlSelectId = "SELECT * FROM %s WHERE %s = ?;";
 
@@ -269,8 +270,9 @@ public class Dapper<AnyType> {
         int count = 0;
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(String.format(this.sqlCount, this.getTableName(), "WHERE ", columnName, " = ", arg ));
+            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlCountWhere, this.getTableName(), columnName));
+            statement.setString(1, arg);
+            ResultSet result = statement.executeQuery();
 
             while(result.next())
                 count = result.getInt(1);

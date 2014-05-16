@@ -26,6 +26,11 @@ public class UserRole {
         this.uid = uid;
     }
 
+    public UserRole() {
+        this.rid = 0;
+        this.uid = 0;
+    }
+
     public UserRole(int rid, int uid) {
         this.rid = rid;
         this.uid = uid;

@@ -3,16 +3,21 @@ package shared;
 import users.User;
 
 /**
- * Created by JamJaws.
+ * @author  John Mogensen
+ * @since   16/05/2014
  */
 public class Message {
     private int id;
     private int timestamp;
     private String subject;
-    private String category;
     private String message;
     private String contact;
-    private boolean read; // not in conceptual still might be needed
+
+    // @TODO: There needs to be a Category class
+    private String category;
+
+    // @TODO: Not in conceptual model. Might be needed -John
+    private boolean read;
 
 
     /**

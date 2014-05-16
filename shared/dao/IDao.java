@@ -1,4 +1,4 @@
-package shared.users.dao;
+package shared.dao;
 
 /**
  * @author  Dino Opijac

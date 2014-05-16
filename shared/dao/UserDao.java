@@ -1,4 +1,4 @@
-package shared.users.dao;
+package shared.dao;
 
 import shared.users.User;
 import shared.users.Role;

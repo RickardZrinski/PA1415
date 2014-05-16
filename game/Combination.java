@@ -19,13 +19,13 @@ public class Combination {
      */
     public Combination() {
         this.quantity = 0;
-        this.faces = new ArrayList<String>();
+        this.faces = new ArrayList<>();
         name = "No name";
     }
 
     public Combination(String name){
         this.quantity = 0;
-        this.faces = new ArrayList<String>();
+        this.faces = new ArrayList<>();
         this.name = name;
     }
 
@@ -36,7 +36,7 @@ public class Combination {
      */
     public Combination(int quantity, String[] faces) {
         this.quantity = quantity;
-        this.faces = new ArrayList<String>();
+        this.faces = new ArrayList<>();
     }
 
     /**

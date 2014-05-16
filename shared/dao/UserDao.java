@@ -34,7 +34,7 @@ public class UserDao implements IDao<User> {
         Integer primaryKey = (Integer)key;
 
         User user = userData.getUsingPrimaryKey(primaryKey);
-        Role role = roleData.getUsingForeignKey("rid", userRoleData.getUsingPrimaryKey(primaryKey).getRid());
+        Role role = roleData.getUsingPrimaryKey(userRoleData.getUsingPrimaryKey(primaryKey).getRid());
 
         user.setAccount(accountData.getUsingPrimaryKey(primaryKey));
         user.setRole(role);

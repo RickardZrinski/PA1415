@@ -25,6 +25,10 @@ public class User {
     @Ignore private Account account;
     @Ignore private Role role;
 
+    public User() {
+        this("default", "default", "-", "-", 0, 0, "default@user");
+    }
+
     public User(String username, String password, String firstName, String lastName, int numberOfTrials, int ssn, String email) {
         this(username, password, firstName, lastName, numberOfTrials, ssn, email, new Account(), new Role());
     }

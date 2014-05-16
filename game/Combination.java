@@ -6,7 +6,8 @@ import sql.annotations.PrimaryKey;
 import java.util.ArrayList;
 
 /**
- * Created by Oliver on 2014-05-13.
+ * @author  Oliver Nilsson
+ * @since   13/05/2014
  */
 public class Combination {
     @PrimaryKey("ID") private int id;

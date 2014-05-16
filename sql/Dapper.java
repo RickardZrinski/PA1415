@@ -265,6 +265,21 @@ public class Dapper<AnyType> {
         return count;
     }
 
+    public int count(String columnName, String arg){
+        int count = 0;
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(String.format(this.sqlCount, this.getTableName(), "WHERE ", columnName, " = ", arg ));
+
+            while(result.next())
+                count = result.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
     public void create() {}
 
 
@@ -586,4 +601,5 @@ public class Dapper<AnyType> {
     public Collection<AnyType> getCollection(String column, String order) {
         return this.getCollection(0, column, order);
     }
+
 }

@@ -9,7 +9,7 @@ public class ListAllGamesController extends Controller
 {
     private ArrayList<Controller> controller;
 
-    public ListAllGamesController() //MainFrame object as parameter?
+    public ListAllGamesController() //MainFrame object as parameter? ....
     {
 
     }

@@ -44,7 +44,7 @@ public class User {
         this.ssn = ssn;
         this.email = email;
         this.account = account;
-        this.role = role;
+        this.setRole(role);
     }
 
     /**

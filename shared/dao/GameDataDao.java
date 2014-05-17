@@ -60,7 +60,7 @@ public class GameDataDao implements IDao<GameData> {
     }
 
     @Override
-    public GameData insert(GameData gameData) {
+    public boolean insert(GameData gameData) {
         this.gameData.insert(gameData);
         int gameDataId = this.gameData.getLastInsertId();
 
@@ -100,7 +100,7 @@ public class GameDataDao implements IDao<GameData> {
             }
         }
 
-        return new GameData();
+        return false;
     }
 
     @Override

@@ -25,7 +25,7 @@ import java.util.Collection;
  *
  * @param <AnyType>   Generic object to use for tables
  */
-public class Dapper<AnyType> {
+public class Dapper<AnyType> extends Connector {
     /**
      * Used for debugging purposes.
      * If set to true:  Statements will be printed.
@@ -55,21 +55,22 @@ public class Dapper<AnyType> {
     private final String sqlCountWhere = "SELECT COUNT(*) FROM %s WHERE %s = ?;";
     private final String sqlSelect = "SELECT %s FROM %s ORDER BY %s LIMIT %s;";
     private final String sqlSelectId = "SELECT * FROM %s WHERE %s = ?;";
+    private Connection connection = null;
 
     /**
      * Name of the primary key field. This should be set using the annotation @PrimaryKey
      */
     private String primaryKeyFieldName;
-
-    private final Connection connection;
     private final Class<AnyType> tableType;
     private int lastInsertId;
 
     public Dapper(Class<AnyType> type) {
-        this(type, Connector.getConnection());
-    }
-    public Dapper(Class<AnyType> type, Connection connection) {
-        this.connection = connection;
+        try {
+            this.connection = Connector.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.tableType = type;
         this.lastInsertId = -1;
 
@@ -149,8 +150,8 @@ public class Dapper<AnyType> {
             this.execute(statement, true);
 
 
-        } catch (SQLException e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -410,9 +411,9 @@ public class Dapper<AnyType> {
 
     /**
      * Returns a collection of objects using a predefined key
-     * @param column the column to match
-     * @param key the key to match with
-     * @return
+     * @param   column      the column to match
+     * @param   key         the key to match with
+     * @return              a collection with mapped objects
      */
     public Collection<AnyType> getCollectionUsingForeignKey(String column, int key) {
         Collection<AnyType> collection = new ArrayList<>();
@@ -451,8 +452,8 @@ public class Dapper<AnyType> {
 
     /**
      * Returns a collection of objects with the primaryKey
-     * @param primaryKey    The primary key
-     * @return a collection with generic objects
+     * @param   primaryKey      The primary key
+     * @return                  a collection with generic objects
      */
     public Collection<AnyType> getCollectionUsingPrimaryKey(int primaryKey) {
         return this.getCollectionUsingForeignKey(this.primaryKeyFieldName, primaryKey);
@@ -461,9 +462,9 @@ public class Dapper<AnyType> {
     /**
      * Returns a single instance of the mapped object using the
      * foreign key
-     * @param column the column to match
-     * @param key the key to get
-     * @return instance of the mapped object
+     * @param   column  the column to match
+     * @param   key     the key to get
+     * @return          instance of the mapped object
      */
     public AnyType getUsingForeignKey(String column, int key) {
         return ((ArrayList<AnyType>)this.getCollectionUsingForeignKey(column, key)).get(0);
@@ -472,8 +473,8 @@ public class Dapper<AnyType> {
     /**
      * Returns a single instance of the mapped object using the
      * primary key
-     * @param key the key to get
-     * @return instance of the mapped object
+     * @param   key     the key to get
+     * @return          instance of the mapped object
      */
     public AnyType getUsingPrimaryKey(int key) {
         return ((ArrayList<AnyType>)this.getCollectionUsingPrimaryKey(key)).get(0);
@@ -481,8 +482,8 @@ public class Dapper<AnyType> {
 
     /**
      * @see Dapper#getUsingPrimaryKey(int) this is only here for legacy purposes
-     * @param primaryKey the id of the primary key
-     * @return the mapped object
+     * @param   primaryKey  the id of the primary key
+     * @return              the mapped object
      */
     @Deprecated
     public AnyType getId(int primaryKey) {
@@ -491,8 +492,8 @@ public class Dapper<AnyType> {
 
     /**
      * Returns a collection of objects using a specific query
-     * @param query The query to the database
-     * @return A collection of objects of type AnyType
+     * @param   query   The query to the database
+     * @return          A collection of objects of type AnyType
      */
     public Collection<AnyType> query(String query) {
         PreparedStatement statement = null;

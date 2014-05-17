@@ -82,4 +82,23 @@ public class GamesModel
 
         return games.get(index).getGameName();
     }
+
+    public WinningCondition[] winningConditions(int index){
+
+        int nrOfWinningConditions = games.get(index).getNumberOfWinningConditions();
+
+        WinningCondition [] array = new WinningCondition[games.get(index).getNumberOfWinningConditions()];
+
+        for(int i = 0; i<nrOfWinningConditions; i++)
+        {
+            array[i] = games.get(index).getWinningCondition(i);
+        }
+
+        return array;
+    }
+
+    public int getGameNrOfThrows(int index){
+
+        return games.get(index).getNumberOfThrows();
+    }
 }

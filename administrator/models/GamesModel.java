@@ -72,4 +72,50 @@ public class GamesModel
 
         return exist;
     }
+
+    public int getGameId(int index){
+
+        return games.get(index).getId();
+    }
+
+    public String getGameTitle(int index){
+
+        return games.get(index).getGameName();
+    }
+
+    public WinningCondition[] getGameWinningCond(int index){
+
+        int nrOfWinningConditions = games.get(index).getNumberOfWinningConditions();
+
+        WinningCondition [] array = new WinningCondition[games.get(index).getNumberOfWinningConditions()];
+
+        for(int i = 0; i<nrOfWinningConditions; i++)
+        {
+            array[i] = games.get(index).getWinningCondition(i);
+        }
+
+        return array;
+    }
+
+    public int getGameNrOfThrows(int index){
+
+        return games.get(index).getNumberOfThrows();
+    }
+
+    public int getGameNrOfDices(int index){
+
+        return games.get(index).getNumberOfDice();
+    }
+
+    // w8
+    public void setGameNrOfThrows(int index, int nrOfThrows){
+
+        games.get(index).setNumberOfThrows(nrOfThrows);
+        ////
+    }
+    //w8
+    public void setGameNrOfDices(int index,int nrOfDices){
+
+        games.get(index).setNumberOfDice(nrOfDices);
+    }
 }

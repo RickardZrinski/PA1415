@@ -2,6 +2,7 @@ package administrator.controllers;
 
 import administrator.GUI;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
@@ -9,10 +10,13 @@ import java.util.ArrayList;
  */
 public class ListAllGamesController extends Controller
 {
-    private ArrayList<Controller> controller;
-
     public ListAllGamesController(GUI gui)
     {
         super(gui);
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+
     }
 }

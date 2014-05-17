@@ -1,5 +1,7 @@
 package administrator.views;
 
+import administrator.controllers.Controller;
+
 import javax.swing.*;
 
 /**
@@ -10,5 +12,10 @@ public class ListAllGamesView extends View
     public ListAllGamesView()
     {
         this.add(new JButton("List all games!"));
+    }
+
+    public void registerListener(Controller controller)
+    {
+
     }
 }

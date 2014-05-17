@@ -1,5 +1,7 @@
 package administrator.views;
 
+import administrator.controllers.Controller;
+
 import javax.swing.*;
 
 /**
@@ -10,5 +12,10 @@ public class ListAllUsersView extends View
     public ListAllUsersView()
     {
         this.add(new JButton("List all users!"));
+    }
+
+    public void registerListener(Controller controller)
+    {
+
     }
 }

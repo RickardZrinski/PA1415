@@ -111,7 +111,7 @@ public class GamesModel
     public void setGameNrOfThrows(int index, int nrOfThrows){
 
         games.get(index).setNumberOfThrows(nrOfThrows);
-        //
+        ////
     }
     //w8
     public void setGameNrOfDices(int index,int nrOfDices){

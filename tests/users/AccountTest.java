@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import users.Account;
+import shared.users.Account;
 
 /**
  * @author  Dino Opijac

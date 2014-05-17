@@ -3,6 +3,7 @@ package shared.transactions;
 /**
  * @author  John Mogensen
  * @since   14/05/2014
+ * @TODO: In Assigment 3: change method playerTransfer() -> accountTransfer()
  */
 public class Withdraw extends Transaction {
 
@@ -18,8 +19,8 @@ public class Withdraw extends Transaction {
      * Withdraws money from players account.
      */
     @Override
-    public void playerTransfer() {
-        if (this.getPlayer().getAccount().isWithdrawable(this.getAmount()))
-            this.getPlayer().getAccount().withdraw(this.getAmount());
+    public void accountTransfer() {
+        if (this.getUser().getAccount().isWithdrawable(this.getAmount()))
+            this.getUser().getAccount().withdraw(this.getAmount());
     }
 }

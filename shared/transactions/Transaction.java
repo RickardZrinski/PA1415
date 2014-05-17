@@ -11,6 +11,7 @@ import shared.users.User;
  * @TODO: In Assignment 3: Change constructor from Player player -> User user
  * @TODO: In Assignment 3: Change method setPlayer(Player player) -> setUser(User user)
  * @TODO: In Assignment 3: Change method getPlayer() -> getUser()
+ * @TODO: In Assignment 3: Change abstract method playerTransfer() -> accountTransfer()
  */
 public abstract class Transaction {
     private int timestamp;
@@ -102,5 +103,5 @@ public abstract class Transaction {
     /**
      * Transfers money from / to player.
      */
-    public abstract void playerTransfer();
+    public abstract void accountTransfer();
 }

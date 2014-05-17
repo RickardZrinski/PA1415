@@ -3,6 +3,7 @@ package shared.transactions;
 /**
  * @author  John Mogensen
  * @since   14/05/2014
+ * @TODO: In Assigment 3: change method playerTransfer() -> accountTransfer()
  */
 public class Deposit extends Transaction {
 
@@ -18,7 +19,7 @@ public class Deposit extends Transaction {
      * Deposits money to players account.
      */
     @Override
-    public void playerTransfer() {
-        this.getPlayer().getAccount().deposit(this.getAmount());
+    public void accountTransfer() {
+        this.getUser().getAccount().deposit(this.getAmount());
     }
 }

@@ -1,7 +1,8 @@
 package administrator;
 
-import administrator.controllers.ListAllGamesController;
-import administrator.controllers.ListAllUsersController;
+import administrator.controllers.MainMenuController;
+import administrator.models.GamesModel;
+import administrator.models.UsersModel;
 
 import javax.swing.*;
 
@@ -13,8 +14,7 @@ public class Main {
                 GUI frame = new GUI();
                 frame.setVisible(true);
 
-               //ListAllGamesController controller = new ListAllGamesController(frame);
-                ListAllUsersController controller = new ListAllUsersController(frame);
+                MainMenuController controller = new MainMenuController(frame, new UsersModel(), new GamesModel());
             }
         });
     }

@@ -2,10 +2,13 @@ package administrator.controllers;
 
 import administrator.GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Created by Martin on 2014-05-15.
  */
-public class Controller
+public abstract class Controller implements ActionListener
 {
     private GUI m_gui;
 
@@ -18,4 +21,6 @@ public class Controller
     {
         return m_gui;
     }
+
+    public abstract void actionPerformed(ActionEvent e);
 }

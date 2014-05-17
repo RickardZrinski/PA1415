@@ -6,6 +6,7 @@ import org.junit.Test;
 import shared.dao.GameDataDao;
 import shared.game.GameData;
 import shared.game.WinningCondition;
+import utilities.sql.Dapper;
 
 import java.util.ArrayList;
 
@@ -34,9 +35,9 @@ public class GamesModelTest
 
         GameDataDao dao = new GameDataDao();
         ArrayList<GameData> games = new ArrayList<GameData>();
-        games.add(dao.get(1));
-
-        System.out.println(dao.get(1));
+        games.add(dao.get(8));
+        //Dapper.PRINT_STATEMENTS = true;
+        //System.out.println(games.get(0));
 
         ArrayList<WinningCondition> winCond = new ArrayList<WinningCondition>();
         WinningCondition test = new WinningCondition("Royal Straight Flush");
@@ -50,6 +51,6 @@ public class GamesModelTest
         //updates changed parameters to the object in the database
 
         dao.update(games.get(0));
-        System.out.println(dao.get(1));
+        System.out.println(dao.get(8));
     }
 }

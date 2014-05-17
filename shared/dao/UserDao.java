@@ -4,8 +4,8 @@ import shared.users.User;
 import shared.users.Role;
 import shared.users.Account;
 import shared.users.relation.UserRole;
-import sql.Connector;
-import sql.Dapper;
+import utilities.sql.Connector;
+import utilities.sql.Dapper;
 
 import java.sql.Connection;
 

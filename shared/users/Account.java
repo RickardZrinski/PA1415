@@ -1,6 +1,6 @@
 package shared.users;
 
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.PrimaryKey;
 
 /**
  * This class models operations that can be

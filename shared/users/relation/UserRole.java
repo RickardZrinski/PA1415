@@ -1,6 +1,6 @@
 package shared.users.relation;
 
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.PrimaryKey;
 
 /**
  * @author  Dino Opijac

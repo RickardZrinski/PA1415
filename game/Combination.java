@@ -1,7 +1,7 @@
 package game;
 
-import sql.annotations.Ignore;
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.Ignore;
+import utilities.sql.annotations.PrimaryKey;
 
 import java.util.ArrayList;
 

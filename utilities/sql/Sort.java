@@ -1,4 +1,4 @@
-package sql;
+package utilities.sql;
 
 public final class Sort {
     public static final String ASC = "ASC";

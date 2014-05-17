@@ -1,6 +1,6 @@
 package shared.users;
 
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.PrimaryKey;
 
 import java.lang.reflect.Field;
 

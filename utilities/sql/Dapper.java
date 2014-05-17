@@ -1,7 +1,7 @@
-package sql;
+package utilities.sql;
 
-import sql.annotations.Ignore;
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.Ignore;
+import utilities.sql.annotations.PrimaryKey;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -295,7 +295,7 @@ public class Dapper<AnyType> {
 
     /**
      * Retrieves all properties from a class via reflection.
-     * Fields with the annotation {@link sql.annotations.Ignore} are
+     * Fields with the annotation {@link utilities.sql.annotations.Ignore} are
      * ignored
      * @param clazz     the class type to check (table)
      * @param filter    boolean that determines if filtering is applied

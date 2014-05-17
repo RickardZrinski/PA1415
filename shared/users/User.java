@@ -1,7 +1,7 @@
 package shared.users;
 
-import sql.annotations.Ignore;
-import sql.annotations.PrimaryKey;
+import utilities.sql.annotations.Ignore;
+import utilities.sql.annotations.PrimaryKey;
 import utilities.Hash;
 
 /**
@@ -181,7 +181,7 @@ public class User {
 
     /**
      * Retrieves the player's game account
-     * @see     users.Account
+     * @see     shared.users.Account
      * @return  The instance of the game account
      */
     public Account getAccount() {
@@ -190,7 +190,7 @@ public class User {
 
     /**
      * Retrieves the player's game account
-     * @see     users.Account
+     * @see     shared.users.Account
      * @return  The instance of the game account
      */
     public Role getRole() {

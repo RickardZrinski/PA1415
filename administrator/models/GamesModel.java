@@ -2,7 +2,7 @@ package administrator.models;
 
 import game.GameData;
 import game.WinningCondition;
-import sql.Dapper;
+import utilities.sql.Dapper;
 
 import java.util.ArrayList;
 

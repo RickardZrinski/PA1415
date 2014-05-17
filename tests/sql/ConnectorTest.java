@@ -4,7 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import sql.Connector;
+import utilities.sql.Connector;
 import java.sql.Connection;
 import java.sql.SQLException;
 

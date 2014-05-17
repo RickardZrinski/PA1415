@@ -1,6 +1,7 @@
 package game;
 
-import users.Player;
+import shared.users.User;
+
 import java.util.ArrayList;
 
 /**
@@ -10,30 +11,30 @@ public class GameSession {
     private int bet;
     private boolean active;
     private ArrayList<Die> diceHand;
-    private Player player;
+    private User user;
     private GameData gameData;
 
     /**
      * Creates a new empty GameSession
      */
     public GameSession() {
-        bet = 0;
-        active = false;
-        diceHand = new ArrayList<Die>();
-        player = null;
-        gameData = null;
+        this.bet = 0;
+        this.active = false;
+        this.diceHand = new ArrayList<>();
+        this.user = null;
+        this.gameData = null;
     }
 
     /**
      * Creates a new GameSession
-     * @param player    the player
+     * @param user      the player
      * @param gameData  object containing game data
      */
-    public GameSession(Player player, GameData gameData) {
-        bet = 0;
-        active = false;
-        diceHand = new ArrayList<Die>();
-        this.player = player;
+    public GameSession(User user, GameData gameData) {
+        this.bet = 0;
+        this.active = false;
+        this.diceHand = new ArrayList<>();
+        this.user = user;
         this.gameData = gameData;
     }
 
@@ -158,7 +159,7 @@ public class GameSession {
         return active;
     }
 
-    public Player getPlayer() {
-        return player;
+    public User getUser() {
+        return user;
     }
 }

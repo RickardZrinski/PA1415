@@ -163,6 +163,7 @@ public class Dapper<AnyType> extends Connector {
      */
     public void update(int primaryKey, Object data) {
         try {
+            System.out.println(data);
             Field[] fields = this.getInheritedFields();
 
             String values = "";
@@ -182,7 +183,7 @@ public class Dapper<AnyType> extends Connector {
             // Bind all properties to the statement
             for (int i = 0; i < fields.length - 1; i++)
                 try {
-                    statement.setObject(i+1, fields[i].get(data));
+                    statement.setObject(i+1, fields[i + 1].get(data));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -237,7 +238,7 @@ public class Dapper<AnyType> extends Connector {
             Integer num  = 1;
 
             // The query to execute
-            String query = String.format("DELETE FROM %s WHERE %s", this.getTableName(), Builder.equals(args));
+            String query = String.format("DELETE FROM %s WHERE %s", this.getTableName(), Builder.and(args));
 
             PreparedStatement statement = connection.prepareStatement(query);
             for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {

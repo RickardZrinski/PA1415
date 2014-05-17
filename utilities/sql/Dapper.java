@@ -10,8 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * This object is a data wrapper
@@ -216,22 +215,42 @@ public class Dapper<AnyType> extends Connector {
             e1.printStackTrace();
         }
     }
+
     /**
      * Deletes data in the database using the object class name as
      * table name.
-     * @param primaryKey    Primary key used for the deletion
+     * @param   primaryKey    Primary key used for the deletion
      */
     public void delete(int primaryKey) {
+        this.delete(this.primaryKeyFieldName, primaryKey);
+    }
+
+    /**
+     * Deletes data in the database using object class name as a table name and
+     * a collection of objects to determine which columns to target. Every odd argument
+     * represents the column name, every even argument sets the value.
+     * @param   args  collection of columns and values
+     */
+    public void delete(Object... args) {
         try {
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlDelete, this.getTableName()));
-            statement.setInt(1, primaryKey);
+            // Required by PreparedStatement for setObject
+            Integer num  = 1;
+
+            // The query to execute
+            String query = String.format("DELETE FROM %s WHERE %s", this.getTableName(), Builder.equals(args));
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
+                statement.setObject(num++, map.getValue());
+
+                // If the last inserted key is deleted,
+                // then reflect this in the dapper
+                if (map.getKey().equals(this.getPrimaryKeyFieldName()) && map.getKey().equals(this.getLastInsertId()))
+                    this.lastInsertId = - 1;
+
+            }
+
             this.execute(statement);
-
-            // If the last inserted key is deleted,
-            // then reflect this in the dapper
-            if (primaryKey == this.getLastInsertId())
-                this.lastInsertId = -1;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

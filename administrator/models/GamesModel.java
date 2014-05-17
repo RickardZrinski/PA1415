@@ -1,5 +1,6 @@
 package administrator.models;
 
+import shared.dao.GameDataDao;
 import shared.game.GameData;
 import shared.game.WinningCondition;
 import utilities.sql.Dapper;
@@ -19,7 +20,6 @@ public class GamesModel {
         return nrOfGames;
     }
 
-    // more work needed on this method, not quite sure how to fetch shared.game attributes from database yet.
     public boolean addGame(String title) {
         boolean gameAdded = false;
         for (int i = 0; i < games.size(); i++) {
@@ -27,8 +27,9 @@ public class GamesModel {
                 GameData newGame = new GameData(title);
                 games.add(newGame);
 
-                //inserts shared.game into database
-
+                //inserts new game into the database
+                GameDataDao dao = new GameDataDao();
+                dao.insert(newGame);
 
                 gameAdded = true;
             }
@@ -43,6 +44,10 @@ public class GamesModel {
             games.get(index).setNumberOfThrows(nrOfThrows);
             games.get(index).setNumberOfDice(nrOfDices);
             games.get(index).setWinningCondition(winningCondition);
+
+            //updates changed parameters to the object in the database
+            GameDataDao dao = new GameDataDao();
+            dao.update(games.get(index));
         }
 
     }

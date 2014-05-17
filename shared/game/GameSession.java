@@ -13,6 +13,7 @@ public class GameSession {
     private ArrayList<Die> diceHand;
     private User user;
     private GameData gameData;
+    // Add gamedice here
 
     /**
      * Creates a new empty GameSession

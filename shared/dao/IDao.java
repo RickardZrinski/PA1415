@@ -6,7 +6,8 @@ package shared.dao;
  */
 public interface IDao<T> {
     T get(Object key);
-    T insert(T object);
+    boolean insert(T object);
     boolean update(T object);
     boolean delete(T object);
+    // @TODO: Implement getCollection();
 }

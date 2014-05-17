@@ -1,7 +1,6 @@
 package administrator;
 
-import administrator.views.ListAllGamesView;
-import administrator.views.ListAllUsersView;
+import administrator.controllers.ListAllGamesController;
 
 import javax.swing.*;
 
@@ -13,11 +12,7 @@ public class Main {
                 GUI frame = new GUI();
                 frame.setVisible(true);
 
-                frame.addView(new ListAllGamesView(), "ListAllGamesView");
-                frame.showView("ListAllGamesView");
-
-                frame.addView(new ListAllUsersView(), "ListAllUsersView");
-                frame.showView("ListAllUsersView");
+                ListAllGamesController controller = new ListAllGamesController(frame);
             }
         });
     }

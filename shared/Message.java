@@ -1,6 +1,6 @@
 package shared;
 
-import users.User;
+import shared.users.User;
 
 /**
  * @author  John Mogensen
@@ -145,9 +145,20 @@ public class Message {
     }
 
     /**
-     * Sends message to a user.
+     * Sends a message to a user
+     * @param user the user to send the message to
+     * @TODO:   Change logical layer class diagram in Assignment 3 from void to boolean
      */
-    public void send(User user) {
-        // somehome add this message to a users messages
+    public boolean send(User user) {
+        boolean sent = false;
+
+        if (!user.getEmail().isEmpty()) {
+            String email = user.getEmail();
+            // Validate email address
+            // @TODO: Add library javax.mail
+            return true;
+        }
+
+        return sent;
     }
 }

@@ -72,4 +72,10 @@ public class GamesModel
 
         return exist;
     }
+
+    public int getGameId(int index){
+
+        return games.get(index).getId();
+
+    }
 }

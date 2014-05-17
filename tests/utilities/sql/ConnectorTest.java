@@ -1,4 +1,4 @@
-package tests.sql;
+package tests.utilities.sql;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

@@ -40,20 +40,6 @@ public class GameDataDao implements IDao<GameData> {
                 for (int j = 0; j < combinations.size(); j++) {
                     winningConditions.get(i).addCombination(combinations.get(j));
 
-                    int nrOfFaces = 0;
-                    try {
-                        this.connection = Connector.getInstance();
-                        final String query = "SELECT COUNT(*) FROM %s WHERE %s = ?;";
-                        PreparedStatement statement = this.connection.prepareStatement(String.format(query, "Face", "c_id"));
-                        statement.setInt(1, combinations.get(j).getId());
-                        ResultSet result = statement.executeQuery();
-                        while (result.next())
-                            nrOfFaces = result.getInt(1);
-                    } catch (SQLException ex1) {
-                        ex1.printStackTrace();
-                    }
-
-
                     final String table = "SELECT Face FROM Face WHERE c_id = ?;";
                     ResultSet face = null;
                     try {

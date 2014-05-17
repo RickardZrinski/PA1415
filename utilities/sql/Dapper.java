@@ -308,6 +308,8 @@ public class Dapper<AnyType> extends Connector {
 
         return count;
     }
+
+    @Deprecated
     public void create() {}
 
 
@@ -432,23 +434,20 @@ public class Dapper<AnyType> extends Connector {
         return collection;
     }
 
-
-
     /**
      * Returns a collection of objects using a predefined key
      * @param   column      the column to match
      * @param   key         the key to match with
      * @return              a collection with mapped objects
      */
-    public Collection<AnyType> getCollectionUsingForeignKey(String column, int key) {
+    public Collection<AnyType> getCollectionUsingForeignKey(String column, Object key) {
         Collection<AnyType> collection = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
 
         try {
             statement = connection.prepareStatement(String.format(this.sqlSelectId, this.getTableName(), column));
-            statement.setInt(1, key);
-
+            statement.setObject(1, key);
             result = statement.executeQuery();
 
             collection = this.map(result);
@@ -491,7 +490,7 @@ public class Dapper<AnyType> extends Connector {
      * @param   key     the key to get
      * @return          instance of the mapped object
      */
-    public AnyType getUsingForeignKey(String column, int key) {
+    public AnyType getUsingForeignKey(String column, Object key) {
         return ((ArrayList<AnyType>)this.getCollectionUsingForeignKey(column, key)).get(0);
     }
 

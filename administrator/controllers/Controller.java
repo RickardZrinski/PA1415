@@ -2,7 +2,6 @@ package administrator.controllers;
 
 import administrator.GUI;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
@@ -21,6 +20,4 @@ public abstract class Controller implements ActionListener
     {
         return m_gui;
     }
-
-    public abstract void actionPerformed(ActionEvent e);
 }

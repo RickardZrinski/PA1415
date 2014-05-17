@@ -1,10 +1,12 @@
 package shared.transactions;
 
-import users.Player;
+import shared.users.User;
 
 /**
  * @author  John Mogensen
  * @since   14/05/2014
+ *
+ * @TODO: In Assigment 3: Change method: send(Player player) to send(User user)
  */
 public class Receipt {
     private int timestamp;
@@ -74,7 +76,7 @@ public class Receipt {
     /**
      * Comments.
      */
-    public boolean send(Player player) {
+    public boolean send(User user) {
 
         return false;
     }

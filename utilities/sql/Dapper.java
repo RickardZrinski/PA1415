@@ -48,6 +48,7 @@ public class Dapper<AnyType> extends Connector {
 
     private final String sqlInsert = "INSERT INTO %s (%s) VALUES(%s);";
     private final String sqlUpdate = "UPDATE %s SET %s WHERE id = ?;";
+    private final String sqlUpdateSingle = "UPDATE %s SET %s = ? WHERE id = ?;";
     private final String sqlDelete = "DELETE FROM %s WHERE id = ?;";
     private final String sqlTruncate = "TRUNCATE TABLE %s;";
     private final String sqlDrop = "DROP TABLE IF EXISTS %s;";
@@ -198,6 +199,24 @@ public class Dapper<AnyType> extends Connector {
     }
 
     /**
+     * Updates the value of a specified column
+     * @param primaryKey    primaryKey of the row
+     * @param columnName    column name of the table
+     * @param value value to be inserted
+     */
+    public void updateColumnValue(int primaryKey, String columnName, int value){
+        try {
+            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlUpdateSingle, this.getTableName(),
+                    columnName));
+            statement.setInt(1, value);
+            statement.setInt(2, primaryKey);
+            statement.executeUpdate();
+        }
+        catch (SQLException e1){
+            e1.printStackTrace();
+        }
+    }
+    /**
      * Deletes data in the database using the object class name as
      * table name.
      * @param primaryKey    Primary key used for the deletion
@@ -267,6 +286,12 @@ public class Dapper<AnyType> extends Connector {
         return count;
     }
 
+    /**
+     * Retrieves a count of rows matching the argument
+     * @param columnName    the column name
+     * @param arg   the argument
+     * @return  the total amount of rows
+     */
     public int count(String columnName, String arg){
         int count = 0;
 

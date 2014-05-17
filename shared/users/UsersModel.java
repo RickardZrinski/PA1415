@@ -7,12 +7,12 @@ import java.util.ArrayList;
  */
 public class UsersModel
 {
-    private ArrayList<users.User> users;
+    private ArrayList<User> users;
     private int nrOfUsers;
     public UsersModel()
     {
         nrOfUsers = 0;
-        users = new ArrayList<users.User>();
+        users = new ArrayList<User>();
     }
 
     public int getNrOfUsers()
@@ -25,13 +25,19 @@ public class UsersModel
         if(index < users.size())
         {
             users.get(index).setUsername(userName);
-            users.get(index).setPassword(password);
+
+            try {
+                users.get(index).setPassword(password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             users.get(index).setFirstName(firstName);
             users.get(index).setLastName(lastName);
         }
     }
 
-    public users.User getUser(int index)
+    public User getUser(int index)
     {
         return users.get(index);
     }

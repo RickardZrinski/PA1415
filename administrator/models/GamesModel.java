@@ -26,10 +26,10 @@ public class GamesModel {
             if (gameExist(title) == false) {
                 GameData newGame = new GameData(title);
                 games.add(newGame);
-                Dapper<GameData> sql = new Dapper<>(GameData.class);
-                //inserts shared.game into database NOTE: this only works with 4 GameData base attributes so far
-                // the winning condition and combinations attributes will be added soon!
-                sql.insert(newGame);
+
+                //inserts shared.game into database
+
+
                 gameAdded = true;
             }
         }

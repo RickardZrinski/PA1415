@@ -62,11 +62,6 @@ public class GamesModel {
         return exist;
     }
 
-    public int getGameId(int index) {
-
-        return games.get(index).getId();
-    }
-
     public String getGameTitle(int index) {
 
         return games.get(index).getGameName();

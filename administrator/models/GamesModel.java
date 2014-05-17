@@ -1,7 +1,7 @@
 package administrator.models;
 
-import game.GameData;
-import game.WinningCondition;
+import shared.game.GameData;
+import shared.game.WinningCondition;
 import utilities.sql.Dapper;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class GamesModel
 		return nrOfGames;
 	}
 
-    // more work needed on this method, not quite sure how to fetch game attributes from database yet.
+    // more work needed on this method, not quite sure how to fetch shared.game attributes from database yet.
 	public boolean addGame(String title)
 	{
         boolean gameAdded = false;
@@ -32,7 +32,7 @@ public class GamesModel
                GameData newGame = new GameData(title);
                games.add(newGame);
                Dapper<GameData> sql = new Dapper<>(GameData.class);
-               //inserts game into database NOTE: this only works with 4 GameData base attributes so far
+               //inserts shared.game into database NOTE: this only works with 4 GameData base attributes so far
                // the winning condition and combinations attributes will be added soon!
                sql.insert(newGame);
                gameAdded = true;
@@ -42,7 +42,7 @@ public class GamesModel
         return gameAdded;
 	}
 
-    /*Sends Edited Parameters for a specific game*/
+    /*Sends Edited Parameters for a specific shared.game*/
 	public void sendEditedParameters(int index, int nrOfThrows, int nrOfDices, ArrayList<WinningCondition> winningCondition)
 	{
         if(index < games.size())

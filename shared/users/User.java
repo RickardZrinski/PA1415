@@ -180,18 +180,18 @@ public class User {
     }
 
     /**
-     * Retrieves the player's game account
+     * Retrieves the player's shared.game account
      * @see     shared.users.Account
-     * @return  The instance of the game account
+     * @return  The instance of the shared.game account
      */
     public Account getAccount() {
         return this.account;
     }
 
     /**
-     * Retrieves the player's game account
+     * Retrieves the player's shared.game account
      * @see     shared.users.Account
-     * @return  The instance of the game account
+     * @return  The instance of the shared.game account
      */
     public Role getRole() {
         return this.role;

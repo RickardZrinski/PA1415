@@ -1,4 +1,4 @@
-package game;
+package shared.game;
 
 import utilities.sql.annotations.Ignore;
 import utilities.sql.annotations.PrimaryKey;
@@ -31,10 +31,10 @@ public class GameData {
 
     /**
      * Creates new GameData
-     * @param gameName  name of the game
-     * @param numberOfDice  number of dice in game
+     * @param gameName  name of the shared.game
+     * @param numberOfDice  number of dice in shared.game
      * @param numberOfThrows    number of throws done by player
-     * @param rules rules of the game
+     * @param rules rules of the shared.game
      */
     public GameData(String gameName, int numberOfDice, int numberOfThrows, String rules) {
         this.gameName = gameName;
@@ -58,7 +58,7 @@ public class GameData {
     }
 
     /**
-     * Removes a die from the game
+     * Removes a die from the shared.game
      * @param index index of the die
      * @return the removed die
      */
@@ -68,7 +68,7 @@ public class GameData {
     }
 
     /**
-     * Adds a die to the game
+     * Adds a die to the shared.game
      * @param die   the die
      */
     public void addDie(Die die) {

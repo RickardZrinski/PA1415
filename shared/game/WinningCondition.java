@@ -1,4 +1,4 @@
-package game;
+package shared.game;
 
 import utilities.sql.annotations.Ignore;
 import utilities.sql.annotations.PrimaryKey;

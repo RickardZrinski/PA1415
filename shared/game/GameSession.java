@@ -1,4 +1,4 @@
-package game;
+package shared.game;
 
 import shared.users.User;
 
@@ -28,7 +28,7 @@ public class GameSession {
     /**
      * Creates a new GameSession
      * @param user      the player
-     * @param gameData  object containing game data
+     * @param gameData  object containing shared.game data
      */
     public GameSession(User user, GameData gameData) {
         this.bet = 0;
@@ -39,7 +39,7 @@ public class GameSession {
     }
 
     /**
-     * Tosses all dice in game
+     * Tosses all dice in shared.game
      */
     public void toss(){
         gameData.toss();
@@ -54,14 +54,14 @@ public class GameSession {
     }
 
     /**
-     * Sets the game to active
+     * Sets the shared.game to active
      */
     public void start(){
         active = true;
     }
 
     /**
-     * Called when the game ends
+     * Called when the shared.game ends
      * @return the fulfilled winningCondition, if none: default WinningCondition
      */
     public WinningCondition end(){
@@ -74,7 +74,7 @@ public class GameSession {
     }
 
     /**
-     * Resets the game to its original state
+     * Resets the shared.game to its original state
      */
     public void playAgain(){
         for (int i = 0; i < diceHand.size(); i++)
@@ -124,7 +124,7 @@ public class GameSession {
     }
 
     /**
-     * Retrieves number of dice currently in game (excluding dice in diceHand)
+     * Retrieves number of dice currently in shared.game (excluding dice in diceHand)
      * @return number of dice.
      */
     public int getNumberOfGameDice(){

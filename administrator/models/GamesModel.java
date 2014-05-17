@@ -107,4 +107,12 @@ public class GamesModel
         return games.get(index).getNumberOfDice();
     }
 
+    // w8
+    public void setGameNrOfThrows(int index, int nrOfThrows){
+
+    }
+    //w8
+    public void setGameNrOfDices(int index,int nrOfDices){
+
+    }
 }

@@ -1,4 +1,6 @@
-package shared.users;
+package administrator.models;
+
+import shared.users.User;
 
 import java.util.ArrayList;
 

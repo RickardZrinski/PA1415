@@ -20,13 +20,10 @@ public class UserDao implements IDao<User> {
     Dapper<UserRole> userRoleData;
 
     public UserDao() {
-        // Let the dapper share the same instance of connection.
-        Connection connection = Connector.getConnection();
-
-        this.userData = new Dapper<>(User.class, connection);
-        this.accountData = new Dapper<>(Account.class, connection);
-        this.roleData = new Dapper<>(Role.class, connection);
-        this.userRoleData = new Dapper<>(UserRole.class, connection);
+        this.userData = new Dapper<>(User.class);
+        this.accountData = new Dapper<>(Account.class);
+        this.roleData = new Dapper<>(Role.class);
+        this.userRoleData = new Dapper<>(UserRole.class);
     }
 
     @Override

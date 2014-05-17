@@ -1,17 +1,22 @@
 package shared.transactions;
 
-import payments.Payment;
-import users.Player;
+import shared.transactions.payments.Payment;
+import shared.users.User;
 
 /**
  * @author  John Mogensen
  * @since   14/05/2014
+ *
+ * @TODO: In Assignment 3: Change attribute Player player -> User user
+ * @TODO: In Assignment 3: Change constructor from Player player -> User user
+ * @TODO: In Assignment 3: Change method setPlayer(Player player) -> setUser(User user)
+ * @TODO: In Assignment 3: Change method getPlayer() -> getUser()
  */
 public abstract class Transaction {
     private int timestamp;
     private double amount;
     private Payment payment;
-    private Player player;
+    private User user;
 
     /**
      * Comments.
@@ -20,17 +25,17 @@ public abstract class Transaction {
         this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.amount = 0.0;
         this.payment = null;
-        this.player = null;
+        this.user = null;
     }
 
     /**
      * Comments.
      */
-    public Transaction(double amount, Payment payment, Player player) {
+    public Transaction(double amount, Payment payment, User user) {
         this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.amount = amount;
         this.payment = payment;
-        this.player = player;
+        this.user = user;
     }
 
     /**
@@ -57,8 +62,8 @@ public abstract class Transaction {
     /**
      * Sets player.
      */
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
@@ -85,8 +90,8 @@ public abstract class Transaction {
     /**
      * Gets player.
      */
-    public Player getPlayer() {
-        return this.player;
+    public User getUser() {
+        return this.user;
     }
 
     /**

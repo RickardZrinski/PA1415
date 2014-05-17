@@ -1,5 +1,6 @@
-package payments;
+package shared.transactions;
 
+import shared.transactions.Payments.Payment;
 import users.Player;
 
 /**

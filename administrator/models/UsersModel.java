@@ -1,6 +1,8 @@
 package administrator.models;
 
+import shared.dao.UserDao;
 import shared.users.User;
+import utilities.sql.Dapper;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,10 @@ public class UsersModel
 
             users.get(index).setFirstName(firstName);
             users.get(index).setLastName(lastName);
+
+            //updates the changed parameters to the object in the database.
+            UserDao dao = new UserDao();
+            dao.update(users.get(index));
         }
     }
 

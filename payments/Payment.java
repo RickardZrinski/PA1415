@@ -1,7 +1,8 @@
 package payments;
 
 /**
- * Created by JamJaws.
+ * @author  John Mogensen
+ * @since   14/05/2014
  */
 public abstract class Payment {
     private double amount;

@@ -3,7 +3,8 @@ package payments;
 import users.Player;
 
 /**
- * Created by JamJaws.
+ * @author  John Mogensen
+ * @since   14/05/2014
  */
 public abstract class Transaction {
     private int timestamp;

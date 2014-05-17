@@ -43,6 +43,7 @@ public class GameDataDao implements IDao<GameData> {
                     final String table = "SELECT Face FROM Face WHERE c_id = ?;";
                     ResultSet face = null;
                     try {
+                        this.connection = Connector.getInstance();
                         PreparedStatement statement = this.connection.prepareStatement(String.format(table));
                         statement.setInt(1, combinations.get(j).getId());
                         face = statement.executeQuery();
@@ -61,6 +62,7 @@ public class GameDataDao implements IDao<GameData> {
 
     @Override
     public boolean insert(GameData gameData) {
+        boolean success = true;
         this.gameData.insert(gameData);
         int gameDataId = this.gameData.getLastInsertId();
 
@@ -94,13 +96,13 @@ public class GameDataDao implements IDao<GameData> {
                     }
                     catch (SQLException ex1){
                         ex1.printStackTrace();
-
+                        success = false;
                     }
                 }
             }
         }
 
-        return false;
+        return success;
     }
 
     @Override
@@ -119,7 +121,6 @@ public class GameDataDao implements IDao<GameData> {
                     PreparedStatement statement = this.connection.prepareStatement(table, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                     statement.setInt(1, comb.getId());
                     ResultSet result = statement.executeQuery();
-                   // statement.close();
                     while (result.next())
                         result.deleteRow();
                     for (int k = 0; k < comb.getNumberOfFaces(); k++) {
@@ -130,8 +131,8 @@ public class GameDataDao implements IDao<GameData> {
                             result.moveToCurrentRow();
                     }
                 }
-                catch (SQLException ex3){
-                    ex3.printStackTrace();
+                catch (SQLException ex1){
+                    ex1.printStackTrace();
                 }
 
             }
@@ -141,7 +142,32 @@ public class GameDataDao implements IDao<GameData> {
         return false;
     }
 
-    public boolean delete(GameData gameData1){
-        return false;
+    public boolean delete(GameData gameData){
+        boolean success = false;
+        if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0){
+            success = true;
+            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++){
+                WinningCondition wc = gameData.getWinningCondition(i);
+                for (int j = 0; j < wc.getNumberOfCombinations(); j++){
+                    Combination comb = wc.getCombination(j);
+                    final String table = "SELECT * FROM Face WHERE c_id = ?;";
+                    try {
+                        PreparedStatement statement = this.connection.prepareStatement(table, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                        statement.setInt(1, comb.getId());
+                        ResultSet result = statement.executeQuery();
+                        while (result.next())
+                            result.deleteRow();
+                    }
+                    catch (SQLException ex1){
+                        ex1.printStackTrace();
+                        success = false;
+                    }
+                    combinationData.delete(comb.getId());
+                }
+                winningConditionData.delete(wc.getId());
+            }
+            this.gameData.delete(gameData.getId());
+        }
+        return success;
     }
 }

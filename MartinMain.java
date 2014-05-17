@@ -100,6 +100,36 @@ public class MartinMain
 //
 //            System.out.println(data);
 //        }
+
+      UserDao dao = new UserDao();
+      ArrayList<User> users = (ArrayList<User>)dao.getCollection();
+
+
+//      for(User data : dao.getCollection()) //test
+//      {
+//
+//          System.out.println(data);
+//      }
+
+      users.get(0).setUsername("Roffe101");
+
+        try {
+            users.get(0).setPassword("ass");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+      users.get(0).setFirstName("Roffe");
+      users.get(0).setLastName("Larsson");
+
+//      dao.delete(users.get(0).getId());
+//      dao.insert((users.get(0)));
+
+      System.out.println(users.get(0));
+      dao.update(users.get(0));
+
+      System.out.println(dao.get(1));
+    //  System.out.println(dao.get(users.get(0).getId()));
     }
 
 

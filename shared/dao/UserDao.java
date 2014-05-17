@@ -4,10 +4,10 @@ import shared.users.User;
 import shared.users.Role;
 import shared.users.Account;
 import shared.users.relation.UserRole;
-import utilities.sql.Connector;
 import utilities.sql.Dapper;
 
-import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author  Dino Opijac
@@ -36,27 +36,41 @@ public class UserDao implements IDao<User> {
         user.setAccount(accountData.getUsingPrimaryKey(primaryKey));
         user.setRole(role);
 
-
         return user;
     }
 
+    public Collection<User> getCollection() {
+        Collection<User> users = new ArrayList<>();
+
+        for(User user: userData.getCollection())
+            users.add(get(user.getId()));
+
+        return users;
+    }
+
     @Override
-    public User insert(User user) {
-        // Insert the user
-        userData.insert(user);
+    public boolean insert(User user) {
+        boolean success = true;
 
-        int lastUserId = userData.getLastInsertId();
+        try {
+            // Insert the user
+            userData.insert(user);
 
-        // Retrieve the last id and push it to the account
-        user.getAccount().setId(lastUserId);
+            int lastUserId = userData.getLastInsertId();
 
-        // Insert account
-        accountData.insert(user.getAccount());
+            // Retrieve the last id and push it to the account
+            user.getAccount().setId(lastUserId);
 
-        // Insert role
-        userRoleData.insert(new UserRole(user.getRole().getId(), lastUserId));
+            // Insert account
+            accountData.insert(user.getAccount());
 
-        return user;
+            // Insert role
+            userRoleData.insert(new UserRole(user.getRole().getId(), lastUserId));
+        } catch(Exception e) {
+            success = false;
+        }
+
+        return success;
     }
 
     @Override

@@ -14,7 +14,6 @@ public class GameData {
     private int numberOfThrows;
     private int numberOfDice;
     @Ignore private ArrayList<WinningCondition> winningConditions;
-    @Ignore private ArrayList<Die> dice;
     private String rules;
 
     /**
@@ -25,7 +24,6 @@ public class GameData {
         this.numberOfDice = 0;
         this.numberOfThrows = 0;
         this.winningConditions = new ArrayList<>();
-        this.dice = new ArrayList<>();
         this.rules = "No rules available";
     }
 
@@ -41,39 +39,11 @@ public class GameData {
         this.numberOfThrows = numberOfThrows;
         this.numberOfDice = numberOfDice;
         this.winningConditions = new ArrayList<>();
-        this.dice = new ArrayList<>();
         this.rules = rules;
     }
 
     public GameData(String gameName) {
         this.gameName = gameName;
-    }
-
-    /**
-     * Tosses all the dice
-     */
-    public void toss() {
-        for(Die die: dice)
-            die.toss();
-    }
-
-    /**
-     * Removes a die from the shared.game
-     * @param index index of the die
-     * @return the removed die
-     */
-    public Die removeDie(int index) {
-        numberOfDice--;
-        return dice.remove(index);
-    }
-
-    /**
-     * Adds a die to the shared.game
-     * @param die   the die
-     */
-    public void addDie(Die die) {
-        dice.add(die);
-        numberOfDice++;
     }
 
     /**
@@ -170,8 +140,6 @@ public class GameData {
 
     public void setNumberOfDice(int numberOfDice) {
         this.numberOfDice = numberOfDice;
-        for (int i = dice.size(); i < numberOfDice; i++)
-            dice.add(new Die());
     }
 
     public int getNumberOfWinningConditions(){
@@ -187,10 +155,6 @@ public class GameData {
 
     public WinningCondition getWinningCondition(int index){
         return winningConditions.get(index);
-    }
-
-    public Die getDie(int index){
-        return  dice.get(index);
     }
 
     @Override

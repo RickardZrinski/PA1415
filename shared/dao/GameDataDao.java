@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Oliver on 2014-05-16.
@@ -25,6 +26,14 @@ public class GameDataDao implements IDao<GameData> {
             this.gameData = new Dapper<>(GameData.class);
             this.winningConditionData = new Dapper<>(WinningCondition.class);
             this.combinationData = new Dapper<>(Combination.class);
+    }
+
+    /**
+     * WARNING! Not implemented! Returns FAKE values
+     * @return a collection of gameData objects
+     */
+    public Collection<GameData> getCollection() {
+        return this.gameData.getCollection();
     }
 
     /**

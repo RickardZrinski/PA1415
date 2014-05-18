@@ -1,5 +1,6 @@
 package utilities.sql;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -12,22 +13,44 @@ public class Builder {
      * even argument sets the value.
      *
      * @param   separator   the separator for each column/value pair
-     * @param   objects     arguments to add to the query
-     * @return              a string of the query
+     * @param   objects     objects to add as column names
+     * @return              a partial string for the query
      */
     public static String equals(String separator, Object... objects) {
         int num = 0;
 
         StringBuilder builder = new StringBuilder();
 
-        for(Object arg: objects) {
+        for(Object o: objects) {
             if ((num++ & 1) == 0)
-                builder.append(String.format("%s = ", arg));
+                builder.append(String.format("%s = ", o));
             else
-                builder.append(String.format("? %s ", separator));
+                builder.append(String.format("?%s", separator));
         }
 
-        return builder.substring(0, builder.toString().length() - 5) + ";";
+        return builder.substring(0, builder.toString().length() - separator.length());
+    }
+
+    /**
+     * Generates a custom equals string. Where every object represents a column name.
+     * @param   separator   the separator for each column
+     * @param   objects     objects to add as column names
+     * @return              a partial string for the query
+     */
+    public static String linear(String separator, Object... objects) {
+        StringBuilder builder = new StringBuilder();
+
+        for(Object o: objects) {
+            if (o instanceof Field)
+                builder.append(((Field) o).getName());
+            else
+                builder.append(o);
+
+            builder.append(" = ?");
+            builder.append(separator);
+        }
+
+        return builder.substring(0, builder.toString().length() - separator.length());
     }
 
     /**

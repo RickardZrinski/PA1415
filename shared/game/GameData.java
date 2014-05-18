@@ -42,10 +42,6 @@ public class GameData {
         this.rules = rules;
     }
 
-    public GameData(String gameName) {
-        this.gameName = gameName;
-    }
-
     /**
      * Checks for fulfilled winning conditions
      * @param dice  the dice that will be checked.

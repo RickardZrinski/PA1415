@@ -22,17 +22,17 @@ public class GamesModel {
 
     public boolean addGame(String title) {
         boolean gameAdded = false;
-        for (int i = 0; i < games.size(); i++) {
-            if (gameExist(title) == false) {
-                GameData newGame = new GameData(title);
-                games.add(newGame);
 
-                //inserts new game into the database
-                GameDataDao dao = new GameDataDao();
-                dao.insert(newGame);
+        if (gameExist(title) == false) {
+            GameData newGame = new GameData();
+            newGame.setGameName(title);
+            games.add(newGame);
 
-                gameAdded = true;
-            }
+            //inserts new game into the database
+            GameDataDao dao = new GameDataDao();
+            dao.insert(newGame);
+
+            gameAdded = true;
         }
 
         return gameAdded;

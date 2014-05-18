@@ -6,6 +6,7 @@ import administrator.models.UsersModel;
 import administrator.views.MainMenuView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -56,6 +57,7 @@ public class MainMenuController extends Controller
         // Create main menu item and add listener
         JMenuItem mainMenu = new JMenuItem("Main Menu");
         mainMenu.addActionListener(new MenuBarListener());
+        mainMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Add main menu to menu bar
         menuBar.add(mainMenu);

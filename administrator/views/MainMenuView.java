@@ -82,6 +82,7 @@ public class MainMenuView extends View
         Border margin = new EmptyBorder(5, 15, 5, 15);
         Border compound = new CompoundBorder(border, margin);
         button.setBorder(compound);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         return button;
     }

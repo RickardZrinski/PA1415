@@ -114,6 +114,21 @@ public class WinningCondition {
     public int getId() {
         return this.id;
     }
+
+    /**
+     * Finds index of combination
+     * @param ID ID of the combination
+     * @return  If exists: index; If not: -1
+     */
+    public int findCombination(int ID){
+        int index = -1;
+        for (int i = 0; i < getNumberOfCombinations() && index == -1; i++){
+            if (combinations.get(i).getId() == ID)
+                index = i;
+        }
+        return index;
+    }
+
     @Override
     public String toString() {
         return String.format("id: %d, reward: %f, name: %s\n\tcombinations: %s", this.id, this.reward, this.name, this.combinations);

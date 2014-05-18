@@ -47,13 +47,6 @@ public class MainFrame extends JFrame {
         this.add(this.bar, BorderLayout.PAGE_START);
     }
 
-    public void toggleComponent(Component component) {
-        if (component.isVisible())
-            component.setVisible(false);
-        else
-            component.setVisible(true);
-    }
-
     public JPanel getBar() {
         return this.bar;
     }

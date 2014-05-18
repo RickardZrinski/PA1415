@@ -140,25 +140,46 @@ public class GameDataDao implements IDao<GameData> {
             this.gameData.update(gameData.getId(), gameData);
             for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++) {
                 WinningCondition wc = gameData.getWinningCondition(i);
-                this.winningConditionData.update(wc.getId(), wc);
+                int wcId = 0;
+                if (winningConditionData.count("ID", String.valueOf(wc.getId())) > 0){
+                    this.winningConditionData.update(wc.getId(), wc);
+                    wcId = wc.getId();
+                }
+                else{
+                    winningConditionData.insert(wc);
+                    wcId = winningConditionData.getLastInsertId();
+                    //Update foreign key for WinningCondition
+                    winningConditionData.updateColumnValue(wcId, "fkId", gameData.getId());
+                }
+
 
                 for (int j = 0; j < wc.getNumberOfCombinations(); j++) {
                     Combination comb = wc.getCombination(j);
-                    this.combinationData.update(comb.getId(), comb);
+                    int combId = 0;
+                    if (combinationData.count("ID", String.valueOf(comb.getId())) > 0) {
+                        this.combinationData.update(comb.getId(), comb);
+                        combId = comb.getId();
+                    }
+                    else{
+                        combinationData.insert(comb);
+                        combId = combinationData.getLastInsertId();
+                        combinationData.updateColumnValue(combId, "fkId", wcId);
+                    }
 
                     final String table = "SELECT * FROM Face WHERE c_id = ?;";
                     try {
                         PreparedStatement statement = this.connection.prepareStatement(table,
                                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                        statement.setInt(1, comb.getId());
+                        statement.setInt(1, combId);
                         ResultSet result = statement.executeQuery();
+                        //Remove all faces
                         while (result.next())
                             result.deleteRow();
-
+                        //Add faces again
                         for (int k = 0; k < comb.getNumberOfFaces(); k++) {
                             result.moveToInsertRow();
                             result.updateString(1, comb.getFace(k));
-                            result.updateInt(2, comb.getId());
+                            result.updateInt(2, combId);
                             result.insertRow();
                             result.moveToCurrentRow();
                         }

@@ -1,6 +1,7 @@
 package administrator.views;
 
 import administrator.controllers.AddGameController;
+import administrator.utilities.gui.DefaultButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.*;
 public class AddGameView extends View
 {
     private JTextField m_fieldTitle;
-    private JButton m_saveBtn;
+    private DefaultButton m_saveBtn;
 
     public AddGameView()
     {
@@ -24,7 +25,7 @@ public class AddGameView extends View
     private void initialize()
     {
         m_fieldTitle = new JTextField();
-        m_saveBtn = new JButton("Save");
+        m_saveBtn = new DefaultButton("Save");
     }
 
     private void configureView()

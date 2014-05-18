@@ -1,6 +1,7 @@
 package administrator.views;
 
 import administrator.controllers.MainMenuController;
+import administrator.utilities.gui.DefaultButton;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -74,15 +75,7 @@ public class MainMenuView extends View
 
     private static JButton createMenuItem(String text)
     {
-        JButton button = new JButton(text);
-
-        button.setFocusPainted(false);
-        button.setBackground(Color.WHITE);
-        Border border = new LineBorder(Color.BLACK);
-        Border margin = new EmptyBorder(5, 15, 5, 15);
-        Border compound = new CompoundBorder(border, margin);
-        button.setBorder(compound);
-        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        DefaultButton button = new DefaultButton(text);
 
         return button;
     }

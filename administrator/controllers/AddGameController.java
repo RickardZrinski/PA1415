@@ -34,7 +34,7 @@ public class AddGameController extends Controller
         m_view.registerListener(this);
 
         this.getGui().addView(m_view, "AddGameView");
-        this.getGui().showView("AddGameView");
+        this.getGui().showView("AddGameView", "Administrator - Add game");
     }
 
     private void addGame(String title)

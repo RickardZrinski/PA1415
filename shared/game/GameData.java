@@ -167,6 +167,20 @@ public class GameData {
         }
         return index;
     }
+
+    /**
+     * Finds index of winningCondition which contains a combination with the spec. ID
+     * @param ID    the combination's ID
+     * @return  If exists: index of the winningCondition; If not: -1
+     */
+    public int findCombination(int ID) {
+        int index = -1;
+        for (int i = 0; i < getNumberOfWinningConditions() && index == -1; i++){
+            if (winningConditions.get(i).findCombination(ID) != -1)
+                index = i;
+        }
+        return  index;
+    }
     @Override
     public String toString() {
         return String.format("id: %s, gameName: %s, numberOfThrows: %d, numberOfDice: %d, Rules: %s\nWinningConditions:\n%s\nDice: %s", this.id, this.gameName, this.numberOfThrows, this.numberOfDice, this.rules, this.winningConditions);

@@ -51,6 +51,10 @@ public class WinningCondition {
         }
     }
 
+    public Combination removeCombination(int index){
+        return combinations.remove(index);
+    }
+
     /**
      * Retrieves number of combinations.
      * @return number of combinations.

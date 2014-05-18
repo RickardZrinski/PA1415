@@ -84,6 +84,9 @@ public class MainMenuController extends Controller
             case "ListAllGames":
                 new ListAllGamesController(this.getGui());
                 break;
+            case "AddGame":
+                new AddGameController(this.getGui(), m_gamesModel);
+                break;
         }
     }
 }

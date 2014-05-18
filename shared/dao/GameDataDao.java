@@ -138,6 +138,14 @@ public class GameDataDao implements IDao<GameData> {
         if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0) {
             success = true;
             this.gameData.update(gameData.getId(), gameData);
+
+            //Check if any combinations have been deleted from a winningCondition
+            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++)
+                deleteUnusedCombinations(gameData.getWinningCondition(i).getId(), gameData.getWinningCondition(i));
+
+            //Check if any winningConditions have been deleted
+            deleteUnusedWC(gameData.getId(), gameData);
+
             for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++) {
                 WinningCondition wc = gameData.getWinningCondition(i);
                 int wcId = 0;
@@ -201,30 +209,66 @@ public class GameDataDao implements IDao<GameData> {
     @Override
     public boolean delete(GameData gameData){
         boolean success = false;
-        if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0){
+
+        this.gameData.delete(gameData.getId());
+        if (this.gameData.getLastInsertId() == gameData.getId())
             success = true;
-            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++){
-                WinningCondition wc = gameData.getWinningCondition(i);
-                for (int j = 0; j < wc.getNumberOfCombinations(); j++){
-                    Combination comb = wc.getCombination(j);
-                    final String table = "SELECT * FROM Face WHERE c_id = ?;";
-                    try {
-                        PreparedStatement statement = this.connection.prepareStatement(table, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                        statement.setInt(1, comb.getId());
-                        ResultSet result = statement.executeQuery();
-                        while (result.next())
-                            result.deleteRow();
-                    }
-                    catch (SQLException ex1){
-                        ex1.printStackTrace();
-                        success = false;
-                    }
-                    combinationData.delete(comb.getId());
-                }
-                winningConditionData.delete(wc.getId());
+
+        return success;
+    }
+
+    /**
+     *
+     * @param fk gameData id
+     * @param gameData
+     * @return
+     */
+    private boolean deleteUnusedWC(int fk, GameData gameData){
+        boolean success = true;
+        final String table = "SELECT * FROM %s WHERE fkId = ?;";
+        try{
+            connection = Connector.getInstance();
+            PreparedStatement statement = connection.prepareStatement(String.format(table, "WinningCondition"));
+            statement.setInt(1, fk);
+            ResultSet winningConditions = statement.executeQuery();
+
+            while(winningConditions.next()){
+                int id = winningConditions.getInt("ID");
+                if (gameData.findWinningCondition(id) == -1)
+                    winningConditionData.delete(id);
             }
-            this.gameData.delete(gameData.getId());
         }
+        catch (SQLException ex1){
+            ex1.printStackTrace();
+            success = false;
+        }
+        return  success;
+    }
+
+    private boolean deleteUnusedCombinations(int fk, WinningCondition wc){
+        boolean success = true;
+        final String table = "SELECT * FROM %s WHERE fkId = ?;";
+        try{
+            connection = Connector.getInstance();
+            PreparedStatement statement = connection.prepareStatement(String.format(table, "Combination"));
+            statement.setInt(1, fk);
+            ResultSet combinations = statement.executeQuery();
+
+            while(combinations.next()){
+                int id = combinations.getInt("ID");
+                if (wc.findCombination(id) == -1) {
+                    final String sqlCall = "CALL spRemoveCombination(?);";
+                    PreparedStatement fStatement = this.connection.prepareStatement(sqlCall);
+                    fStatement.setInt(1, id);
+                    fStatement.executeQuery();
+                }
+            }
+        }
+        catch (SQLException ex1){
+            ex1.printStackTrace();
+            success = false;
+        }
+
         return success;
     }
 }

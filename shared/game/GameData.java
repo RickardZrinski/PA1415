@@ -130,13 +130,15 @@ public class GameData {
      * and removes the existing ones that are not chosen
      * @param winningConds The conditions to compare with
      */
-    public void setWinningCondition(ArrayList<WinningCondition> winningConds) {
-        for (int i=0; i< this.winningConditions.size(); i++)
+    public void setWinningCondition(ArrayList<WinningCondition> winningConds)
+    {
+        //clears existing winning condition array
+        winningConditions.clear();
+
+        //adds all winningConds array into existing WinningCondition array
+        for(int i=0; i< winningConds.size(); i++)
         {
-            if (!this.winningConditions.get(i).equals(winningConds.get(i)))
-            {
-                winningConditions.remove(i);
-            }
+            winningConditions.add(winningConds.get(i) );
         }
     }
 

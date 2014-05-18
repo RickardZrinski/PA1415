@@ -5,7 +5,9 @@ import administrator.models.GamesModel;
 import administrator.models.UsersModel;
 import administrator.views.MainMenuView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Rickard Zrinski on 2014-05-17.
@@ -16,6 +18,23 @@ public class MainMenuController extends Controller
     private GamesModel m_gamesModel;
     private MainMenuView m_view;
 
+    // A listener for the our "default" Menu Bar
+    private class MenuBarListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            String item = e.getActionCommand();
+
+            switch(item)
+            {
+                case "Main Menu":
+                    getGui().showView("MainMenuView");
+                    break;
+            }
+        }
+    }
+
     public MainMenuController(GUI gui, UsersModel usersModel, GamesModel gamesModel)
     {
         super(gui);
@@ -23,7 +42,25 @@ public class MainMenuController extends Controller
         m_usersModel = usersModel;
         m_gamesModel = gamesModel;
 
+        makeMenuBar();
         displayMenu();
+    }
+
+    private void makeMenuBar()
+    {
+        GUI gui = this.getGui();
+
+        // Create menu bar
+        JMenuBar menuBar = new JMenuBar();
+
+        // Create main menu item and add listener
+        JMenuItem mainMenu = new JMenuItem("Main Menu");
+        mainMenu.addActionListener(new MenuBarListener());
+
+        // Add main menu to menu bar
+        menuBar.add(mainMenu);
+
+        gui.setJMenuBar(menuBar);
     }
 
     private void displayMenu()

@@ -45,8 +45,10 @@ public class GUI extends JFrame
         m_mainPanel.add(view, name);
     }
 
-    public void showView(String name)
+    public void showView(String name, String frameTitle)
     {
+        this.setTitle(frameTitle);
+
         m_layout.show(m_mainPanel, name);
     }
 }

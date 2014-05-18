@@ -28,7 +28,7 @@ public class ListAllUsersController extends Controller implements MouseListener
         m_view.registerListener(this);
 
         this.getGui().addView(m_view, "ListAllGamesView");
-        this.getGui().showView("ListAllGamesView");
+        this.getGui().showView("ListAllGamesView", "Administrator - List all users");
 
 
         // Only for testing, remove later

@@ -34,6 +34,6 @@ public class EditGameController extends Controller
         m_view.registerListener(this);
 
         this.getGui().addView(m_view, "EditGameView");
-        this.getGui().showView("EditGameView");
+        this.getGui().showView("EditGameView", "Administrator - Edit game");
     }
 }

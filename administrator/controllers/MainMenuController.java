@@ -30,7 +30,7 @@ public class MainMenuController extends Controller
             switch(item)
             {
                 case "Main Menu":
-                    getGui().showView("MainMenuView");
+                    getGui().showView("MainMenuView", "Administrator - Main Menu");
                     break;
             }
         }
@@ -71,7 +71,7 @@ public class MainMenuController extends Controller
         m_view.registerListener(this);
 
         getGui().addView(m_view, "MainMenuView");
-        getGui().showView("MainMenuView");
+        getGui().showView("MainMenuView", "Administrator - Main Menu");
     }
 
     @Override

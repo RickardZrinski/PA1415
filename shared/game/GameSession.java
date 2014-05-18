@@ -13,7 +13,7 @@ public class GameSession {
     private ArrayList<Die> diceHand;
     private User user;
     private GameData gameData;
-    // Add gamedice here
+    private ArrayList<Die> dice;
 
     /**
      * Creates a new empty GameSession
@@ -22,6 +22,7 @@ public class GameSession {
         this.bet = 0;
         this.active = false;
         this.diceHand = new ArrayList<>();
+        this.dice = new ArrayList<>();
         this.user = null;
         this.gameData = null;
     }
@@ -35,6 +36,9 @@ public class GameSession {
         this.bet = 0;
         this.active = false;
         this.diceHand = new ArrayList<>();
+        this.dice = new ArrayList<>();
+        for (int i = 0; i < gameData.getNumberOfDice(); i++)
+           dice.add(new Die());
         this.user = user;
         this.gameData = gameData;
     }
@@ -43,7 +47,9 @@ public class GameSession {
      * Tosses all dice in shared.game
      */
     public void toss(){
-        gameData.toss();
+        for (Die die: dice){
+            die.toss();
+        }
     }
 
     /**
@@ -68,7 +74,7 @@ public class GameSession {
     public WinningCondition end(){
         active = false;
         //Save all remaining dice
-        while(gameData.getNumberOfDice() > 0){
+        while(getNumberOfGameDice() > 0){
             saveDie(0);
         }
         return calculateReward();
@@ -82,14 +88,14 @@ public class GameSession {
             diceHand.remove(i);
         bet = 0;
 
-        //RESET GAMEDATA FIX
+        //TODO:RESET GAMEDATA FIX
     }
     /**
      * Moves die in gameData to diceHand
      * @param index index of die in gameData
      */
     public void saveDie(int index){
-        diceHand.add(gameData.removeDie(index));
+        diceHand.add(dice.remove(index));
     }
 
     /**
@@ -97,7 +103,7 @@ public class GameSession {
      * @param index index of the die in diceHand
      */
     public void unsaveDie(int index){
-        gameData.addDie(diceHand.remove(index));
+        dice.add(diceHand.remove(index));
     }
 
 
@@ -107,12 +113,12 @@ public class GameSession {
         return gameData.checkWinningConditions(dice);
     }
     /**
-     * Retrieves a die from gameData
+     * Retrieves a die face from gameData
      * @param index index of the die in gameData
      * @return  the die
      */
     public Die getGameDie(int index){
-        return gameData.getDie(index);
+        return dice.get(index);
     }
 
     /**
@@ -129,7 +135,7 @@ public class GameSession {
      * @return number of dice.
      */
     public int getNumberOfGameDice(){
-        return gameData.getNumberOfDice();
+        return dice.size();
     }
 
     /**

@@ -46,7 +46,7 @@ public class Dapper<AnyType> extends Connector {
     public final String SORT_DESC = "DESC";
 
     private final String sqlInsert = "INSERT INTO %s (%s) VALUES(%s);";
-    private final String sqlUpdate = "UPDATE %s SET %s WHERE id = ?;";
+    private final String sqlUpdate = "UPDATE %s SET %s WHERE %s = ?;";
     private final String sqlUpdateSingle = "UPDATE %s SET %s = ? WHERE id = ?;";
     private final String sqlDelete = "DELETE FROM %s WHERE id = ?;";
     private final String sqlTruncate = "TRUNCATE TABLE %s;";
@@ -163,38 +163,22 @@ public class Dapper<AnyType> extends Connector {
      */
     public void update(int primaryKey, Object data) {
         try {
-            System.out.println(data);
-            Field[] fields = this.getInheritedFields();
-
-            String values = "";
-
-            for (Field field: fields) {
-                field.setAccessible(true);
-
-                // Skip the primary key
-                if (!field.getName().equals(this.primaryKeyFieldName))
-                    values += ", " + field.getName() + " = ?";
-            }
-
-            values = values.substring(2);
-
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlUpdate, this.getTableName(), values), Statement.RETURN_GENERATED_KEYS);
+            Field[] fields = this.getInheritedFields(this.tableType, true);
+            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlUpdate, this.getTableName(), Builder.linear(", ", fields), this.getPrimaryKeyFieldName()), Statement.RETURN_GENERATED_KEYS);
 
             // Bind all properties to the statement
-            for (int i = 0; i < fields.length - 1; i++)
-                try {
-                    statement.setObject(i+1, fields[i + 1].get(data));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+            for (int i = 1; i <= fields.length; i++)
+                statement.setObject(i, fields[i-1].get(data));
 
-            // Bind the primary key to the statement
-            statement.setObject(fields.length, primaryKey);
+            // Bind the primary key to the statement to the last WHERE = ?
+            statement.setObject(fields.length + 1, primaryKey);
+
+            System.out.println(statement);
 
             // Execute insertion and generate key
             this.execute(statement, true);
-        } catch (SQLException e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -238,7 +222,7 @@ public class Dapper<AnyType> extends Connector {
             Integer num  = 1;
 
             // The query to execute
-            String query = String.format("DELETE FROM %s WHERE %s", this.getTableName(), Builder.and(args));
+            String query = String.format("DELETE FROM %s WHERE %s;", this.getTableName(), Builder.and(args));
 
             PreparedStatement statement = connection.prepareStatement(query);
             for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
@@ -248,7 +232,6 @@ public class Dapper<AnyType> extends Connector {
                 // then reflect this in the dapper
                 if (map.getKey().equals(this.getPrimaryKeyFieldName()) && map.getKey().equals(this.getLastInsertId()))
                     this.lastInsertId = - 1;
-
             }
 
             this.execute(statement);
@@ -355,6 +338,9 @@ public class Dapper<AnyType> extends Connector {
         for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
             for (Field field: c.getDeclaredFields())
             {
+                // Setting the field to accessible (used only internally by Dapper)
+                field.setAccessible(true);
+
                 if (!filter)
                     fields.add(field); // Add all
                 else
@@ -377,13 +363,15 @@ public class Dapper<AnyType> extends Connector {
      */
     private void execute(PreparedStatement statement, boolean generateLastKey) {
         try {
-            // Attempts to execute the statement
-            if (Dapper.EXECUTE_STATEMENTS)
-                statement.execute();
+
 
             // Print statement
             if (Dapper.PRINT_STATEMENTS)
                 System.out.println(statement);
+
+            // Attempts to execute the statement
+            if (Dapper.EXECUTE_STATEMENTS)
+                statement.execute();
 
             // Are we supposed to generate a key?
             if (generateLastKey) {

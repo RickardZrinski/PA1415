@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by Oliver on 2014-05-16.
@@ -22,31 +21,29 @@ public class GameDataDao implements IDao<GameData> {
     Dapper<WinningCondition> winningConditionData;
     Dapper<Combination> combinationData;
     Connection connection;
-
-    public GameDataDao() {
+    public GameDataDao(){
             this.gameData = new Dapper<>(GameData.class);
             this.winningConditionData = new Dapper<>(WinningCondition.class);
             this.combinationData = new Dapper<>(Combination.class);
     }
 
     /**
-     * WARNING! This method is not yet implemented, you will get FAKE values.
-     * @return a collection of gameData objects
+     * Retrieves gameData from the database
+     * @param key   The gameData's ID
+     * @return If exists: The gameData-object; If not: null
      */
-    public Collection<GameData> getCollection() {
-        return gameData.getCollection();
-    }
-
     @Override
     public GameData get(Object key){
         Integer primaryKey = (Integer)key;
         if (gameData.count("ID", String.valueOf(primaryKey)) > 0) {
             GameData game = gameData.getUsingPrimaryKey(primaryKey);
-            ArrayList<WinningCondition> winningConditions = (ArrayList<WinningCondition>) winningConditionData.getCollectionUsingForeignKey("fkId", game.getId());
+            ArrayList<WinningCondition> winningConditions = (ArrayList<WinningCondition>) winningConditionData.getCollectionUsingForeignKey("fkId",
+                    game.getId());
 
             for (int i = 0; i < winningConditions.size(); i++) {
                 game.addWinningCondition(winningConditions.get(i));
-                ArrayList<Combination> combinations = (ArrayList<Combination>) combinationData.getCollectionUsingForeignKey("fkId", winningConditions.get(i).getId());
+                ArrayList<Combination> combinations = (ArrayList<Combination>) combinationData.getCollectionUsingForeignKey("fkId",
+                        winningConditions.get(i).getId());
                 for (int j = 0; j < combinations.size(); j++) {
                     winningConditions.get(i).addCombination(combinations.get(j));
 
@@ -67,9 +64,14 @@ public class GameDataDao implements IDao<GameData> {
             }
             return game;
         }
-        return new GameData();
+        return null;
     }
 
+    /**
+     * Inserts a GameData-object into the database.
+     * @param gameData  the GameData-object to be inserted
+     * @return  the success of the operation
+     */
     @Override
     public boolean insert(GameData gameData) {
         boolean success = true;
@@ -98,7 +100,8 @@ public class GameDataDao implements IDao<GameData> {
                     final String faceQuery = "INSERT INTO Face SET %s = ?, %s = ?;";
                     try {
                         this.connection = Connector.getInstance();
-                        PreparedStatement statement = connection.prepareStatement(String.format(faceQuery, "c_id", "face"));
+                        PreparedStatement statement = connection.prepareStatement(String.format(faceQuery,
+                                "c_id", "face"));
 
                         statement.setInt(1, combId);
                         statement.setString(2, comb.getFace(k));
@@ -115,43 +118,57 @@ public class GameDataDao implements IDao<GameData> {
         return success;
     }
 
+    /**
+     * Updates a GameData-object in the database
+     * @param gameData  The updated GameData-object
+     * @return the success of the operation
+     */
     @Override
     public boolean update(GameData gameData){
-        this.gameData.update(gameData.getId(), gameData);
-        for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++) {
-            WinningCondition wc = gameData.getWinningCondition(i);
-            this.winningConditionData.update(wc.getId(), wc);
-            for (int j = 0; j < wc.getNumberOfCombinations(); j++){
-                Combination comb = wc.getCombination(j);
-                this.combinationData.update(comb.getId(), comb);
+        boolean success = false;
+        if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0) {
+            success = true;
+            this.gameData.update(gameData.getId(), gameData);
+            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++) {
+                WinningCondition wc = gameData.getWinningCondition(i);
+                this.winningConditionData.update(wc.getId(), wc);
 
+                for (int j = 0; j < wc.getNumberOfCombinations(); j++) {
+                    Combination comb = wc.getCombination(j);
+                    this.combinationData.update(comb.getId(), comb);
 
-                final String table = "SELECT * FROM Face WHERE c_id = ?;";
-                try {
-                    PreparedStatement statement = this.connection.prepareStatement(table, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                    statement.setInt(1, comb.getId());
-                    ResultSet result = statement.executeQuery();
-                    while (result.next())
-                        result.deleteRow();
-                    for (int k = 0; k < comb.getNumberOfFaces(); k++) {
+                    final String table = "SELECT * FROM Face WHERE c_id = ?;";
+                    try {
+                        PreparedStatement statement = this.connection.prepareStatement(table,
+                                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                        statement.setInt(1, comb.getId());
+                        ResultSet result = statement.executeQuery();
+                        while (result.next())
+                            result.deleteRow();
+
+                        for (int k = 0; k < comb.getNumberOfFaces(); k++) {
                             result.moveToInsertRow();
                             result.updateString(1, comb.getFace(k));
                             result.updateInt(2, comb.getId());
                             result.insertRow();
                             result.moveToCurrentRow();
+                        }
+                    } catch (SQLException ex1) {
+                        ex1.printStackTrace();
+                        success = false;
                     }
                 }
-                catch (SQLException ex1){
-                    ex1.printStackTrace();
-                }
-
             }
-
         }
-
-        return false;
+        return success;
     }
 
+    /**
+     * Deletes a GameData-object from the database
+     * @param gameData The object to be deleted
+     * @return the success of the operation
+     */
+    @Override
     public boolean delete(GameData gameData){
         boolean success = false;
         if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0){

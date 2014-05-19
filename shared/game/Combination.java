@@ -109,6 +109,15 @@ public class Combination {
         return faces.get(index);
     }
 
+    public int findFace(String face){
+        int index = -1;
+        for (int i = 0; i < faces.size() && index == -1; i++){
+            if (getFace(i).equals(face))
+                index = i;
+        }
+        return index;
+    }
+
     @Override
     public String toString() {
         return String.format("id: %d name: %s, faces: %s, quantity: %d\n", this.id, this.name, this.faces, this.quantity);

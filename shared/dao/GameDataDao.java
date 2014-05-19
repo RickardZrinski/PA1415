@@ -7,7 +7,6 @@ import shared.game.WinningCondition;
 import utilities.sql.Connector;
 import utilities.sql.Dapper;
 
-import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -176,20 +175,25 @@ public class GameDataDao implements IDao<GameData> {
 
                     final String table = "SELECT * FROM Face WHERE c_id = ?;";
                     try {
+                        deleteUnusedFaces(comb.getId(), comb);
+
                         PreparedStatement statement = this.connection.prepareStatement(table,
                                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                         statement.setInt(1, combId);
                         ResultSet result = statement.executeQuery();
-                        //Remove all faces
-                        while (result.next())
-                            result.deleteRow();
-                        //Add faces again
-                        for (int k = 0; k < comb.getNumberOfFaces(); k++) {
-                            result.moveToInsertRow();
-                            result.updateString(1, comb.getFace(k));
-                            result.updateInt(2, combId);
-                            result.insertRow();
-                            result.moveToCurrentRow();
+                        for (int k = 0; k < comb.getNumberOfFaces(); k++){
+                            result.next();
+                            //Add faces
+                            if (faceExists(comb.getId(), comb.getFace(k))) {
+                                result.updateString(1, comb.getFace(k));
+                            }
+                            else{
+                                result.moveToInsertRow();
+                                result.updateString(1, comb.getFace(k));
+                                result.updateInt(2, comb.getId());
+                                result.insertRow();
+                                result.moveToCurrentRow();
+                            }
                         }
                     } catch (SQLException ex1) {
                         ex1.printStackTrace();
@@ -218,10 +222,11 @@ public class GameDataDao implements IDao<GameData> {
     }
 
     /**
-     *
+     * Deletes any winningCondition that has a relation to gameData in the database but does not exist in the
+     * GameData-object
      * @param fk gameData id
-     * @param gameData
-     * @return
+     * @param gameData gameData containing the winningconditions
+     * @return the success of the operation
      */
     private boolean deleteUnusedWC(int fk, GameData gameData){
         boolean success = true;
@@ -245,22 +250,30 @@ public class GameDataDao implements IDao<GameData> {
         return  success;
     }
 
+    /**
+     * Deletes all combinations from the database which have been removed from their winningCondition
+     * @param fk The primary key of the winningCondition
+     * @param wc The winningCondition containing the combinations
+     * @return The success of the operation
+     */
     private boolean deleteUnusedCombinations(int fk, WinningCondition wc){
         boolean success = true;
         final String table = "SELECT * FROM %s WHERE fkId = ?;";
         try{
             connection = Connector.getInstance();
+            //Get all children of wc
             PreparedStatement statement = connection.prepareStatement(String.format(table, "Combination"));
             statement.setInt(1, fk);
             ResultSet combinations = statement.executeQuery();
 
+            //Check wc's combinations stored in the database
             while(combinations.next()){
+                //Get id from the current row
                 int id = combinations.getInt("ID");
+                /*if winningCondition does not contain the combination, the combination have been removed from the
+                 WinningCondition-object and should also be removed from the database */
                 if (wc.findCombination(id) == -1) {
-                    final String sqlCall = "CALL spRemoveCombination(?);";
-                    PreparedStatement fStatement = this.connection.prepareStatement(sqlCall);
-                    fStatement.setInt(1, id);
-                    fStatement.executeQuery();
+                    combinationData.delete(id);
                 }
             }
         }
@@ -271,4 +284,55 @@ public class GameDataDao implements IDao<GameData> {
 
         return success;
     }
+
+    private boolean deleteUnusedFaces(int fk, Combination comb){
+        boolean success = true;
+        final String table = "SELECT * FROM %s WHERE c_Id = ?;";
+        try {
+            connection = Connector.getInstance();
+            //Get all faces with FOREIGN KEY to comb
+            PreparedStatement statement = this.connection.prepareStatement(String.format(table, "Face"),
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            statement.setInt(1, fk);
+            ResultSet faces = statement.executeQuery();
+
+            while (faces.next()){
+                String face = faces.getString("face");
+                if (comb.findFace(face) == -1){
+                    //Remove face
+                    faces.deleteRow();
+                }
+            }
+        }
+        catch (SQLException ex1){
+            ex1.printStackTrace();
+            success = false;
+        }
+        return  success;
+    }
+
+    /**
+     * Determines if a face, with relation to a specified combination, exists in the database
+     * @param fkId id of the combination
+     * @param face face to check
+     * @return  If exists: true; If not: false;
+     */
+    private boolean faceExists(int fkId, String face){
+        try{
+            final String sqlCount = "SELECT COUNT(*) FROM face WHERE c_id = ? AND face = ?;";
+            PreparedStatement statement = this.connection.prepareStatement(sqlCount);
+            statement.setInt(1, fkId);
+            statement.setString(2, face);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            int count = result.getInt(1);
+            if (count > 0)
+                return  true;
+        }
+        catch (SQLException ex1){
+            ex1.printStackTrace();
+        }
+        return  false;
+    }
 }
+

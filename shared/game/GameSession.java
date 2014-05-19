@@ -1,5 +1,6 @@
 package shared.game;
 
+import shared.dao.GameDataDao;
 import shared.users.User;
 
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class GameSession {
     public GameSession() {
         this.bet = 0;
         this.active = false;
-        this.diceHand = new ArrayList<>();
-        this.dice = new ArrayList<>();
+        this.diceHand = new ArrayList<Die>();
+        this.dice = new ArrayList<Die>();
         this.user = null;
         this.gameData = null;
     }
@@ -35,8 +36,8 @@ public class GameSession {
     public GameSession(User user, GameData gameData) {
         this.bet = 0;
         this.active = false;
-        this.diceHand = new ArrayList<>();
-        this.dice = new ArrayList<>();
+        this.diceHand = new ArrayList<Die>();
+        this.dice = new ArrayList<Die>();
         for (int i = 0; i < gameData.getNumberOfDice(); i++)
            dice.add(new Die());
         this.user = user;
@@ -83,12 +84,13 @@ public class GameSession {
     /**
      * Resets the shared.game to its original state
      */
-    public void playAgain(){
+    public boolean playAgain(){
         for (int i = 0; i < diceHand.size(); i++)
             diceHand.remove(i);
         bet = 0;
 
-        //TODO:RESET GAMEDATA FIX
+        resetDice();
+        return resetData();
     }
     /**
      * Moves die in gameData to diceHand
@@ -168,5 +170,29 @@ public class GameSession {
 
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Resets gameData by retrieving it from the database
+     * @return the success of the operation.
+     */
+    private boolean resetData(){
+        GameDataDao dao = new GameDataDao();
+        gameData = dao.get(gameData.getId());
+        if (gameData != null)
+            return  true;
+        else
+            return  false;
+    }
+
+    /**
+     * Moves all dice from diceHand and resets all dice
+     */
+    private void resetDice(){
+        for (int i = 0; i < getNumberOfHandDice(); i++)
+            dice.add(diceHand.remove(i));
+        for (Die die : dice)
+            die.reset();
+
     }
 }

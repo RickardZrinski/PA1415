@@ -27,4 +27,11 @@ public class Die {
      * @return the face
      */
     public int getFace() {return face;}
+
+    /**
+     * Resets the face value to 1
+     */
+    public void reset(){
+        this.face = 1;
+    }
 }

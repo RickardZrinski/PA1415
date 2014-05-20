@@ -4,6 +4,10 @@ import shared.users.User;
 import utilities.sql.annotations.Ignore;
 import utilities.sql.annotations.PrimaryKey;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author  John Mogensen
  * @since   16/05/2014
@@ -31,6 +35,9 @@ public class Message {
         this.message = "?";
         this.contact = "?";
         this.isRead = false;
+
+        // Update the timestamp
+        this.updateTimestamp();
     }
 
     /**
@@ -38,41 +45,46 @@ public class Message {
      */
     public Message(String fullName, String subject, MessageCategory category, String message, String contact) {
         this.id = 0; // should be some other value
-        this.timestamp = "";
         this.fullName = fullName;
         this.subject = subject;
         this.category = category;
         this.message = message;
         this.contact = contact;
         this.isRead = false;
+
+        // Update the timestamp
+        this.updateTimestamp();
     }
 
     /**
-     * Gets id.
+     * @return the unique id
      */
     public int getId() {
         return this.id;
     }
 
     /**
-     * Sets id.
+     * Sets the unique id
+     * @param   id      the unique id to be set
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Gets timestamp.
+     * Retrieves the timestamp in string format
+     * @return the timestamp in string format
      */
     public String getTimestamp() {
         return this.timestamp;
     }
 
     /**
-     * Sets timestamp.
+     * Updates the timestamp to the current time
      */
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void updateTimestamp() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.timestamp = dateFormat.format(new Date());
     }
 
     /**
@@ -148,7 +160,7 @@ public class Message {
     }
 
     /**
-     * Gets read.
+     * @return true if the message was read, else false
      */
     public boolean isRead() {
         return this.isRead;

@@ -1,5 +1,6 @@
 package casino.views.forms;
 
+import casino.MainFrame;
 import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;
 
@@ -48,8 +49,7 @@ public class MessageForm extends JPanel {
         JLabel categoryLabel = new JLabel("Category");
         JLabel contactDetailsLabel = new JLabel("Contact Details");
         JLabel messageLabel = new JLabel("Message");
-        JTextArea contactDetailsInfoTextArea = new JTextArea("Where can we reach you? Leave a phone number or email address.");
-        contactDetailsInfoTextArea.setEditable(false);
+        JLabel contactDetailsInfoLabel = new JLabel("Where can we reach you? Leave a phone number or email address.");
 
         JPanel buttons = new JPanel();
         buttons.add(this.nextButton);
@@ -68,7 +68,7 @@ public class MessageForm extends JPanel {
         GridBagUtilities.makeCell(this, contactDetailsLabel,            new Point(0, 3), 0.25, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.EAST);
         GridBagUtilities.makeCell(this, this.contactDetailsTextField,   new Point(1, 3), 0.75, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);
 
-        GridBagUtilities.makeCell(this, this.contactDetailsTextField,   new Point(1, 4), 1.0, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);
+        GridBagUtilities.makeCell(this, contactDetailsInfoLabel,   new Point(1, 4), 0.75, 1, GridBagConstraints.NONE, GridBagConstraints.WEST);
 
         GridBagUtilities.makeCell(this, messageLabel,           new Point(0, 5), 0.25, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.EAST);
         GridBagUtilities.makeCell(this, this.messageTextArea,   new Point(1, 5), 0.75, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);

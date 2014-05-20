@@ -1,12 +1,10 @@
 package casino.events;
 
-import casino.Event;
-
 /**
  * @author  Dino Opijac
  * @since   18/05/2014
  */
-public class MenuEvent implements Event {
+public class MenuEvent {
     private Object deselected;
     private Object selected;
 

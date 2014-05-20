@@ -5,11 +5,8 @@ import shared.messages.MessageCategory;
 import shared.messages.relation.MessageCategories;
 import utilities.sql.Dapper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * @author  Dino Opijac

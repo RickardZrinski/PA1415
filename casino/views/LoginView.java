@@ -26,12 +26,12 @@ public class LoginView extends AbstractView implements ActionListener, LoginResp
     }
 
     private void configure() {
-        this.setLayout(new BorderLayout());
+        this.setLayout(new FlowLayout());
         this.form.setActionListener(this);
     }
 
     private void addComponents() {
-        this.add(this.form, BorderLayout.CENTER);
+        this.add(this.form);
     }
 
     @Override

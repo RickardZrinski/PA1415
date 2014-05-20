@@ -1,4 +1,4 @@
-package casino.views.form;
+package casino.views.forms;
 
 import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;

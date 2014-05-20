@@ -1,6 +1,5 @@
 package casino;
 
-
 import javax.swing.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -9,39 +8,37 @@ import java.util.ArrayList;
  * @author  Dino Opijac
  * @since   18/05/14
  */
-public abstract class AbstractView<AnyListener> extends JPanel {
-    private ArrayList<AnyListener> listeners = new ArrayList<>();
-
+public abstract class AbstractView extends JPanel {
+    private ArrayList<Object> observers = new ArrayList<>();
     /**
-     * Adds any listener to the view. The listener must implement
-     * AnyListener interface.
-     * @param listener the listener to add
+     * Subscribes a new subject to the observer
+     * @param subject the subject that wishes to subscribe
      */
-    public void addListener(AnyListener listener) {
-        this.listeners.add(listener);
+    public void subscribe(Object subject) {
+        this.observers.add(subject);
     }
 
     /**
-     * Removes a listener from the view.
-     * @param listener the listener to remove
+     * Unsubscribes a new subject from the observer
+     * @param subject the subject that wishes to unsubscribe
      */
-    public void removeListener(AnyListener listener) {
-        this.listeners.remove(listener);
+    public void unsubscribe(Object subject) {
+        this.observers.remove(subject);
     }
 
     /**
-     * Fires an event inside a method that wishes to be notified
+     * Invokes a method inside a list of observers
      * @param name  the name of the event
      * @param event the event itself
      */
-    public void fireEvent(Object name, Object event) {
-        for (AnyListener listener: this.listeners) {
+    public void notify(Object name, Object event) {
+        for (Object listener: this.observers) {
             try {
                 // Call the method with the event
                 Method method = listener.getClass().getMethod((String) name, new Class[]{event.getClass()});
                 method.invoke(listener, event);
             } catch (Exception ex) {
-                System.out.println(String.format("fireEvent: %s not found in %s. Attempted to send:\n%s", name, listener.getClass().getName(), event));
+                System.out.println(String.format("notify: %s not found in %s. Attempted to send:\n%s", name, listener.getClass().getName(), event));
             }
         }
     }

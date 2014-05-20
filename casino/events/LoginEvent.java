@@ -1,16 +1,14 @@
 package casino.events;
 
-import casino.Event;
-
 /**
  * @author  Dino Opijac
  * @since   18/05/2014
  */
-public class AuthenticationFormEvent implements Event {
+public class LoginEvent {
     private String username = null;
     private String password = null;
 
-    public AuthenticationFormEvent(String username, char[] password) {
+    public LoginEvent(String username, char[] password) {
         this.setUsername(username);
         this.setPassword(password);
     }

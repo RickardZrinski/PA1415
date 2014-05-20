@@ -1,6 +1,7 @@
 package casino;
 
-import casino.controllers.Controller;
+import casino.controllers.FrontController;
+import javax.swing.SwingUtilities;
 
 /**
  * @author  Dino Opijac
@@ -8,7 +9,6 @@ import casino.controllers.Controller;
  */
 public class Main {
     public static void main(String[] args) {
-        // @TODO: Add model behavior (see views)
-        new Controller();
+        SwingUtilities.invokeLater(FrontController::new);
     }
 }

@@ -7,36 +7,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class LoginForm extends JPanel {
-    private JTextField usernameTextField;
-    private JPasswordField passwordPasswordField;
-    private JButton signInButton;
-    private JButton resetButton;
+public class LoginForm extends JPanel implements Form {
+    private JTextField usernameTextField = new JTextField();
+    private JPasswordField passwordPasswordField = new JPasswordField();
+    private JButton signInButton = new JButton("Sign In");
+    private JButton resetButton = new JButton("Reset");
 
     public LoginForm() {
-        // Form elements
-        this.usernameTextField = new JTextField("abc");
-        this.passwordPasswordField = new JPasswordField("pass");
-        this.signInButton  = new JButton("Sign In");
-        this.resetButton   = new JButton("Reset");
         this.configure();
         this.addComponents();
     }
 
-    private void configure()
-    {
+    private void configure() {
+        this.setLayout(new GridBagLayout());
+
+        // Set the action commands of each event, this way we know what
+        // button was pressed
         this.signInButton.setActionCommand("login");
         this.resetButton.setActionCommand("reset");
     }
 
     private void addComponents() {
-        this.setLayout(new GridBagLayout());
-
-        JLabel usernameLabel = new JLabel("Username");
-        JLabel passwordLabel = new JLabel("Password");
-
         // Create a JPanel for the two grouped buttons
-        JPanel buttons = new JPanel();
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+
         buttons.add(this.signInButton);
         buttons.add(this.resetButton);
 
@@ -59,12 +53,12 @@ public class LoginForm extends JPanel {
          * +-----+-----+-----+
          */
 
-        //                                                                    x, y   %     width
-        GridBagUtilities.makeCell(this, usernameLabel,              new Point(0, 0), 0.25, 1,    GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);
-        GridBagUtilities.makeCell(this, this.usernameTextField,     new Point(1, 0), 0.75, 1,    GridBagConstraints.HORIZONTAL, GridBagConstraints.EAST);
-        GridBagUtilities.makeCell(this, passwordLabel,              new Point(0, 1), 0.25, 1,    GridBagConstraints.HORIZONTAL, GridBagConstraints.WEST);
-        GridBagUtilities.makeCell(this, this.passwordPasswordField, new Point(1, 1), 0.75, 1,    GridBagConstraints.HORIZONTAL, GridBagConstraints.EAST);
-        GridBagUtilities.makeCell(this, buttons,                    new Point(1, 2), 0.75, 1,    GridBagConstraints.NONE, GridBagConstraints.WEST);
+        //                                                                    x, y   %    width
+        GridBagUtilities.makeCell(this, new JLabel("Username"),     new Point(0, 0), 0.2, 1,    GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.usernameTextField,     new Point(1, 0), 0.8, 1,    GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, new JLabel("Password"),     new Point(0, 1), 0.2, 1,    GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.passwordPasswordField, new Point(1, 1), 0.8, 1,    GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, buttons,                    new Point(1, 2), 1,   2,    GridBagConstraints.HORIZONTAL);
     }
 
     public JTextField getUsernameTextField() {
@@ -75,6 +69,7 @@ public class LoginForm extends JPanel {
         return this.passwordPasswordField;
     }
 
+    @Override
     public void setActionListener(ActionListener listener) {
         this.signInButton.addActionListener(listener);
         this.resetButton.addActionListener(listener);

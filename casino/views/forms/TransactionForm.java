@@ -1,5 +1,6 @@
 package casino.views.forms;
 
+import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;
 
 import javax.swing.*;
@@ -11,8 +12,9 @@ import java.awt.event.ActionListener;
  * @since   20/05/2014
  */
 public class TransactionForm extends JPanel implements Form {
-    private JTextField transactionTextField = new JTextField();
     private JLabel transactionTextLabel = new JLabel();
+    private JFormattedTextField transactionTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#####"));
+
     private JButton confirmButton = new JButton("OK");
 
     public TransactionForm(String text) {
@@ -36,20 +38,17 @@ public class TransactionForm extends JPanel implements Form {
         return transactionTextField;
     }
 
-    public void setTransactionTextField(JTextField transactionTextField) {
-        this.transactionTextField = transactionTextField;
-    }
-
     public JLabel getTransactionTextLabel() {
         return transactionTextLabel;
-    }
-
-    public void setTransactionTextLabel(JLabel transactionTextLabel) {
-        this.transactionTextLabel = transactionTextLabel;
     }
 
     @Override
     public void setActionListener(ActionListener listener) {
         this.confirmButton.addActionListener(listener);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("label: %s value: %s", this.transactionTextLabel.getText(), this.transactionTextField.getText());
     }
 }

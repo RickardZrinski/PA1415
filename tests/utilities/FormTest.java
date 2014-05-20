@@ -8,7 +8,8 @@ import tests.utilities.mock.FormTestView;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Dino on 14/05/14.
+ * @author  Dino Opijac
+ * @since   14/05/14
  */
 public class FormTest {
     private FormTestView view = new FormTestView();

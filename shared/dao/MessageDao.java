@@ -64,8 +64,7 @@ public class MessageDao implements IDao<Message> {
 
         try {
             // Set the current time for the object
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            message.setTimestamp(dateFormat.format(new Date()));
+            message.updateTimestamp();
 
             // Insert object
             this.messageData.insert(message);

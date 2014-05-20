@@ -85,4 +85,15 @@ public class GamesModel {
         return array;
     }
 
+    public void AddGamesFromDB()
+    {
+        GameDataDao dao = new GameDataDao();
+
+        for(GameData object : dao.getCollection() )
+        {
+            games.add(object);
+        }
+
+    }
+
 }

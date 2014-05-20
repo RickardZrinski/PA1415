@@ -1,4 +1,4 @@
-package casino.views.form;
+package casino.views.forms;
 
 import javax.swing.*;
 

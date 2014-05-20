@@ -21,6 +21,8 @@ public class LoginView extends AbstractView implements ActionListener, LoginResp
     public LoginView() {
         this.configure();
         this.addComponents();
+
+        MainFrame.getInstance().setTitle("Sign In");
     }
 
     private void configure() {

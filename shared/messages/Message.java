@@ -1,4 +1,4 @@
-package shared;
+package shared.messages;
 
 import shared.users.User;
 
@@ -14,7 +14,7 @@ public class Message {
     private String message;
     private String contact;
 
-    // @TODO: There needs to be a Category class (MessageCategory -John)
+    // @TODO: There needs to be a MessageCategory class (MessageCategory -John)
     private String category;
 
     // @TODO: Not in conceptual model. Might be needed -John
@@ -38,9 +38,10 @@ public class Message {
     /**
      * Constructor.
      */
-    public Message(String subject, String category, String message, String contact) {
+    public Message(String fullName, String subject, String category, String message, String contact) {
         this.id = 0; // should be some other value
         this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.fullName = fullName;
         this.subject = subject;
         this.category = category;
         this.message = message;

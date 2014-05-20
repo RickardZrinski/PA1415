@@ -5,5 +5,5 @@ package casino.events;
  * @since   20/05/2014
  */
 public interface MessageListener {
-    public void messageSend(LoginEvent e);
+    public void messageSend(MessageEvent e);
 }

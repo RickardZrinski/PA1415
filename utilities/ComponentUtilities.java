@@ -1,5 +1,6 @@
 package utilities;
 
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 
 /**
@@ -56,5 +57,22 @@ public class ComponentUtilities {
     public static void setHeight(int height, Component component) {
         Dimension size = component.getSize();
         component.setSize((int)size.getWidth(), height);
+    }
+
+    /**
+     * Creates a number format for JFormattedTextField
+     * @param string the format to use
+     * @return a MaskFormatter format
+     */
+    public static MaskFormatter createMaskFormat(String string) {
+        MaskFormatter formatter = null;
+
+        try {
+            formatter = new MaskFormatter(string);
+        } catch(Exception e) {
+            System.out.println("Bad format");
+        }
+
+        return formatter;
     }
 }

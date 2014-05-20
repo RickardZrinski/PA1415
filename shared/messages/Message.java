@@ -1,24 +1,22 @@
 package shared.messages;
 
 import shared.users.User;
+import utilities.sql.annotations.Ignore;
+import utilities.sql.annotations.PrimaryKey;
 
 /**
  * @author  John Mogensen
  * @since   16/05/2014
  */
 public class Message {
-    private int id;
-    private int timestamp;
+    @PrimaryKey private int id;
+    private String timestamp;
     private String fullName;
     private String subject;
     private String message;
     private String contact;
-
-    // @TODO: There needs to be a MessageCategory class (MessageCategory -John)
-    private String category;
-
-    // @TODO: Not in conceptual model. Might be needed -John
-    private boolean read;
+    @Ignore private MessageCategory category;
+    private Boolean isRead;
 
 
     /**
@@ -26,27 +24,27 @@ public class Message {
      */
     public Message() {
         this.id = 0; // should be some other value
-        this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.timestamp = "";
         this.fullName = "Not given";
         this.subject = "?";
-        this.category = "?";
+        this.category = new MessageCategory();
         this.message = "?";
         this.contact = "?";
-        this.read = false;
+        this.isRead = false;
     }
 
     /**
      * Constructor.
      */
-    public Message(String fullName, String subject, String category, String message, String contact) {
+    public Message(String fullName, String subject, MessageCategory category, String message, String contact) {
         this.id = 0; // should be some other value
-        this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.timestamp = "";
         this.fullName = fullName;
         this.subject = subject;
         this.category = category;
         this.message = message;
         this.contact = contact;
-        this.read = false;
+        this.isRead = false;
     }
 
     /**
@@ -66,14 +64,14 @@ public class Message {
     /**
      * Gets timestamp.
      */
-    public int getTimestamp() {
+    public String getTimestamp() {
         return this.timestamp;
     }
 
     /**
      * Sets timestamp.
      */
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -108,16 +106,16 @@ public class Message {
     }
 
     /**
-     * @TODO: This needs to be redefined later. It should be a MessageCategory instead of String
+     * @return retrieves the message category
      */
-    public String getCategory() {
+    public MessageCategory getCategory() {
         return this.category;
     }
 
     /**
      * Sets category.
      */
-    public void setCategory(String category) {
+    public void setCategory(MessageCategory category) {
         this.category = category;
     }
 
@@ -153,14 +151,14 @@ public class Message {
      * Gets read.
      */
     public boolean isRead() {
-        return read;
+        return this.isRead;
     }
 
     /**
-     * Sets read.
+     * Marks the message as read
      */
-    public void setRead(boolean read) {
-        this.read = read;
+    public void markAsRead() {
+        this.isRead = true;
     }
 
     /**
@@ -179,5 +177,10 @@ public class Message {
         }
 
         return sent;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %d, timestamp: %s, subject: %s, category: %s, isRead: %b, message: %s", this.id, this.timestamp, this.subject, this.category, this.isRead, this.message);
     }
 }

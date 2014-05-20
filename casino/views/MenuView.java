@@ -2,8 +2,6 @@ package casino.views;
 
 import casino.AbstractView;
 import casino.events.MenuEvent;
-import casino.MenuListener;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -13,7 +11,7 @@ import java.awt.event.ItemListener;
  * @author  Dino Opijac
  * @since   18/05/14
  */
-public class MenuView extends AbstractView<MenuListener> implements ItemListener {
+public class MenuView extends AbstractView implements ItemListener {
     private JLabel usernameLabel;
     private JLabel balanceLabel;
     private JComboBox<String> menu;
@@ -77,14 +75,10 @@ public class MenuView extends AbstractView<MenuListener> implements ItemListener
             event.setDeselected(e.getItem());
         else {
             event.setSelected(e.getItem());
-            this.fireEvent("menuItemChanged", event);
+            this.notify("menuItemChanged", event);
 
             // Clear cache and reset for a new event
             event = new MenuEvent();
-
-            // Reset to first menu item again
-            this.menu.setSelectedIndex(0);
         }
-
     }
 }

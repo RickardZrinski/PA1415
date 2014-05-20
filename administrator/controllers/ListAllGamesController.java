@@ -1,6 +1,7 @@
 package administrator.controllers;
 
 import administrator.GUI;
+import administrator.models.GamesModel;
 import administrator.views.ListAllGamesView;
 
 import javax.swing.*;
@@ -13,11 +14,14 @@ import java.awt.event.MouseListener;
  */
 public class ListAllGamesController extends Controller implements MouseListener
 {
+    private GamesModel m_gamesModel;
     private ListAllGamesView m_view;
 
-    public ListAllGamesController(GUI gui)
+    public ListAllGamesController(GUI gui, GamesModel gamesModel)
     {
         super(gui);
+
+        m_gamesModel = gamesModel;
 
         listAllGames();
     }
@@ -30,10 +34,11 @@ public class ListAllGamesController extends Controller implements MouseListener
         this.getGui().addView(m_view, "ListAllGamesView");
         this.getGui().showView("ListAllGamesView", "Administrator - List all games");
 
+        // Subscribe view to model
+        m_gamesModel.subscribe(m_view);
 
-        // Only for testing, remove later
-        m_view.addRow("Test");
-        m_view.addRow("Test1");
+        // Request model to send all games to view
+        m_gamesModel.requestAllGames();
     }
 
     @Override
@@ -54,7 +59,7 @@ public class ListAllGamesController extends Controller implements MouseListener
             int selectedCol = table.getSelectedColumn();
             int selectedRow = table.getSelectedRow();
 
-            if(table.getSelectedColumn() == 1)
+            if(selectedCol == 1)
             {
                 new EditGameController(this.getGui(), selectedRow);
             }

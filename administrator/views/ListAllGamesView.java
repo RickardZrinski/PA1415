@@ -1,14 +1,17 @@
 package administrator.views;
 
 import administrator.controllers.ListAllGamesController;
+import administrator.events.ListAllGamesListener;
+import shared.game.GameData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 /**
  * Created by Rickard Zrinski on 2014-05-16.
  */
-public class ListAllGamesView extends View
+public class ListAllGamesView extends View implements ListAllGamesListener
 {
     // Table of games
     private JTable m_gameTable;
@@ -74,5 +77,21 @@ public class ListAllGamesView extends View
 
         // Add row to table model
         m_gameTableModel.addRow(row);
+    }
+
+    @Override
+    public void listAllGamesResponse(ArrayList<GameData> gameData)
+    {
+        this.clearTable();
+
+        for(GameData game: gameData)
+        {
+            this.addRow(game.getGameName());
+        }
+    }
+
+    private void clearTable()
+    {
+        m_gameTableModel.setRowCount(0);
     }
 }

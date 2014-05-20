@@ -82,7 +82,7 @@ public class MainMenuController extends Controller
         switch(menuItem)
         {
             case "ListAllGames":
-                new ListAllGamesController(this.getGui());
+                new ListAllGamesController(this.getGui(), m_gamesModel);
                 break;
             case "AddGame":
                 new AddGameController(this.getGui(), m_gamesModel);

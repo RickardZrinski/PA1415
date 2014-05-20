@@ -1,5 +1,6 @@
 package administrator.models;
 
+import casino.AbstractModel;
 import shared.dao.GameDataDao;
 import shared.game.GameData;
 import shared.game.WinningCondition;
@@ -7,13 +8,15 @@ import utilities.sql.Dapper;
 
 import java.util.ArrayList;
 
-public class GamesModel {
+public class GamesModel extends AbstractModel
+{
     private ArrayList<GameData> games;
     private int nrOfGames;
 
     public GamesModel() {
         games = new ArrayList<GameData>();
         nrOfGames = 0;
+        AddGamesFromDB();
     }
 
     public int getNrOfGames() {
@@ -96,4 +99,8 @@ public class GamesModel {
 
     }
 
+    public void requestAllGames()
+    {
+        this.notify("listAllGamesResponse", this.games);
+    }
 }

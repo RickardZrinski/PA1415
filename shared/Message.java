@@ -9,11 +9,12 @@ import shared.users.User;
 public class Message {
     private int id;
     private int timestamp;
+    private String fullName;
     private String subject;
     private String message;
     private String contact;
 
-    // @TODO: There needs to be a Category class
+    // @TODO: There needs to be a Category class (MessageCategory -John)
     private String category;
 
     // @TODO: Not in conceptual model. Might be needed -John
@@ -26,6 +27,7 @@ public class Message {
     public Message() {
         this.id = 0; // should be some other value
         this.timestamp = (int) System.currentTimeMillis() / 1000; // UNIX time when message was created
+        this.fullName = "Not given";
         this.subject = "?";
         this.category = "?";
         this.message = "?";
@@ -75,21 +77,37 @@ public class Message {
     }
 
     /**
-     * Gets subject.
+     * Sets the full name
+     * @param fullName the full name to be set
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    /**
+     * @return the full name of the person that has sent the message
+     */
+    public String getFullName() {
+        return this.fullName;
+    }
+
+    /**
+     * @return the subject of the message
      */
     public String getSubject() {
         return this.subject;
     }
 
     /**
-     * Sets subject.
+     * Sets the subject
+     * @param subject the subject
      */
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
     /**
-     * Gets category.
+     * @TODO: This needs to be redefined later. It should be a MessageCategory instead of String
      */
     public String getCategory() {
         return this.category;

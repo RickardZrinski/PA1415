@@ -45,14 +45,13 @@ public class LoginView extends AbstractView implements ActionListener, LoginResp
     }
 
     @Override
-    public void loginResponse(Boolean response) {
-        if (response) {
-            JOptionPane.showMessageDialog(null, "You logged in. The frame will become blank.", "Login successful", JOptionPane.INFORMATION_MESSAGE);
+    public void loginSuccessful() {
+        // The model has told us that everything checked out, tell the controller that we're done.
+        this.notify("authorizationPerformed");
+    }
 
-            MainFrame.getInstance().getContentPane().removeAll();
-            MainFrame.getInstance().getContentPane().repaint();
-        } else {
-            JOptionPane.showMessageDialog(null, "Your username or password was invalid. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-        }
+    @Override
+    public void loginUnsuccessful() {
+        JOptionPane.showMessageDialog(null, "Your username or password was invalid. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
 }

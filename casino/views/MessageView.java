@@ -2,6 +2,7 @@ package casino.views;
 
 import casino.AbstractView;
 import casino.MainFrame;
+import casino.events.MessageEvent;
 import casino.views.forms.MessageForm;
 
 import java.awt.*;
@@ -40,14 +41,13 @@ public class MessageView extends AbstractView implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("next")) {
-
+            this.notify("messageSend", new MessageEvent(this.messageForm.getNameTextField().getText(), this.messageForm.getSubjectTextField().getText(),
+                        this.messageForm.getCategoryComboBox().getActionCommand(), this.messageForm.getContactDetailsTextField().getText(),
+                        this.messageForm.getMessageTextArea().getText()));
         }
         if (e.getActionCommand().equals("cancel"))
         {
 
         }
-
-
-        System.out.println("MESSAGE BUTTON");
     }
 }

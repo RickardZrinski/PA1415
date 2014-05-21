@@ -74,4 +74,9 @@ public class LoginForm extends JPanel implements Form {
         this.signInButton.addActionListener(listener);
         this.resetButton.addActionListener(listener);
     }
+
+    @Override
+    public String toString() {
+        return String.format("username: %s, password: %s", this.usernameTextField, this.passwordPasswordField);
+    }
 }

@@ -165,10 +165,10 @@ public class UserDao implements IDao<User> {
             user.getAccount().setId(lastUserId);
 
             // Insert account
-            accountData.insert(user.getAccount());
+            accountData.insert(user.getAccount(), false);
 
             // Insert role
-            userRoleData.insert(new UserRole(user.getRole().getId(), lastUserId));
+            userRoleData.insert(new UserRole(user.getRole().getId(), lastUserId), false);
         } catch(Exception e) {
             success = false;
         }

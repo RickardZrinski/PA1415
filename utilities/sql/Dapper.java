@@ -45,10 +45,8 @@ public class Dapper<AnyType> extends Connector {
     public final String SORT_ASC = "ASC";
     public final String SORT_DESC = "DESC";
 
-    private final String sqlInsert = "INSERT INTO %s (%s) VALUES(%s);";
     private final String sqlUpdate = "UPDATE %s SET %s WHERE %s = ?;";
     private final String sqlUpdateSingle = "UPDATE %s SET %s = ? WHERE id = ?;";
-    private final String sqlDrop = "DROP TABLE IF EXISTS %s;";
     private final String sqlCount = "SELECT COUNT(*) FROM %s;";
 
     private Connection connection = null;
@@ -81,6 +79,7 @@ public class Dapper<AnyType> extends Connector {
 
     /**
      * Compute all annotations to get data from them
+     *
      * @param clazz the class to retrieve all annotations from
      */
     private void computeAnnotations(Class<AnyType> clazz) {
@@ -104,6 +103,7 @@ public class Dapper<AnyType> extends Connector {
 
     /**
      * Returns the name of the table
+     *
      * @return Name of the table
      */
     public String getTableName() {
@@ -113,30 +113,38 @@ public class Dapper<AnyType> extends Connector {
     /**
      * Inserts data to the database using the object class name as
      * the table name and its properties as table columns.
-     * @param data          The object to inject into the database
+     *
+     * @param data              the object to inject into the database
+     * @param hasAutoIncrement  set this to false if the object is not auto incremented
      */
-    public void insert(Object data) {
+    public void insert(Object data, boolean hasAutoIncrement) {
         try {
-            Field[] fields = this.getInheritedFields();
-            String columns = "";
-            String values = "";
+            // Get a hash table of all fields in the Object
+            Hashtable<String, Field> fields = this.getObjectFields();
+            Collection<Field> values = fields.values();
 
-            for (Field field: fields) {
-                columns += ", " + field.getName();
-                values  += ", ?";
+            if (hasAutoIncrement) {
+                // Remove the primary key field name if the table is
+                // auto incremented
+                fields.remove(this.getPrimaryKeyFieldName());
             }
 
-            columns = columns.substring(2);
-            values = values.substring(2);
+            String query = String.format(
+                    "INSERT INTO %s (%s) VALUES(%s);",
+                    this.getTableName(),
+                    Builder.plain(", ", values.toArray()),
+                    Builder.fill("?", ", ", values.size()));
 
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlInsert, this.getTableName(), columns, values), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            // Bind all data to the statement
-            for (int i = 0; i < fields.length; i++) {
-                fields[i].setAccessible(true);
+            // The index for the statement setObject parameter
+            int index = 1;
 
+            // Iterate through the hash table and place each value on
+            // the correct position
+            for(Map.Entry<String, Field> map: fields.entrySet()) {
                 try {
-                    statement.setObject(i + 1, fields[i].get(data));
+                    statement.setObject(index++, map.getValue().get(data));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -144,16 +152,30 @@ public class Dapper<AnyType> extends Connector {
 
             // Execute insertion and generate key
             this.execute(statement, true);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
+     * Inserts data to the database using the object class name as
+     * the table name and its properties as table columns.
+     *
+     * This method assumes that the the table has AUTO_INCREMENT set
+     * on its primary key. If this is not the case, use 'false' as the
+     * second parameter.
+     *
+     * @see     Dapper#insert(Object, boolean)
+     * @param   data              the object to inject into the database.
+     */
+    public void insert(Object data) {
+        this.insert(data, true);
+    }
+
+    /**
      * Updates data in the database using the object class name as
      * the table name and its properties as table columns.
+     *
      * @param primaryKey    Primary key used for the update
      * @param data          The object used to update the table row
      */
@@ -179,11 +201,71 @@ public class Dapper<AnyType> extends Connector {
     }
 
     /**
-     * Updates the value of a specified column
-     * @param primaryKey    primaryKey of the row
-     * @param columnName    column name of the table
-     * @param value value to be inserted
+     * Updates data in the database using the object class name as
+     * the table name and the arguments supplied as keys and values.
+     *
+     * The first example code demonstrates how to change the name of the
+     * dog in the first row.
+     *
+     * The second example demonstrates how to change the name and age
+     * in the same time.
+     *
+     * <code>
+     *     // Assume the following Dog class:
+     *     class Dog {
+     *         private int id;      // id of the dog
+     *         private int name;    // name of the dog
+     *         private int age;     // age of the dog
+     *     }
+     *
+     *     // Base code
+     *     Dapper<Dog> data = new Dapper<>(Dog.class);
+     *
+     *     // First example updates Dog with id = 1
+     *     data.update(1, "name", "Mike");
+     *
+     *     // Second example updates Dog with id = 1 and sets
+     *     // name = 'Kenny' and age = 5
+     *     data.update(1, "name", "Kenny", "age", 5);
+     * </code>
+     *
+     * @param primaryKey    Primary key used for the update
+     * @param args          The object used to update the table row
      */
+    public void update(int primaryKey, Object... args) {
+        try {
+            // Required by PreparedStatement for setObject
+            Integer num  = 1;
+
+            // The query to execute
+            String query = String.format("UPDATE %s SET %s WHERE %s = ?;", this.getTableName(), Builder.equals(", ", args), this.primaryKeyFieldName);
+
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
+                System.out.println(num + " " + map.getValue());
+                statement.setObject(num++, map.getValue());
+
+            }
+
+            // Bind the primary key to the last statement (WHERE <primaryKeyFieldName> = ?)
+            statement.setObject(num, primaryKey);
+
+            this.execute(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the value of a specified column
+     *
+     * @param       primaryKey    primaryKey of the row
+     * @param       columnName    column name of the table
+     * @param       value value to be inserted
+     * @deprecated  Consider using {@link utilities.sql.Dapper#update(int, Object...)} instead
+     */
+    @Deprecated
     public void updateColumnValue(int primaryKey, String columnName, int value){
         try {
             PreparedStatement statement = connection.prepareStatement(String.format(this.sqlUpdateSingle, this.getTableName(),
@@ -200,6 +282,7 @@ public class Dapper<AnyType> extends Connector {
     /**
      * Deletes data in the database using the object class name as
      * table name.
+     *
      * @param   primaryKey    Primary key used for the deletion
      */
     public void delete(int primaryKey) {
@@ -210,6 +293,7 @@ public class Dapper<AnyType> extends Connector {
      * Deletes data in the database using object class name as a table name and
      * a collection of objects to determine which columns to target. Every odd argument
      * represents the column name, every even argument sets the value.
+     *
      * @param   args  collection of columns and values
      */
     public void delete(Object... args) {
@@ -250,14 +334,13 @@ public class Dapper<AnyType> extends Connector {
         }
     }
 
-
     /**
      * Destroys data in table using the object class name as
      * table name
      */
     public void drop() {
         try {
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlDrop, this.getTableName()));
+            PreparedStatement statement = connection.prepareStatement(String.format("DROP TABLE IF EXISTS %s;", this.getTableName()));
             this.execute(statement);
             this.lastInsertId = -1;
         } catch (SQLException e) {
@@ -289,7 +372,9 @@ public class Dapper<AnyType> extends Connector {
      * Counts data in the database using object class name as a table name and
      * a collection of objects to determine which columns to target. Every odd argument
      * represents the column name, every even argument sets the value.
-     * @param   args  collection of columns and values
+     *
+     * @param   args    collection of columns and values
+     * @return          a integer with the count
      */
     public int count(Object... args) {
         int count = 0;
@@ -333,10 +418,12 @@ public class Dapper<AnyType> extends Connector {
      * Retrieves all properties from a class via reflection.
      * Fields with the annotation {@link utilities.sql.annotations.Ignore} are
      * ignored
-     * @param clazz     the class type to check (table)
-     * @param filter    boolean that determines if filtering is applied
-     * @return All fields
+     * @param       clazz       the class type to check (table)
+     * @param       filter      boolean that determines if filtering is applied
+     * @return                  all fields
+     * @deprecated              use the more flexible method {@link Dapper#getObjectFields(Class, boolean)} instead.
      */
+    @Deprecated
     private Field[] getInheritedFields(Class<?> clazz, boolean filter) {
         ArrayList<Field> fields = new ArrayList<>();
 
@@ -357,8 +444,57 @@ public class Dapper<AnyType> extends Connector {
         return fields.toArray(new Field[fields.size()]);
     }
 
+    /**
+     * Retrieves all properties from a class via reflection. Ignores
+     * all @Ignore attributes by default and gets all data from the default
+     * table.
+     *
+     * @return          all fields
+     * @deprecated      use the more flexible method {@link Dapper#getObjectFields()} instead.
+     */
+    @Deprecated
     private Field[] getInheritedFields() {
         return this.getInheritedFields(this.tableType, true);
+    }
+
+    /**
+     * Retrieves all properties from a class via reflection.
+     * Fields with the annotation {@link utilities.sql.annotations.Ignore} are
+     * ignored.
+     *
+     * @param   clazz   the class type to check (table)
+     * @param   filter  boolean that determines if filtering is applied
+     * @return          a hashtable with all Fields ("attributes")
+     */
+    private Hashtable<String, Field> getObjectFields(Class<?> clazz, boolean filter) {
+        Hashtable<String, Field> fields = new Hashtable<>();
+
+        for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
+            for (Field field: c.getDeclaredFields())
+            {
+                // Setting the field to accessible (used only internally by Dapper)
+                field.setAccessible(true);
+
+                if (!filter)
+                    fields.put(field.getName(), field);
+                else
+                    if (!field.isAnnotationPresent(Ignore.class))
+                        fields.put(field.getName(), field);
+            }
+        }
+
+        return fields;
+    }
+
+    /**
+     * Retrieves all properties from a class via reflection. Ignores
+     * all @Ignore attributes by default and gets all data from the default
+     * table.
+     *
+     * @return  a collection with all Fields ("attributes")
+     */
+    private Hashtable<String, Field> getObjectFields() {
+        return this.getObjectFields(this.tableType, true);
     }
 
     /**
@@ -410,7 +546,7 @@ public class Dapper<AnyType> extends Connector {
     /**
      * Maps a result set to a object
      * @param   result The result set to map
-     * @return  a collection with mapped objects
+     * @return  a collection with mapped objects
      */
     private Collection<AnyType> map(ResultSet result) {
         ArrayList<AnyType> collection = new ArrayList<>();
@@ -449,6 +585,7 @@ public class Dapper<AnyType> extends Connector {
      * Returns a collection of objects using foreign key(s). Every odd argument
      * represents the column name, every even argument sets the value.
      * @param   args  collection of columns and values
+     * @return  a collection with mapped objects
      */
     public Collection<AnyType> getCollectionUsingForeignKey(Object... args) {
         Collection<AnyType> collection = new ArrayList<>();

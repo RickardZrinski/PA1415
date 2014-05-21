@@ -2,6 +2,7 @@ package casino.controllers;
 
 import casino.MainFrame;
 import casino.events.LoginEvent;
+import casino.events.MessageEvent;
 import casino.events.MessageListener;
 import casino.views.MessageView;
 
@@ -21,7 +22,7 @@ public class MessageController implements MessageListener {
     }
 
     @Override
-    public void messageSend(LoginEvent e) {
+    public void messageSend(MessageEvent e) {
         if (e.isValid()){
             System.out.println("MESSAGE INPUT VALID");
         }

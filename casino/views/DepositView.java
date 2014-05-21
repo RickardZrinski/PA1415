@@ -3,8 +3,10 @@ package casino.views;
 import casino.AbstractView;
 import casino.MainFrame;
 import casino.views.forms.CreditCardForm;
-import casino.views.forms.TransactionForm;
+import casino.views.forms.SimpleForm;
+import utilities.ComponentUtilities;
 
+import javax.swing.text.DefaultFormatterFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +17,7 @@ import java.awt.event.ActionListener;
  */
 public class DepositView extends AbstractView implements ActionListener {
     private MenuView menu = new MenuView();
-    private TransactionForm transactionForm = new TransactionForm("Deposit");
+    private SimpleForm simpleForm = new SimpleForm("Deposit", "OK", ComponentUtilities.createMaskFormat("#####"));
     private CreditCardForm creditCardForm = new CreditCardForm();
 
     public DepositView() {
@@ -27,13 +29,13 @@ public class DepositView extends AbstractView implements ActionListener {
 
     private void configure() {
         this.setLayout(new BorderLayout());
-        this.transactionForm.setActionListener(this);
+        this.simpleForm.setActionListener(this);
         this.creditCardForm.setActionListener(this);
     }
 
     private void addComponents() {
         this.add(this.menu, BorderLayout.PAGE_START);
-        this.add(this.transactionForm, BorderLayout.CENTER);
+        this.add(this.simpleForm, BorderLayout.CENTER);
         this.add(this.creditCardForm, BorderLayout.PAGE_END);
     }
 
@@ -42,7 +44,7 @@ public class DepositView extends AbstractView implements ActionListener {
         if (e.getActionCommand().equals("cancel")) {
             System.out.println("The user cancelled");
         } else {
-            System.out.println(this.transactionForm);
+            System.out.println(this.simpleForm);
             System.out.println(this.creditCardForm);
         }
     }

@@ -15,8 +15,6 @@ public class LoginModel extends AbstractModel {
         try {
             // Attempt to retrieve the user
             User user = users.get(event.getUsername());
-            System.out.println(user);
-            System.out.println(Hash.validatePassword(event.getPassword(), user.getPassword()));
 
             /**
              * Check if the user is allowed to sign in; his or her role will let us know.

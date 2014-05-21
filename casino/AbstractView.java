@@ -27,7 +27,8 @@ public abstract class AbstractView extends JPanel {
     }
 
     /**
-     * Invokes a method inside a list of observers
+     * Invokes a method inside a list of observers and
+     * sends an event
      * @param name  the name of the event
      * @param event the event itself
      */
@@ -39,6 +40,22 @@ public abstract class AbstractView extends JPanel {
                 method.invoke(listener, event);
             } catch (Exception ex) {
                 System.out.println(String.format("notify: %s not found in %s. Attempted to send:\n%s", name, listener.getClass().getName(), event));
+            }
+        }
+    }
+
+    /**
+     * Invokes a method inside a list of observers
+     * @param name  the name of the event
+     */
+    public void notify(Object name) {
+        for (Object listener: this.observers) {
+            try {
+                // Call the method with the event
+                Method method = listener.getClass().getMethod((String) name);
+                method.invoke(listener);
+            } catch (Exception ex) {
+                System.out.println(String.format("notify: %s not found in %s.", name, listener.getClass().getName()));
             }
         }
     }

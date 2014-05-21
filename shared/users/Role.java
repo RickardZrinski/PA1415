@@ -37,10 +37,16 @@ public class Role {
     private boolean canDeposit = false;
     private boolean canWithdraw = false;
 
+    /**
+     * Creates a default user role
+     */
     public Role() {
-        this.name = "User";
+        this.name = "Player";
         this.canAuthenticate = true;
         this.canSendMessages = true;
+
+        this.canDeposit = true;
+        this.canWithdraw = true;
     }
 
     public int getId() { return this.id; }

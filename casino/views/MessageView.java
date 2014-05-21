@@ -25,11 +25,11 @@ public class MessageView extends AbstractView implements ActionListener {
     }
 
     private void configure() {
-        this.setLayout(new BorderLayout());
         this.messageForm.setActionListener(this);
     }
 
     private void addComponents() {
+        this.setLayout(new BorderLayout());
         this.add(this.menuView, BorderLayout.PAGE_START);
         this.add(this.messageForm, BorderLayout.CENTER);
     }

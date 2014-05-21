@@ -6,5 +6,6 @@ package casino.events;
  */
 public interface LoginListener {
     public void loginPerformed(LoginEvent e);
+    public void authorizationPerformed();
     public void logoutPerformed();
 }

@@ -1,7 +1,5 @@
 package casino.views.forms;
 
-import casino.MainFrame;
-import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;
 
 import javax.swing.*;
@@ -105,4 +103,10 @@ public class MessageForm extends JPanel implements Form {
         this.cancelButton.addActionListener(listener);
     }
 
+    @Override
+    public String toString() {
+        return String.format("sender: %s, subject: %s, category: %s, contact details: %s, message: %s",
+                this.nameTextField.getText(), this.subjectTextField.getText(), this.categoryComboBox.getSelectedItem(),
+                this.contactDetailsTextField.getText(), this.messageTextArea.getText());
+    }
 }

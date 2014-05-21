@@ -58,6 +58,22 @@ public class UserDao implements IDao<User> {
     }
 
     /**
+     * Retrieves a user using the username, throws exception if the user was not found.
+     * @param   username    the username to retrieve
+     * @return  a user with the given username
+     */
+    public User get(String username) throws Exception {
+        if (userData.count("username", username) == 0)
+            throw new Exception(String.format("Username '%s' does not exist in the database.", username));
+        else {
+            User user = userData.getUsingForeignKey("username", username);
+            this.setInstance(user, user.getId());
+
+            return user;
+        }
+    }
+
+    /**
      * Returns a role using a name.
      *
      * IMPORTANT: This does not return a role for a user. It returns a object

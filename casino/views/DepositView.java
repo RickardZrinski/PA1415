@@ -4,7 +4,6 @@ import casino.AbstractView;
 import casino.MainFrame;
 import casino.views.forms.CreditCardForm;
 import casino.views.forms.TransactionForm;
-import utilities.ComponentUtilities;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,7 @@ import java.awt.event.ActionListener;
  * @since   21/05/2014
  */
 public class DepositView extends AbstractView implements ActionListener {
+    private MenuView menu = new MenuView();
     private TransactionForm transactionForm = new TransactionForm("Deposit");
     private CreditCardForm creditCardForm = new CreditCardForm();
 
@@ -28,12 +28,13 @@ public class DepositView extends AbstractView implements ActionListener {
     private void configure() {
         this.setLayout(new BorderLayout());
         this.transactionForm.setActionListener(this);
-         this.creditCardForm.setActionListener(this);
+        this.creditCardForm.setActionListener(this);
     }
 
     private void addComponents() {
-        this.add(this.transactionForm, BorderLayout.PAGE_START);
-        this.add(this.creditCardForm, BorderLayout.CENTER);
+        this.add(this.menu, BorderLayout.PAGE_START);
+        this.add(this.transactionForm, BorderLayout.CENTER);
+        this.add(this.creditCardForm, BorderLayout.PAGE_END);
     }
 
     @Override

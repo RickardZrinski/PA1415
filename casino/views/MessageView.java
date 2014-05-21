@@ -40,7 +40,7 @@ public class MessageView extends AbstractView implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("next")) {
+        if (e.getActionCommand().equals("send")) {
             this.notify("messageSend", new MessageEvent(this.messageForm.getNameTextField().getText(), this.messageForm.getSubjectTextField().getText(),
                         this.messageForm.getCategoryComboBox().getActionCommand(), this.messageForm.getContactDetailsTextField().getText(),
                         this.messageForm.getMessageTextArea().getText()));

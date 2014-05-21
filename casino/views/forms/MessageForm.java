@@ -19,7 +19,7 @@ public class MessageForm extends JPanel {
     private JComboBox categoryComboBox;
     private JTextField contactDetailsTextField;
     private JTextArea messageTextArea;
-    private JButton nextButton;
+    private JButton sendButton;
     private JButton cancelButton;
 
     public MessageForm() {
@@ -29,7 +29,7 @@ public class MessageForm extends JPanel {
         this.categoryComboBox  = new JComboBox<String>(new String[] {"Support", "Praise", "Feature request"});
         this.contactDetailsTextField = new JTextField();
         this.messageTextArea = new JTextArea();
-        this.nextButton = new JButton("Next");
+        this.sendButton = new JButton("Send");
         this.cancelButton = new JButton("Cancel");
         this.configure();
         this.addComponents();
@@ -37,7 +37,7 @@ public class MessageForm extends JPanel {
 
     private void configure()
     {
-        this.nextButton.setActionCommand("next");
+        this.sendButton.setActionCommand("send");
         this.cancelButton.setActionCommand("cancel");
     }
 
@@ -52,7 +52,7 @@ public class MessageForm extends JPanel {
         JLabel contactDetailsInfoLabel = new JLabel("Where can we reach you? Leave a phone number or email address.");
 
         JPanel buttons = new JPanel();
-        buttons.add(this.nextButton);
+        buttons.add(this.sendButton);
         buttons.add(this.cancelButton);
 
 
@@ -98,7 +98,7 @@ public class MessageForm extends JPanel {
     }
 
     public void setActionListener(ActionListener listener) {
-        this.nextButton.addActionListener(listener);
+        this.sendButton.addActionListener(listener);
         this.cancelButton.addActionListener(listener);
     }
 

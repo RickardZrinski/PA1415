@@ -5,6 +5,7 @@ import casino.MainFrame;
 import casino.events.*;
 import casino.models.LoginModel;
 import casino.views.LoginView;
+import shared.AuthenticationSession;
 
 import java.awt.*;
 
@@ -30,9 +31,20 @@ public class AuthenticationController implements LoginListener {
         // If the event is valid, send it to the model, else
         // just respond directly back to the view
         if (e.isValid())
-            this.model.doSomething();
+            this.model.authenticate(e);
         else
-            this.view.loginResponse(false);
+            this.view.loginUnsuccessful();
+    }
+
+    @Override
+    public void authorizationPerformed() {
+        // User is finally logged in
+        try {
+            System.out.println("User is now logged in!:");
+            System.out.println(AuthenticationSession.getInstance().getUser());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

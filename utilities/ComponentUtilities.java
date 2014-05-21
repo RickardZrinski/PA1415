@@ -61,8 +61,8 @@ public class ComponentUtilities {
 
     /**
      * Creates a number format for JFormattedTextField
-     * @param string the format to use
-     * @return a MaskFormatter format
+     * @param string    the format to use
+     * @return          a MaskFormatter format
      */
     public static MaskFormatter createMaskFormat(String string) {
         MaskFormatter formatter = null;
@@ -74,5 +74,21 @@ public class ComponentUtilities {
         }
 
         return formatter;
+    }
+
+    /**
+     * Prints the component size
+     * @param component the component to print the sizes from
+     */
+    public static void printDimensions(Component component) {
+        Dimension size = component.getSize();
+        Dimension pref = component.getPreferredSize();
+        Dimension max  = component.getMaximumSize();
+
+        System.out.println( String.format("%s: size(%d, %d), preferred(%d, %d), maximum(%d, %d)",
+                component.getClass().getSimpleName(),
+                (int)size.getWidth(), (int)size.getHeight(), (int)pref.getWidth(),
+                (int)pref.getHeight(), (int)max.getWidth(), (int)max.getHeight())
+        );
     }
 }

@@ -290,12 +290,41 @@ public class Dapper<AnyType> extends Connector {
     }
 
     /**
-     * Retrieves a count of rows matching the argument
-     * @param columnName    the column name
-     * @param arg   the argument
-     * @return  the total amount of rows
+     * Counts data in the database using object class name as a table name and
+     * a collection of objects to determine which columns to target. Every odd argument
+     * represents the column name, every even argument sets the value.
+     * @param   args  collection of columns and values
      */
+    public int count(Object... args) {
+        int count = 0;
+
+        try {
+            // Required by PreparedStatement for setObject
+            Integer num  = 1;
+
+            // The query to execute
+            String query = String.format("SELECT COUNT(*) FROM %s WHERE %s;", this.getTableName(), Builder.and(args));
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
+                statement.setObject(num++, map.getValue());
+            }
+
+            ResultSet result = statement.executeQuery();
+            while(result.next())
+                count = result.getInt(1);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    /*
+    @Deprecated
     public int count(String columnName, String arg){
+        return this.count(columnName, arg);
         int count = 0;
 
         try {
@@ -310,7 +339,7 @@ public class Dapper<AnyType> extends Connector {
         }
 
         return count;
-    }
+    }*/
 
     @Deprecated
     public void create() {}

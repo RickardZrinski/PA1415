@@ -77,6 +77,7 @@ public class LoginForm extends JPanel implements Form {
 
     @Override
     public String toString() {
-        return String.format("username: %s, password: %s", this.usernameTextField, this.passwordPasswordField);
+        return String.format("username: %s, password: %s",
+                this.usernameTextField.getText(), String.valueOf(this.passwordPasswordField.getPassword()));
     }
 }

@@ -1,12 +1,9 @@
 package casino.controllers;
 
 import casino.MainFrame;
-import casino.events.LoginEvent;
 import casino.events.MessageEvent;
 import casino.events.MessageListener;
 import casino.views.MessageView;
-
-import java.awt.*;
 
 /**
  * @author  John Mogensen
@@ -17,8 +14,7 @@ public class MessageController implements MessageListener {
 
     public MessageController() {
         this.messageView.subscribe(this);
-
-        MainFrame.getInstance().add(this.messageView, BorderLayout.CENTER);
+        MainFrame.getInstance().add(this.messageView);
     }
 
     @Override

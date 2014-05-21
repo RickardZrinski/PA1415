@@ -48,13 +48,9 @@ public class Dapper<AnyType> extends Connector {
     private final String sqlInsert = "INSERT INTO %s (%s) VALUES(%s);";
     private final String sqlUpdate = "UPDATE %s SET %s WHERE %s = ?;";
     private final String sqlUpdateSingle = "UPDATE %s SET %s = ? WHERE id = ?;";
-    private final String sqlDelete = "DELETE FROM %s WHERE id = ?;";
-    private final String sqlTruncate = "TRUNCATE TABLE %s;";
     private final String sqlDrop = "DROP TABLE IF EXISTS %s;";
     private final String sqlCount = "SELECT COUNT(*) FROM %s;";
-    private final String sqlCountWhere = "SELECT COUNT(*) FROM %s WHERE %s = ?;";
-    private final String sqlSelect = "SELECT %s FROM %s ORDER BY %s LIMIT %s;";
-    private final String sqlSelectId = "SELECT * FROM %s WHERE %s = ?;";
+
     private Connection connection = null;
 
     /**
@@ -246,7 +242,7 @@ public class Dapper<AnyType> extends Connector {
      */
     public void truncate() {
         try {
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlTruncate, this.getTableName()));
+            PreparedStatement statement = connection.prepareStatement(String.format("TRUNCATE TABLE %s;", this.getTableName()));
             this.execute(statement);
             this.lastInsertId = -1;
         } catch (SQLException e) {
@@ -321,26 +317,6 @@ public class Dapper<AnyType> extends Connector {
         return count;
     }
 
-    /*
-    @Deprecated
-    public int count(String columnName, String arg){
-        return this.count(columnName, arg);
-        int count = 0;
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(String.format(this.sqlCountWhere, this.getTableName(), columnName));
-            statement.setString(1, arg);
-            ResultSet result = statement.executeQuery();
-
-            while(result.next())
-                count = result.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return count;
-    }*/
-
     @Deprecated
     public void create() {}
 
@@ -392,8 +368,6 @@ public class Dapper<AnyType> extends Connector {
      */
     private void execute(PreparedStatement statement, boolean generateLastKey) {
         try {
-
-
             // Print statement
             if (Dapper.PRINT_STATEMENTS)
                 System.out.println(statement);
@@ -472,19 +446,28 @@ public class Dapper<AnyType> extends Connector {
     }
 
     /**
-     * Returns a collection of objects using a predefined key
-     * @param   column      the column to match
-     * @param   key         the key to match with
-     * @return              a collection with mapped objects
+     * Returns a collection of objects using foreign key(s). Every odd argument
+     * represents the column name, every even argument sets the value.
+     * @param   args  collection of columns and values
      */
-    public Collection<AnyType> getCollectionUsingForeignKey(String column, Object key) {
+    public Collection<AnyType> getCollectionUsingForeignKey(Object... args) {
         Collection<AnyType> collection = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
 
         try {
-            statement = connection.prepareStatement(String.format(this.sqlSelectId, this.getTableName(), column));
-            statement.setObject(1, key);
+            // Required by PreparedStatement for setObject
+            Integer num  = 1;
+
+            // The query to execute
+            String query = String.format("SELECT * FROM %s WHERE %s;", this.getTableName(), Builder.and(args));
+
+            statement = connection.prepareStatement(query);
+
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
+                statement.setObject(num++, map.getValue());
+            }
+
             result = statement.executeQuery();
 
             collection = this.map(result);
@@ -521,14 +504,13 @@ public class Dapper<AnyType> extends Connector {
     }
 
     /**
-     * Returns a single instance of the mapped object using the
-     * foreign key
-     * @param   column  the column to match
-     * @param   key     the key to get
+     * Returns a single instance of the mapped object using a set or a single
+     * set of foreign keys.
+     * @param   args    the arguments for the foreign key
      * @return          instance of the mapped object
      */
-    public AnyType getUsingForeignKey(String column, Object key) {
-        return ((ArrayList<AnyType>)this.getCollectionUsingForeignKey(column, key)).get(0);
+    public AnyType getUsingForeignKey(Object... args) {
+        return ((ArrayList<AnyType>)this.getCollectionUsingForeignKey(args)).get(0);
     }
 
     /**

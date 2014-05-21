@@ -30,7 +30,7 @@ public class Dapper<AnyType> extends Connector {
      * If set to true:  Statements will be printed.
      * If set to false: Statements will not be printed.
      */
-    public static boolean PRINT_STATEMENTS = false;
+    public static boolean PRINT_STATEMENTS = true;
 
     /**
      * Used for debugging purposes.
@@ -67,12 +67,6 @@ public class Dapper<AnyType> extends Connector {
 
         this.tableType = type;
         this.lastInsertId = -1;
-
-        if (Dapper.PRINT_STATEMENTS)
-            System.out.println("Dapper: Statements will be printed");
-
-        if (!Dapper.EXECUTE_STATEMENTS)
-            System.out.println("Dapper: Statements will NOT execute.");
 
         this.computeAnnotations(type);
     }

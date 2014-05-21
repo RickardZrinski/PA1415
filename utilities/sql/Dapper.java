@@ -254,9 +254,9 @@ public class Dapper<AnyType> extends Connector {
     /**
      * Updates the value of a specified column
      *
-     * @param       primaryKey    primaryKey of the row
-     * @param       columnName    column name of the table
-     * @param       value value to be inserted
+     * @param       primaryKey      primaryKey of the row
+     * @param       columnName      column name of the table
+     * @param       value           value to be inserted
      * @deprecated  Consider using {@link utilities.sql.Dapper#update(int, Object...)} instead
      */
     @Deprecated
@@ -601,6 +601,9 @@ public class Dapper<AnyType> extends Connector {
 
             result = statement.executeQuery();
 
+            if (Dapper.PRINT_STATEMENTS)
+                System.out.println(statement);
+
             collection = this.map(result);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -675,6 +678,10 @@ public class Dapper<AnyType> extends Connector {
 
         try {
             statement = connection.prepareStatement(query);
+
+            if (Dapper.PRINT_STATEMENTS)
+                System.out.println(statement);
+
             ResultSet result = statement.executeQuery();
 
             collection = this.map(result);

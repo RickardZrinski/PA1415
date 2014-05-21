@@ -6,7 +6,7 @@ package casino.events;
  */
 public class LoginEvent {
     private String username = null;
-    private String password = null;
+    private char[] password = null;
 
     public LoginEvent(String username, char[] password) {
         this.setUsername(username);
@@ -22,11 +22,19 @@ public class LoginEvent {
     }
 
     /**
-     * Retrieves the password the event stored as a hash
-     * @return the password hash
+     * Retrieves the password as a char array
+     * @return the password as a char array
      */
-    public String getPassword() {
+    public char[] getPassword() {
         return this.password;
+    }
+
+    /**
+     * Retrieves the password as a string
+     * @return the password as a string
+     */
+    public String getPasswordString() {
+        return String.valueOf(this.password);
     }
 
     /**
@@ -37,11 +45,7 @@ public class LoginEvent {
      * @param   password    the character representation of the password
      */
     public void setPassword(char[] password) {
-        try {
-            this.password = utilities.Hash.createHash(password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.password = password;
     }
 
     /**
@@ -53,7 +57,7 @@ public class LoginEvent {
     public boolean isValid() {
         boolean valid = false;
 
-        if (!this.username.isEmpty() && !this.password.isEmpty())
+        if (!this.username.isEmpty() && !this.getPasswordString().isEmpty())
             valid = true;
 
         return valid;
@@ -61,6 +65,6 @@ public class LoginEvent {
 
     @Override
     public String toString() {
-        return String.format("%s: username: %s, password: %s, isValid: %b", this.hashCode(), this.username, this.password, this.isValid());
+        return String.format("%s: username: %s, password: %s, isValid: %b", this.hashCode(), this.username, this.getPasswordString(), this.isValid());
     }
 }

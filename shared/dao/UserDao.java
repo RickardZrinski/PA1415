@@ -48,13 +48,11 @@ public class UserDao implements IDao<User> {
      */
     @Override
     public User get(Object key) {
-        Integer primaryKey = (Integer)key;
+        Integer id = (Integer)key;
+        User user  = userData.getUsingPrimaryKey(id);
 
-        User user = userData.getUsingPrimaryKey(primaryKey);
-        Role role = roleData.getUsingPrimaryKey(userRoleData.getUsingPrimaryKey(primaryKey).getRid());
-
-        user.setAccount(accountData.getUsingPrimaryKey(primaryKey));
-        user.setRole(role);
+        // Set the role and account to for this user
+        this.setInstance(user, (Integer)key);
 
         return user;
     }
@@ -240,5 +238,16 @@ public class UserDao implements IDao<User> {
         }
 
         return success;
+    }
+
+    /**
+     * Sets values to the user using a primaryKey
+     * @param user          the user object to set values to
+     * @param primaryKey    the primarykey to get data from
+     */
+    private void setInstance(User user, int primaryKey) {
+        Role role = roleData.getUsingPrimaryKey(userRoleData.getUsingPrimaryKey(primaryKey).getRid());
+        user.setAccount(accountData.getUsingPrimaryKey(primaryKey));
+        user.setRole(role);
     }
 }

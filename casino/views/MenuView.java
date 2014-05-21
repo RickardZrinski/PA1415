@@ -17,6 +17,10 @@ public class MenuView extends AbstractView implements ItemListener {
     private JComboBox<String> menu;
     private MenuEvent event = null;
 
+    // Left and right panels
+    private JPanel left  = new JPanel(new FlowLayout(FlowLayout.LEFT,  20, 15));
+    private JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+
     public MenuView() {
         this.usernameLabel = new JLabel("User");
         this.balanceLabel = new JLabel("Balance");
@@ -39,14 +43,19 @@ public class MenuView extends AbstractView implements ItemListener {
         this.menu.addItem("Menu Item 3");
 
         this.menu.addItemListener(this);
+
+        // Make the left and right panels opaque
+        this.left.setOpaque(false);
+        this.right.setOpaque(false);
     }
 
     private void addComponents() {
-        this.add(this.usernameLabel, BorderLayout.LINE_START);
-        this.add(Box.createRigidArea(new Dimension(50, 50)));
-        this.add(this.balanceLabel, BorderLayout.CENTER);
-        this.add(Box.createHorizontalGlue());
-        this.add(this.menu, BorderLayout.LINE_END);
+        this.left.add(this.usernameLabel);
+        this.left.add(this.balanceLabel);
+        this.right.add(this.menu);
+
+        this.add(this.left, BorderLayout.LINE_START);
+        this.add(this.right, BorderLayout.LINE_END);
     }
 
     public JLabel getUsernameLabel() {

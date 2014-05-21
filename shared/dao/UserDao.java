@@ -36,11 +36,11 @@ public class UserDao implements IDao<User> {
      *  1  | user1    | Carl      | Sagan
      *  2  | marcus   | Marcus    | Fenix
      *
-     * Example usage:
-     *
-     * UserDao dao = new UserDao();
-     * User user = dao.get(1); // user.getFirstName() = Carl, user.getLastName() = Sagan
-     * User user = dao.get(2); // user.getFirstName() = Marcus, user.getLastName() = Fenix
+     * <code>
+     *     User dao = new UserDao();
+     *     User user = dao.get(1); // user.getFirstName() = Carl,   user.getLastName() = Sagan
+     *     User user = dao.get(2); // user.getFirstName() = Marcus, user.getLastName() = Fenix
+     * </code>
      *
      * @param   key     The key (id) to get from the database
      * @return          A user object that contains the user and all
@@ -58,9 +58,24 @@ public class UserDao implements IDao<User> {
     }
 
     /**
-     * Retrieves a user using the username, throws exception if the user was not found.
+     * Retrieves a user using the username.
+     * Imagine the following table inside the database:
+     *
+     * ----+----------+-----------+---------
+     *  id | username | firstName | lastName
+     * ----+----------+-----------+---------
+     *  1  | user1    | Carl      | Sagan
+     *  2  | marcus   | Marcus    | Fenix
+     *
+     * <code>
+     *     User dao = new UserDao();
+     *     User user = dao.get("user1");  // user.getFirstName() = Carl, user.getLastName() = Sagan
+     *     User user = dao.get("marcus"); // user.getFirstName() = Marcus, user.getLastName() = Fenix
+     * </code>
+     *
      * @param   username    the username to retrieve
-     * @return  a user with the given username
+     * @return              a user with the given username
+     * @throws  Exception   if the user was not found
      */
     public User get(String username) throws Exception {
         if (userData.count("username", username) == 0)
@@ -79,13 +94,15 @@ public class UserDao implements IDao<User> {
      * IMPORTANT: This does not return a role for a user. It returns a object
      * for a role INSIDE the database!
      *
-     * Example usage:
-     * UserDao dao = new UserDao();
-     * Role admin  = dao.getRole("Administrator");
-     * Role user   = dao.getRole("User");
+     * <code>
+     *     UserDao dao = new UserDao();
      *
-     * System.out.println( admin.canAccessAdministration() ); // this will print: true
-     * System.out.println( user.canAccessAdministration() );  // this will print: false
+     *     Role admin  = dao.getRole("Administrator");
+     *     Role player = dao.getRole("Player");
+     *
+     *     System.out.println( admin.canAccessAdministration() ); // this will print: true
+     *     System.out.println( player.canAccessAdministration() );  // this will print: false
+     * </code>
      *
      * @param   roleName    the role you want to retrieve
      * @return              a role object with all data
@@ -99,11 +116,11 @@ public class UserDao implements IDao<User> {
      * this method to get a long list of all users in the database. You
      * even cast it to the desired collection.
      *
-     * Example usage:
-     * UserDao dao = new UserDao();
-     * ArrayList<Users> allUsers = (ArrayList<User>)dao.getCollection();
-     *
-     * 'allUsers' now contains ALL users in the database.
+     * <code>
+     *     UserDao dao = new UserDao();
+     *     ArrayList<User> allUsers = (ArrayList<User>)dao.getCollection();
+     *     // 'allUsers' now contains ALL users in the database.
+     * </code>
      *
      * @return  a collection that can be cast to ArrayList or similar.
      */
@@ -120,14 +137,16 @@ public class UserDao implements IDao<User> {
      * Inserts a new user to the database.
      *
      * Example usage:
-     * UserDao dao  = new UserDao();
-     * User newUser = new User("BoUser", "password", "Bo", "Anderson", 0, 196003012047, "bo@anderson.se");
+     * <code>
+     *     UserDao dao  = new UserDao();
+     *     User newUser = new User("BoUser", "password", "Bo", "Anderson", 0, 196003012047, "bo@anderson.se");
      *
-     * if(dao.insert(newUser)) {
-     *     Bo was added to the database
-     * } else {
-     *     Bo could not be added to the database, something is wrong
-     * }
+     *     if(dao.insert(newUser)) {
+     *          // Bo was added to the database
+     *     } else {
+     *          // Bo could not be added to the database, something is wrong
+     *     }
+     * </code>
      *
      * @param   user    the user object to insert
      * @return          true if the user was inserted, else false
@@ -163,17 +182,19 @@ public class UserDao implements IDao<User> {
      * IMPORTANT: This object requires you to have contents inside of Account and
      * Role.
      *
-     * UserDao dao = new UserDao();
-     * User editUser = dao.get(1);
+     * <code>
+     *     UserDao dao  = new UserDao();
+     *     User editUser = dao.get(1);
      *
-     * editUser.setFirstName("Kelly");
-     * editUser.setLastName("Swanson");
+     *     editUser.setFirstName("Kelly");
+     *     editUser.setLastName("Swanson");
      *
-     * if(dao.update(editUser)) {
-     *     User updated
-     * } else
-     *     User not updated
-     * }
+     *     if(dao.update(editUser)) {
+     *          // User updated
+     *     } else {
+     *          // User not updated
+     *     }
+     * </code>
      *
      * @param user the user object to update.
      * @return true if the update was a success, false otherwise
@@ -204,15 +225,16 @@ public class UserDao implements IDao<User> {
      * Deletes a user from the database. This object requires you to have
      * User id set. It cannot be the default value.
      *
-     * Usage:
-     * // Assume that userToDelete contains a User object
-     * UserDao dao = new UserDao();
+     * <code>
+     *     // Assume that userToDelete contains a User object
+     *     UserDao dao = new UserDao();
      *
-     * if (dao.delete(userToDelete)) {
-     *     User was deleted
-     * } else {
-     *     User was not deleted, something went wrong
-     * }
+     *     if(dao.delete(userToDelete)) {
+     *          // User was deleted
+     *     } else {
+     *          // User was not deleted, something went wrong
+     *     }
+     * </code>
      *
      * @param   user    the user object to delete
      * @return          true if the user was deleted, else false
@@ -226,14 +248,15 @@ public class UserDao implements IDao<User> {
      * Does the same thing as {@link shared.dao.UserDao#delete(shared.users.User)} but
      * it uses user id parameter instead of the whole user object.
      *
-     * Usage:
-     * UserDao dao = new UserDao();
+     * <code>
+     *     UserDao dao = new UserDao();
      *
-     * if (dao.delete(10)) {
-     *     User was deleted
-     * } else {
-     *     User was not deleted, something went wrong
-     * }
+     *     if(dao.delete(10)) {
+     *          // User was deleted
+     *     } else {
+     *          // User was not deleted, something went wrong
+     *     }
+     * </code>
      *
      * @param   id      the unique id number of the user to delete
      * @return          true if the user was deleted, else false
@@ -259,7 +282,7 @@ public class UserDao implements IDao<User> {
     /**
      * Sets values to the user using a primaryKey
      * @param user          the user object to set values to
-     * @param primaryKey    the primarykey to get data from
+     * @param primaryKey    the unique id to get data from
      */
     private void setInstance(User user, int primaryKey) {
         Role role = roleData.getUsingPrimaryKey(userRoleData.getUsingPrimaryKey(primaryKey).getRid());

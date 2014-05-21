@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * @since   21/05/2014
  */
 public class GameResultView  extends AbstractView implements ActionListener {
-    private MenuView menuView = new MenuView();
     private GameRulesResultForm gameResultForm;
 
 
@@ -29,7 +28,6 @@ public class GameResultView  extends AbstractView implements ActionListener {
     }
 
     private void addComponents() {
-        this.add(this.menuView, BorderLayout.PAGE_START);
         this.add(this.gameResultForm, BorderLayout.CENTER);
     }
 

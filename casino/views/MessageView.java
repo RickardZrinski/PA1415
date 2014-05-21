@@ -25,18 +25,14 @@ public class MessageView extends AbstractView implements ActionListener {
     }
 
     private void configure() {
-        // this.setLayout(new FlowLayout());
-
-
         this.messageForm.setActionListener(this);
     }
 
     private void addComponents() {
-        this.add(menuView);
-        this.add(this.messageForm);
+        this.setLayout(new BorderLayout());
+        this.add(this.menuView, BorderLayout.PAGE_START);
+        this.add(this.messageForm, BorderLayout.CENTER);
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -45,9 +41,9 @@ public class MessageView extends AbstractView implements ActionListener {
                         this.messageForm.getCategoryComboBox().getActionCommand(), this.messageForm.getContactDetailsTextField().getText(),
                         this.messageForm.getMessageTextArea().getText()));
         }
-        if (e.getActionCommand().equals("cancel"))
+        else
         {
-
+            System.out.println("User canceled.");
         }
     }
 }

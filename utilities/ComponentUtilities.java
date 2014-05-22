@@ -99,8 +99,25 @@ public class ComponentUtilities {
      * @param   components      a collection of components to group
      * @return                  a JPanel with the components
      */
-    public static JPanel group(int align, Component... components) {
+    public static JPanel flow(int align, Component... components) {
         JPanel group = new JPanel(new FlowLayout(align, 0, 0));
+
+        for(Component component: components) {
+            group.add(component);
+        }
+
+        return group;
+    }
+
+    /**
+     * Groups together multiple components using BoxLayout
+     * @param   align           how to align the buttons
+     * @param   components      a collection of components to group
+     * @return                  a JPanel with the components
+     */
+    public static JPanel box(int align, Component... components) {
+        JPanel group = new JPanel();
+        group.setLayout(new BoxLayout(group, BoxLayout.PAGE_AXIS));
 
         for(Component component: components) {
             group.add(component);

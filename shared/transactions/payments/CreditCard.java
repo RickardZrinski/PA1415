@@ -5,10 +5,14 @@ import shared.transactions.services.Bank;
 /**
  * @author  John Mogensen
  * @since   14/05/2014
+ *
+ * @TODO:   Assignments:    -number: int            is  -number: long
+ * @TODO:                   +setNumber(int number)  is  +setNumber(long number)
+ * @TODO:                   +getNumber(): int       is  +getNumber(): long
  */
 public class CreditCard extends Payment {
     private String holder;
-    private int number;
+    private long number;
     private int securityCode;
     private int expirationYear;
     private int expirationMonth;
@@ -24,7 +28,7 @@ public class CreditCard extends Payment {
      * @param expirationMonth   the expiration month for this credit card in M format (e.g. 5)
      * @param expirationYear    the expiration year for this credit card in YYYY format (e.g. 2014)
      */
-    public CreditCard(double amount, String holder, int number, int securityCode, int expirationMonth, int expirationYear) {
+    public CreditCard(double amount, String holder, long number, int securityCode, int expirationMonth, int expirationYear) {
         super.setAmount(amount);
         this.holder = holder;
         this.number = number;
@@ -47,7 +51,7 @@ public class CreditCard extends Payment {
      *
      * @param number            the number of this credit card
      */
-    public void setNumber(int number) {
+    public void setNumber(long number) {
         this.number = number;
     }
 
@@ -106,7 +110,7 @@ public class CreditCard extends Payment {
     /**
      * @return  the number of this credit card
      */
-    public int getNumber() {
+    public long getNumber() {
         return this.number;
     }
 

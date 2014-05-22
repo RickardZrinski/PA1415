@@ -61,7 +61,7 @@ public class ListAllGamesController extends Controller implements MouseListener
 
             if(selectedCol == 1)
             {
-                new EditGameController(this.getGui(), selectedRow);
+                new EditGameController(this.getGui(), m_gamesModel, selectedRow);
             }
         }
     }

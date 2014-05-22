@@ -6,6 +6,7 @@ import java.util.Random;
  */
 public class Die {
     private int face;
+    private boolean saved;
 
     /**
      * Creates a new Die with face value one.
@@ -33,5 +34,14 @@ public class Die {
      */
     public void reset(){
         this.face = 1;
+        saved = false;
+    }
+
+    public boolean isSaved(){
+        return saved;
+    }
+
+    public void setSaved(boolean save){
+        saved = save;
     }
 }

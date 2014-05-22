@@ -17,10 +17,8 @@ import java.util.Formatter;
  */
 public class CreditCardForm extends JPanel implements Form {
     private JTextField holderTextField = new JTextField();
-    private JTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
-    private JTextField expirationMonthTextField = new JTextField();
-    private JTextField expirationYearTextField = new JTextField();
-    private JTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
+    private JFormattedTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
+    private JFormattedTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
 
     private JComboBox<Integer> expirationMonthBox;
     private JComboBox<Integer> expirationYearBox;
@@ -47,9 +45,6 @@ public class CreditCardForm extends JPanel implements Form {
 
         ComponentUtilities.setWidth(200, this.securityCodeTextField);
         ComponentUtilities.setPreferredWidth(40, this.securityCodeTextField);
-
-        this.nextButton.setActionCommand("next");
-        this.cancelButton.setActionCommand("cancel");
     }
 
     private void addComponents() {
@@ -60,14 +55,8 @@ public class CreditCardForm extends JPanel implements Form {
         JLabel expirationLabel = new JLabel("Expiration");
         JLabel securityCodeLabel = new JLabel("Security Code");
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
-        buttons.add(this.nextButton);
-        buttons.add(this.cancelButton);
-
-        JPanel boxes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        boxes.add(this.expirationMonthBox);
-        boxes.add(this.expirationYearBox);
+        JPanel buttons = ComponentUtilities.flow(FlowLayout.LEFT, this.nextButton, this.cancelButton);
+        JPanel boxes = ComponentUtilities.flow(FlowLayout.LEFT, this.expirationMonthBox, this.expirationYearBox);
 
         GridBagUtilities.makeCell(this, holderLabel,                   new Point(0, 0), 0.2, 1, GridBagConstraints.HORIZONTAL);
         GridBagUtilities.makeCell(this, this.holderTextField,          new Point(1, 0), 0.8, 4, GridBagConstraints.HORIZONTAL);
@@ -85,27 +74,31 @@ public class CreditCardForm extends JPanel implements Form {
     }
 
     public JTextField getHolderTextField() {
-        return holderTextField;
+        return this.holderTextField;
     }
 
-    public JTextField getNumberTextField() {
-        return numberTextField;
+    public JFormattedTextField getNumberTextField() {
+        return this.numberTextField;
     }
 
-    public JTextField getExpirationMonthTextField() {
-        return expirationMonthTextField;
+    public JFormattedTextField getSecurityCodeTextField() {
+        return this.securityCodeTextField;
     }
 
-    public JTextField getExpirationYearTextField() {
-        return expirationYearTextField;
+    public JComboBox<Integer> getExpirationYearBox() {
+        return this.expirationYearBox;
     }
 
-    public JTextField getSecurityCodeTextField() {
-        return securityCodeTextField;
+    public JComboBox<Integer> getExpirationMonthBox() {
+        return this.expirationMonthBox;
     }
 
-    public void setSecurityCodeTextField(JTextField securityCodeTextField) {
-        this.securityCodeTextField = securityCodeTextField;
+    public JButton getNextButton() {
+        return this.nextButton;
+    }
+
+    public JButton getCancelButton() {
+        return this.cancelButton;
     }
 
     @Override

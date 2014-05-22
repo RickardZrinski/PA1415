@@ -10,13 +10,13 @@ The Dapper is a way for us to abstract away the database interaction and use nat
 #### Before proceeding: Short introduction to databases
 Every novice programmer has had this problem: You have large set of data ("100 people") and you need to write 100 lines of code just to add all these people.
 
-But then you run in to the problem of having to re-insert everything once the program restarts. "Okay", you say. "Let's use a textfile!". You define a set of strict rules, and go "First name is on one line and last name is on the next line". Every time you add a new user, you update a number in the top of that textfile. 
+But then you run in to the problem of having to re-insert everything once the program restarts. "Okay", you say. "Let's use a textfile!". You define a set of strict rules, and go "First name is on one line and last name is on the next line". Every time you add a new user, you update a number in the top of that textfile.
 
 But what happens when you want to delete a person in the middle? Or, what happens if you for some reason want to store their address? You can't add a new line because your retrieval algorithm only reads lines in a specific way and your storage function only stores them in another. This is madness.
 
 
 ##### The solution
-The solution for all this is to use databases! They come in many flavors but they all have something in common - the Structured Query Language (SQL). 
+The solution for all this is to use databases! They come in many flavors but they all have something in common - the Structured Query Language (SQL).
 
 In order to store large quantites of data. Databases use something called **tables** to store data. A table is exactly what you think it is - a dataset with a heading and rows with data. When you define how a table is supposed to look, you create a structure (there's a example further down in this README). The structure contains information about the columns, such as `int(1)` or `varchar(30)` and the names of the columns: `id` and `firstname`. `int(1)` means that you can store numbers from 0-9, and `varchar(30)` means that you can store 30 characters.
 
@@ -29,7 +29,7 @@ Assume you have the following Person object:
 public class Person {
     private String firstname;
     private String lastname;
-    
+
     // Java reflection will handle IDs (no setter required)
     private int id;
 
@@ -74,7 +74,7 @@ public class Demo {
 
         // New person
         Person person = new Person("Patrick", "Stewart");
-        
+
         // Insert "Patrick Stewart" into the database
         sql.insert(person);
 
@@ -104,17 +104,17 @@ The important thing to remember is that we're dealing with objects. Objects go i
 
 ```java
 Dapper<Person> sql = new Dapper(Person.class);
-        
+
 int id = 1;
 
 // Retrieve the person
 Person person = sql.getId(id);
 
-// Change the last name 
+// Change the last name
 person.setLastname("Klepek");
 
 // Update
-sql.update(id, person); 
+sql.update(id, person);
 
 // This also works:
 sql.update(person.getId(), person);
@@ -126,7 +126,7 @@ sql.update(person.getId(), person);
 To add several people, do as you normally would:
 ```java
 Dapper<Person> sql = new Dapper(Person.class);
-        
+
 Person[] people = new Person[]{
     new Person("Brad", "Shoemaker"),
     new Person("Jeff", "Gerstmann"),
@@ -134,9 +134,9 @@ Person[] people = new Person[]{
     new Person("Ryan", "Davis")
 };
 
-// Iterate through each Person object and insert it into the 
+// Iterate through each Person object and insert it into the
 // database
-for(Person person: people) 
+for(Person person: people)
     sql.insert(person);
 ```
 
@@ -164,17 +164,17 @@ sql.delete(5);
 
 
 ### Retrieving a list of Person objects.
-The Dapper provides a way for you to retrieve several people using variations on the `getList()` method.
+The Dapper provides a way for you to retrieve several people using variations on the `getCollection()` method.
 
 #### To retrieve all person objects
 ```java
-ArrayList<Person> all = sql.getList();
+Collection<Person> all = sql.getCollection();
 
-for(Person person: all) 
+for(Person person: all)
     System.out.println(person);
-    
+
 // If you like to condense your code, you can also do:
-for(Person person: sql.getList())
+for(Person person: sql.getCollection())
     System.out.println(Person);
 ```
 
@@ -188,9 +188,9 @@ Id: 4, Firstname: Vinny, Lastname: Caravella
 
 #### To retrieve 2 person objects
 ```java
-ArrayList<Person> two = sql.getList(2);
+Collection<Person> two = sql.getCollection(2);
 
-for(Person person: two) 
+for(Person person: two)
     System.out.println(person);
 ```
 
@@ -202,9 +202,9 @@ Id: 2, Firstname: Brad, Lastname: Shoemaker
 
 #### To retrieve all person objects, sorted by lastname first:
 ```java
-ArrayList<Person> allByLastname = sql.getList("lastname", Sort.ASC); 
+Collection<Person> allByLastname = sql.getCollection("lastname", Sort.ASC);
 
-for(Person person: allByLastname) 
+for(Person person: allByLastname)
     System.out.println(person);
 ```
 
@@ -216,15 +216,15 @@ Id: 1, Firstname: Patrick, Lastname: Klepek
 Id: 2, Firstname: Brad, Lastname: Shoemaker
 ```
 
-As briefly mentioned before, there are several variations of `getList()` method. Make sure you read the source to fully understand them.
+As briefly mentioned before, there are several variations of `getCollection()` method. Make sure you read the source to fully understand them.
 
 
 ### Counting people and truncating tables
-Sometimes you need to know how many people there are in a database. For this you need to use the `count()` method. Also, while developing your app you might need to remove all entries from your table. How would one go about to do that? 
+Sometimes you need to know how many people there are in a database. For this you need to use the `count()` method. Also, while developing your app you might need to remove all entries from your table. How would one go about to do that?
 
-Again, a tought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(n)` method on each person?
+Again, a thought experiment: what would happen if we would get a list of all people, use their IDs and run the `sql.delete(n)` method on each person?
 
-You see, using `getList()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrieve the dataset, (2) map the dataset to our ArrayList and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `truncate()`! Please note that you **should not use** `drop()` as that method removes the table **and** all of its contents!
+You see, using `getCollection()` is a costly operation. If we would have 10 000 people in our database we would have to (1) retrieve the data set, (2) map the data set to our Collection and finally (3) for each Person object, call the delete operation. This would result in 10 001 calls to our database - just to truncate it! The solution to this problem is to use `truncate()`! Please note that you **should not use** `drop()` as that method removes the table **and** all of its contents!
 
 ```java
 // Count people

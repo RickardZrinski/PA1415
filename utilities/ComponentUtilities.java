@@ -1,5 +1,6 @@
 package utilities;
 
+import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 
@@ -61,8 +62,8 @@ public class ComponentUtilities {
 
     /**
      * Creates a number format for JFormattedTextField
-     * @param string the format to use
-     * @return a MaskFormatter format
+     * @param string    the format to use
+     * @return          a MaskFormatter format
      */
     public static MaskFormatter createMaskFormat(String string) {
         MaskFormatter formatter = null;
@@ -74,5 +75,54 @@ public class ComponentUtilities {
         }
 
         return formatter;
+    }
+
+    /**
+     * Prints the component size
+     * @param component the component to print the sizes from
+     */
+    public static void printDimensions(Component component) {
+        Dimension size = component.getSize();
+        Dimension pref = component.getPreferredSize();
+        Dimension max  = component.getMaximumSize();
+
+        System.out.println( String.format("%s: size(%d, %d), preferred(%d, %d), maximum(%d, %d)",
+                component.getClass().getSimpleName(),
+                (int)size.getWidth(), (int)size.getHeight(), (int)pref.getWidth(),
+                (int)pref.getHeight(), (int)max.getWidth(), (int)max.getHeight())
+        );
+    }
+
+    /**
+     * Groups together multiple components using FlowLayout
+     * @param   align           how to align the buttons
+     * @param   components      a collection of components to group
+     * @return                  a JPanel with the components
+     */
+    public static JPanel flow(int align, Component... components) {
+        JPanel group = new JPanel(new FlowLayout(align, 0, 0));
+
+        for(Component component: components) {
+            group.add(component);
+        }
+
+        return group;
+    }
+
+    /**
+     * Groups together multiple components using BoxLayout
+     * @param   align           how to align the buttons
+     * @param   components      a collection of components to group
+     * @return                  a JPanel with the components
+     */
+    public static JPanel box(int align, Component... components) {
+        JPanel group = new JPanel();
+        group.setLayout(new BoxLayout(group, BoxLayout.PAGE_AXIS));
+
+        for(Component component: components) {
+            group.add(component);
+        }
+
+        return group;
     }
 }

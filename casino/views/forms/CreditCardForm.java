@@ -98,10 +98,6 @@ public class CreditCardForm extends JPanel implements Form {
         return securityCodeTextField;
     }
 
-    public void setSecurityCodeTextField(JTextField securityCodeTextField) {
-        this.securityCodeTextField = securityCodeTextField;
-    }
-
     @Override
     public void setActionListener(ActionListener listener) {
         this.nextButton.addActionListener(listener);

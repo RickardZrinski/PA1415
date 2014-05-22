@@ -3,12 +3,12 @@ package shared.transactions;
 /**
  * @author  John Mogensen
  * @since   14/05/2014
- * @TODO: In Assigment 3: change method playerTransfer() -> accountTransfer()
+ * @TODO: In Assignment 3: change method playerTransfer() -> accountTransfer()
  */
 public class Withdraw extends Transaction {
 
     /**
-     * Comments.
+     * Transfers the payment from the player bank to the business bank
      */
     @Override
     public void paymentTransfer() {
@@ -16,7 +16,7 @@ public class Withdraw extends Transaction {
     }
 
     /**
-     * Withdraws money from players account.
+     * Withdraws money from players account
      */
     @Override
     public void accountTransfer() {

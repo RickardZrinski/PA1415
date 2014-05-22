@@ -17,8 +17,8 @@ import java.util.Formatter;
  */
 public class CreditCardForm extends JPanel implements Form {
     private JTextField holderTextField = new JTextField();
-    private JTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
-    private JTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
+    private JFormattedTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
+    private JFormattedTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
 
     private JComboBox<Integer> expirationMonthBox;
     private JComboBox<Integer> expirationYearBox;
@@ -55,8 +55,8 @@ public class CreditCardForm extends JPanel implements Form {
         JLabel expirationLabel = new JLabel("Expiration");
         JLabel securityCodeLabel = new JLabel("Security Code");
 
-        JPanel buttons = ComponentUtilities.group(FlowLayout.LEFT, this.nextButton, this.cancelButton);
-        JPanel boxes = ComponentUtilities.group(FlowLayout.LEFT, this.expirationMonthBox, this.expirationYearBox);
+        JPanel buttons = ComponentUtilities.flow(FlowLayout.LEFT, this.nextButton, this.cancelButton);
+        JPanel boxes = ComponentUtilities.flow(FlowLayout.LEFT, this.expirationMonthBox, this.expirationYearBox);
 
         GridBagUtilities.makeCell(this, holderLabel,                   new Point(0, 0), 0.2, 1, GridBagConstraints.HORIZONTAL);
         GridBagUtilities.makeCell(this, this.holderTextField,          new Point(1, 0), 0.8, 4, GridBagConstraints.HORIZONTAL);
@@ -77,11 +77,11 @@ public class CreditCardForm extends JPanel implements Form {
         return this.holderTextField;
     }
 
-    public JTextField getNumberTextField() {
+    public JFormattedTextField getNumberTextField() {
         return this.numberTextField;
     }
 
-    public JTextField getSecurityCodeTextField() {
+    public JFormattedTextField getSecurityCodeTextField() {
         return this.securityCodeTextField;
     }
 

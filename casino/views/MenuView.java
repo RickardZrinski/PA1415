@@ -2,6 +2,8 @@ package casino.views;
 
 import casino.AbstractView;
 import casino.events.MenuEvent;
+import shared.AuthenticationSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -23,7 +25,7 @@ public class MenuView extends AbstractView implements ItemListener {
 
     public MenuView() {
         this.usernameLabel = new JLabel("User");
-        this.balanceLabel = new JLabel("Balance");
+        this.balanceLabel  = new JLabel("Balance");
         this.menu = new JComboBox<>();
 
         this.event = new MenuEvent();
@@ -32,6 +34,14 @@ public class MenuView extends AbstractView implements ItemListener {
     }
 
     private void configure() {
+        try {
+            // Set the user in the menu
+            this.usernameLabel.setText(String.format("Player: %s", AuthenticationSession.getInstance().getUser().getUsername()));
+            this.balanceLabel.setText(String.format("Balance: %f", AuthenticationSession.getInstance().getUser().getAccount().getBalance()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Only temporary
         this.setBackground(Color.DARK_GRAY);
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));

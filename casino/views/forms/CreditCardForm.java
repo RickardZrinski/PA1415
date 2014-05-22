@@ -18,8 +18,6 @@ import java.util.Formatter;
 public class CreditCardForm extends JPanel implements Form {
     private JTextField holderTextField = new JTextField();
     private JTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
-    private JTextField expirationMonthTextField = new JTextField();
-    private JTextField expirationYearTextField = new JTextField();
     private JTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
 
     private JComboBox<Integer> expirationMonthBox;
@@ -86,17 +84,10 @@ public class CreditCardForm extends JPanel implements Form {
         return numberTextField;
     }
 
-    public JTextField getExpirationMonthTextField() {
-        return expirationMonthTextField;
-    }
-
-    public JTextField getExpirationYearTextField() {
-        return expirationYearTextField;
-    }
-
     public JTextField getSecurityCodeTextField() {
         return securityCodeTextField;
     }
+
 
     @Override
     public void setActionListener(ActionListener listener) {

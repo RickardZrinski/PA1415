@@ -34,6 +34,7 @@ public class Die {
      */
     public void reset(){
         this.face = 1;
+        saved = false;
     }
 
     public boolean isSaved(){

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class GameSession {
     private int bet;
     private boolean active;
-    private ArrayList<Die> diceHand;
     private User user;
     private GameData gameData;
     private ArrayList<Die> dice;
@@ -22,7 +21,6 @@ public class GameSession {
     public GameSession() {
         this.bet = 0;
         this.active = false;
-        this.diceHand = new ArrayList<Die>();
         this.dice = new ArrayList<Die>();
         this.user = null;
         this.gameData = null;
@@ -36,7 +34,6 @@ public class GameSession {
     public GameSession(User user, GameData gameData) {
         this.bet = 0;
         this.active = false;
-        this.diceHand = new ArrayList<Die>();
         this.dice = new ArrayList<Die>();
         for (int i = 0; i < gameData.getNumberOfDice(); i++)
            dice.add(new Die());
@@ -74,10 +71,6 @@ public class GameSession {
      */
     public WinningCondition end(){
         active = false;
-        //Save all remaining dice
-        while(getNumberOfGameDice() > 0){
-            saveDie(0);
-        }
         return calculateReward();
     }
 
@@ -85,8 +78,6 @@ public class GameSession {
      * Resets the shared.game to its original state
      */
     public boolean playAgain(){
-        for (int i = 0; i < diceHand.size(); i++)
-            diceHand.remove(i);
         bet = 0;
 
         resetDice();
@@ -97,7 +88,7 @@ public class GameSession {
      * @param index index of die in gameData
      */
     public void saveDie(int index){
-        diceHand.add(dice.remove(index));
+        dice.get(index).setSaved(true);
     }
 
     /**
@@ -105,13 +96,13 @@ public class GameSession {
      * @param index index of the die in diceHand
      */
     public void unsaveDie(int index){
-        dice.add(diceHand.remove(index));
+        dice.get(index).setSaved(false);
     }
 
 
     private WinningCondition calculateReward(){
-        Die[] dice = new Die[diceHand.size()];
-        dice = diceHand.toArray(dice);
+        Die[] dice = new Die[this.dice.size()];
+        dice = this.dice.toArray(dice);
         return gameData.checkWinningConditions(dice);
     }
     /**
@@ -124,29 +115,13 @@ public class GameSession {
     }
 
     /**
-     * Retrieves a die from diceHand
-     * @param index index of the die in diceHand
-     * @return  the die
-     */
-    public Die getSavedDie(int index){
-        return diceHand.get(index);
-    }
-
-    /**
      * Retrieves number of dice currently in shared.game (excluding dice in diceHand)
      * @return number of dice.
      */
-    public int getNumberOfGameDice(){
+    public int getNumberOfDice(){
         return dice.size();
     }
 
-    /**
-     * Retrieves number of dice in diceHand
-     * @return number of dice
-     */
-    public int getNumberOfHandDice(){
-        return diceHand.size();
-    }
 
     /**
      * Retrieves number Of Throws
@@ -189,10 +164,7 @@ public class GameSession {
      * Moves all dice from diceHand and resets all dice
      */
     private void resetDice(){
-        for (int i = 0; i < getNumberOfHandDice(); i++)
-            dice.add(diceHand.remove(i));
         for (Die die : dice)
             die.reset();
-
     }
 }

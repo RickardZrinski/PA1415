@@ -1,6 +1,8 @@
 package casino.controllers;
 
 import casino.MainFrame;
+import shared.AuthenticationSession;
+import shared.dao.DAOFactory;
 
 import javax.swing.*;
 
@@ -21,6 +23,17 @@ public class FrontController {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-        new AuthenticationController();
+        try {
+            // Start a fake AuthenticationSession
+            AuthenticationSession.start(DAOFactory.getUserDao().get("dino"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // new GameController();
+        // new AuthenticationController();
+        new TransactionController();
+        // new MessageController();
+
     }
 }

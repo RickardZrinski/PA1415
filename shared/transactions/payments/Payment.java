@@ -23,13 +23,6 @@ public abstract class Payment {
     }
 
     /**
-     * Comments.
-     */
-    public void pay() {
-
-    }
-
-    /**
      * Sets the payment amount
      * @param amount    the amount in the payment
      */
@@ -43,6 +36,11 @@ public abstract class Payment {
     public double getAmount() {
         return this.amount;
     }
+
+    /**
+     * Pays for the abstract payment
+     */
+    public abstract void pay();
 
     @Override
     public String toString() {

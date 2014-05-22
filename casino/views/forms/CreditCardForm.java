@@ -77,17 +77,24 @@ public class CreditCardForm extends JPanel implements Form {
     }
 
     public JTextField getHolderTextField() {
-        return holderTextField;
+        return this.holderTextField;
     }
 
     public JTextField getNumberTextField() {
-        return numberTextField;
+        return this.numberTextField;
     }
 
     public JTextField getSecurityCodeTextField() {
-        return securityCodeTextField;
+        return this.securityCodeTextField;
     }
 
+    public JComboBox<Integer> getExpirationYearBox() {
+        return this.expirationYearBox;
+    }
+
+    public JComboBox<Integer> getExpirationMonthBox() {
+        return this.expirationMonthBox;
+    }
 
     @Override
     public void setActionListener(ActionListener listener) {

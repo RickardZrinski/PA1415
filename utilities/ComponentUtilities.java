@@ -1,5 +1,6 @@
 package utilities;
 
+import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 
@@ -90,5 +91,21 @@ public class ComponentUtilities {
                 (int)size.getWidth(), (int)size.getHeight(), (int)pref.getWidth(),
                 (int)pref.getHeight(), (int)max.getWidth(), (int)max.getHeight())
         );
+    }
+
+    /**
+     * Groups together multiple components using FlowLayout
+     * @param   align           how to align the buttons
+     * @param   components      a collection of components to group
+     * @return                  a JPanel with the components
+     */
+    public static JPanel group(int align, Component... components) {
+        JPanel group = new JPanel(new FlowLayout(align));
+
+        for(Component component: components) {
+            group.add(component);
+        }
+
+        return group;
     }
 }

@@ -60,14 +60,8 @@ public class CreditCardForm extends JPanel implements Form {
         JLabel expirationLabel = new JLabel("Expiration");
         JLabel securityCodeLabel = new JLabel("Security Code");
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
-        buttons.add(this.nextButton);
-        buttons.add(this.cancelButton);
-
-        JPanel boxes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        boxes.add(this.expirationMonthBox);
-        boxes.add(this.expirationYearBox);
+        JPanel buttons = ComponentUtilities.group(FlowLayout.LEFT, this.nextButton, this.cancelButton);
+        JPanel boxes = ComponentUtilities.group(FlowLayout.LEFT, this.expirationMonthBox, this.expirationYearBox);
 
         GridBagUtilities.makeCell(this, holderLabel,                   new Point(0, 0), 0.2, 1, GridBagConstraints.HORIZONTAL);
         GridBagUtilities.makeCell(this, this.holderTextField,          new Point(1, 0), 0.8, 4, GridBagConstraints.HORIZONTAL);

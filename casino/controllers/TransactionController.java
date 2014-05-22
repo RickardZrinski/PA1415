@@ -4,6 +4,7 @@ import casino.MainFrame;
 import casino.events.TransactionEvent;
 import casino.events.TransactionListener;
 import casino.views.DepositView;
+import casino.views.WithdrawView;
 
 import java.awt.*;
 
@@ -13,11 +14,14 @@ import java.awt.*;
  */
 public class TransactionController implements TransactionListener {
     private DepositView depositView = new DepositView();
+    private WithdrawView withdrawView = new WithdrawView();
 
     public TransactionController() {
         this.depositView.subscribe(this);
+        this.withdrawView.subscribe(this);
 
-        MainFrame.getInstance().add(this.depositView, BorderLayout.CENTER);
+        //MainFrame.getInstance().add(this.depositView, BorderLayout.CENTER);
+        MainFrame.getInstance().add(this.withdrawView, BorderLayout.CENTER);
     }
 
     @Override

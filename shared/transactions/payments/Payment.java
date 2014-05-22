@@ -7,16 +7,16 @@ package shared.transactions.payments;
 public abstract class Payment {
     private double amount;
 
-
     /**
-     * Comments.
+     * Default constructor sets the payment to zero
      */
     public Payment() {
         this.amount = 0.0;
     }
 
     /**
-     * Comments.
+     * Constructor that sets a predefined payment amount
+     * @param amount    the amount in the payment
      */
     public Payment(double amount) {
         this.amount = amount;
@@ -30,16 +30,22 @@ public abstract class Payment {
     }
 
     /**
-     * Sets amount.
+     * Sets the payment amount
+     * @param amount    the amount in the payment
      */
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
     /**
-     * Gets amount.
+     * @return the payment amount
      */
     public double getAmount() {
         return this.amount;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("amount: %f", this.amount);
     }
 }

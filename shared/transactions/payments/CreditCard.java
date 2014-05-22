@@ -1,5 +1,7 @@
 package shared.transactions.payments;
 
+import shared.transactions.services.Bank;
+
 /**
  * @author  John Mogensen
  * @since   14/05/2014
@@ -10,122 +12,127 @@ public class CreditCard extends Payment {
     private int securityCode;
     private int expirationYear;
     private int expirationMonth;
-    private boolean authorized;
-
-
-    /**
-     * Comments.
-     */
-    public CreditCard() {
-        this.setAmount(0.0);
-        this.holder = "?";
-        this.number = 0000000000000000;
-        this.securityCode = 000;
-        this.expirationYear = 00;
-        this.expirationMonth = 00;
-        this.authorized = false;
-    }
+    private boolean authorized = false;
 
     /**
-     * Comments.
+     * Creates a new credit card payment
+     *
+     * @param amount            the amount to bind to this payment
+     * @param holder            the holder of this credit card
+     * @param number            the number of this credit card
+     * @param securityCode      the security code of this credit card
+     * @param expirationMonth   the expiration month for this credit card in M format (e.g. 5)
+     * @param expirationYear    the expiration year for this credit card in YYYY format (e.g. 2014)
      */
-    public CreditCard(double amount, String holder, int number, int securityCode, int expirationYear, int expirationMonth, boolean authorized) {
-        this.setAmount(amount);
+    public CreditCard(double amount, String holder, int number, int securityCode, int expirationMonth, int expirationYear) {
+        super.setAmount(amount);
         this.holder = holder;
         this.number = number;
         this.securityCode = securityCode;
-        this.expirationYear = expirationYear;
         this.expirationMonth = expirationMonth;
-        this.authorized = authorized;
+        this.expirationYear = expirationYear;
     }
 
     /**
-     * Sets holder.
+     * Sets a holder for this credit card
+     *
+     * @param holder            the name of the credit card holder
      */
     public void setHolder(String holder) {
         this.holder = holder;
     }
 
     /**
-     * Sets number.
+     * Sets the number of this credit card
+     *
+     * @param number            the number of this credit card
      */
     public void setNumber(int number) {
         this.number = number;
     }
 
     /**
-     * Sets securityCode.
+     * Sets the security code for this credit card
+     *
+     * @param securityCode      the security code of this credit card
      */
     public void setSecurityCode(int securityCode) {
         this.securityCode = securityCode;
     }
 
     /**
-     * Sets expirationYear.
+     * Sets the year when this credit card expires
+     *
+     * @param expirationYear    the year in YYYY-format (e.g. '2014' for year 2014)
      */
     public void setExpirationYear(int expirationYear) {
         this.expirationYear = expirationYear;
     }
 
     /**
-     * Sets expirationMonth.
+     * Sets the month when this credit card expires
+     *
+     * @param expirationMonth   the month in M-format (e.g. '5' for May)
      */
     public void setExpirationMonth(int expirationMonth) {
         this.expirationMonth = expirationMonth;
     }
 
     /**
-     * Sets authorized.
+     * Sets the authorization state for this credit card
+     *
+     * @param authorized        true if the credit card is authorized, else false
      */
     public void setAuthorized(boolean authorized) {
         this.authorized = authorized;
     }
 
     /**
-     * Comments.
+     * Sends this payment to the bank and verifies it.
      */
     @Override
     public void pay() {
-
+        Bank bank = new Bank();
+        bank.authorized();
     }
 
     /**
-     * Returns holder.
+     * @return  the holder of this credit card
      */
     public String getHolder() {
         return this.holder;
     }
 
     /**
-     * Returns number.
+     * @return  the number of this credit card
      */
     public int getNumber() {
         return this.number;
     }
 
     /**
-     * Returns securityCode.
+     * @return  the security code
      */
     public int getSecurityCode() {
         return this.securityCode;
     }
 
     /**
-     * Returns expirationYear.
+     * @return  the year when this credit card expires
      */
     public int getExpirationYear() {
         return this.expirationYear;
     }
 
     /**
-     * Returns expirationMonth.
+     * @return  the month this credit card expires
      */
     public int getExpirationMonth() {
         return this.expirationMonth;
     }
 
     /**
-     * Returns authorized.
+     * @return  the authorization state of this payment
      */
     public boolean isAuthorized() {
         return this.authorized;

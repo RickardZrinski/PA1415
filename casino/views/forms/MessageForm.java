@@ -1,5 +1,6 @@
 package casino.views.forms;
 
+import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;
 
 import javax.swing.*;
@@ -49,9 +50,7 @@ public class MessageForm extends JPanel implements Form {
         JLabel messageLabel = new JLabel("Message");
         JLabel contactDetailsInfoLabel = new JLabel("Where can we reach you? Leave a phone number or email address.");
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0 ));
-        buttons.add(this.sendButton);
-        buttons.add(this.cancelButton);
+        JPanel buttons = ComponentUtilities.group(FlowLayout.LEFT, this.sendButton, this.cancelButton);
 
         // Create a scroll pane for the text area
         JScrollPane pane = new JScrollPane(this.messageTextArea);

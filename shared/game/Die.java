@@ -40,7 +40,7 @@ public class Die {
         return saved;
     }
 
-    public void save(){
-        saved = true;
+    public void setSaved(boolean save){
+        saved = save;
     }
 }

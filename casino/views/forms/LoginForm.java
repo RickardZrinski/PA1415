@@ -29,10 +29,7 @@ public class LoginForm extends JPanel implements Form {
 
     private void addComponents() {
         // Create a JPanel for the two grouped buttons
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
-        buttons.add(this.signInButton);
-        buttons.add(this.resetButton);
+        JPanel buttons = ComponentUtilities.group(FlowLayout.LEFT, this.signInButton, this.resetButton);
 
         /**
          * GridBagLayout works with grids. The point is a coordinate inside a table, for example:

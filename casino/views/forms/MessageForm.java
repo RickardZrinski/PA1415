@@ -50,7 +50,7 @@ public class MessageForm extends JPanel implements Form {
         JLabel messageLabel = new JLabel("Message");
         JLabel contactDetailsInfoLabel = new JLabel("Where can we reach you? Leave a phone number or email address.");
 
-        JPanel buttons = ComponentUtilities.group(FlowLayout.LEFT, this.sendButton, this.cancelButton);
+        JPanel buttons = ComponentUtilities.flow(FlowLayout.LEFT, this.sendButton, this.cancelButton);
 
         // Create a scroll pane for the text area
         JScrollPane pane = new JScrollPane(this.messageTextArea);

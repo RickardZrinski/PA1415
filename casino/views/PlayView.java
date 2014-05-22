@@ -33,8 +33,8 @@ public class PlayView extends JPanel {
     }
 
     private void addComponents() {
-        this.add(ComponentUtilities.group(FlowLayout.CENTER, this.progressText), BorderLayout.PAGE_START);
-        this.add(ComponentUtilities.group(FlowLayout.CENTER, this.tossButton, this.resetButton), BorderLayout.PAGE_END);
+        this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.progressText), BorderLayout.PAGE_START);
+        this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.tossButton, this.resetButton), BorderLayout.PAGE_END);
         this.add(this.dicePanel, BorderLayout.CENTER);
     }
 

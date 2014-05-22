@@ -45,9 +45,6 @@ public class CreditCardForm extends JPanel implements Form {
 
         ComponentUtilities.setWidth(200, this.securityCodeTextField);
         ComponentUtilities.setPreferredWidth(40, this.securityCodeTextField);
-
-        this.nextButton.setActionCommand("next");
-        this.cancelButton.setActionCommand("cancel");
     }
 
     private void addComponents() {
@@ -94,6 +91,14 @@ public class CreditCardForm extends JPanel implements Form {
 
     public JComboBox<Integer> getExpirationMonthBox() {
         return this.expirationMonthBox;
+    }
+
+    public JButton getNextButton() {
+        return this.nextButton;
+    }
+
+    public JButton getCancelButton() {
+        return this.cancelButton;
     }
 
     @Override

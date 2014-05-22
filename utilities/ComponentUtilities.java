@@ -100,7 +100,7 @@ public class ComponentUtilities {
      * @return                  a JPanel with the components
      */
     public static JPanel group(int align, Component... components) {
-        JPanel group = new JPanel(new FlowLayout(align));
+        JPanel group = new JPanel(new FlowLayout(align, 0, 0));
 
         for(Component component: components) {
             group.add(component);

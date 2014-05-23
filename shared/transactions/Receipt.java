@@ -17,7 +17,6 @@ public class Receipt {
      * Comments.
      */
     public Receipt() {
-        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.dateFormat = "?";
         this.amount = 0.0;
     }
@@ -26,7 +25,6 @@ public class Receipt {
      * Comments.
      */
     public Receipt(String dateFormat, double amount) {
-        this.timestamp = (int) System.currentTimeMillis() / 1000;
         this.dateFormat = dateFormat;
         this.amount = amount;
     }
@@ -77,8 +75,10 @@ public class Receipt {
      * Comments.
      */
     public boolean send(User user) {
-
-        return false;
+        // Instead of sending a receipt to the email, just
+        // print it out
+        System.out.println( String.format("Receipt sent to: %s with amount: %f", user.getEmail(), this.amount));
+        return true;
     }
 
 

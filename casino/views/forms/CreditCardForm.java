@@ -18,7 +18,7 @@ import java.util.Formatter;
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class CreditCardForm extends AbstractView implements ActionListener {
+public class CreditCardForm extends AbstractView {
     private JLabel resultLabel = new JLabel();
     private JTextField resultTextField = new JTextField();
     private JTextField holderTextField = new JTextField();
@@ -63,8 +63,8 @@ public class CreditCardForm extends AbstractView implements ActionListener {
         ComponentUtilities.setPreferredWidth(40, this.securityCodeTextField);
 
         // The next button should listen to this class, it emits a creditCardAction event
-        this.nextButton.addActionListener(this);
-        this.cancelButton.addActionListener(this);
+        this.nextButton.addActionListener(new NextAction());
+        this.cancelButton.addActionListener(new CancelAction());
 
         this.cancelButton.setActionCommand("cancel");
     }
@@ -150,24 +150,33 @@ public class CreditCardForm extends AbstractView implements ActionListener {
                 this.expirationMonthBox.getSelectedItem(), this.expirationYearBox.getSelectedItem(), this.securityCodeTextField.getText());
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("cancel"))
-        {
-            this.notify("creditCardCancel");
-        } else {
+    /**
+     * The user pushes next
+     */
+    private class NextAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
             try {
-                CreditCard card = new CreditCard(0.0,
-                        this.holderTextField.getText(),
-                        new Long(this.numberTextField.getText().replace(" ", "")),
-                        new Integer(this.securityCodeTextField.getText()),
-                        this.expirationMonthBox.getSelectedIndex(),
-                        this.expirationYearBox.getSelectedIndex());
+                CreditCard card = new CreditCard(0.0, CreditCardForm.this.holderTextField.getText(),
+                        new Long(CreditCardForm.this.numberTextField.getText().replace(" ", "")),
+                        new Integer(CreditCardForm.this.securityCodeTextField.getText()),
+                        CreditCardForm.this.expirationMonthBox.getSelectedIndex(),
+                        CreditCardForm.this.expirationYearBox.getSelectedIndex());
 
-                this.notify("creditCardAction", card);
+                CreditCardForm.this.notify("creditCardAction", card);
             } catch (Exception exception) {
-                this.notify("creditCardError");
+                CreditCardForm.this.notify("creditCardError");
             }
+        }
+    }
+
+    /**
+     * The user cancels the operation
+     */
+    private class CancelAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            CreditCardForm.this.notify("creditCardCancel");
         }
     }
 }

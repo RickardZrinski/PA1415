@@ -6,6 +6,7 @@ import casino.events.TransactionListener;
 import casino.models.TransactionModel;
 import casino.views.DepositView;
 import casino.views.WithdrawView;
+import shared.AuthenticationSession;
 
 import java.awt.*;
 
@@ -40,9 +41,18 @@ public class TransactionController implements TransactionListener {
     public void withdrawPerformed(TransactionEvent event) {
         System.out.println("Withdraw performed");
 
-        model.withdraw(event.getAmount());
-        model.makePayment(event.getPayment());
-        model.makeTransaction();
-        model.endTransaction();
+        // Check if its possible to withdraw any money from this account
+        try {
+            if (AuthenticationSession.getInstance().getUser().getAccount().isWithdrawable(event.getAmount())) {
+                model.withdraw(event.getAmount());
+                model.makePayment(event.getPayment());
+                model.makeTransaction();
+                model.endTransaction();
+            } else {
+                System.out.println("Not possible.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

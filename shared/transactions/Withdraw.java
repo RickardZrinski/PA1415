@@ -17,15 +17,6 @@ public class Withdraw extends Transaction {
     }
 
     /**
-     * Verifies the payment and withdraws money from the business bank.
-     */
-    @Override
-    public void paymentTransfer() {
-        this.getPayment().setAmount(super.getAmount());
-        this.getPayment().pay();
-    }
-
-    /**
      * Withdraws money from players account
      */
     @Override

@@ -12,6 +12,7 @@ import shared.users.User;
  * @TODO: In Assignment 3: Change method setPlayer(Player player) -> setUser(User user)
  * @TODO: In Assignment 3: Change method getPlayer() -> getUser()
  * @TODO: In Assignment 3: Change abstract method playerTransfer() -> accountTransfer()
+ * @TODO: In Assignment 3: Change paymentTransfer() from abstract public to public (its no longer abstract)
  */
 public abstract class Transaction {
     private int timestamp;
@@ -96,9 +97,12 @@ public abstract class Transaction {
     }
 
     /**
-     * Comments.
+     * Transfers the payment
      */
-    public abstract void paymentTransfer();
+    public void paymentTransfer() {
+        this.payment.setAmount(this.amount);
+        this.payment.pay();
+    }
 
     /**
      * Transfers money from / to player.

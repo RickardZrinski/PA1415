@@ -11,6 +11,7 @@ public class TransactionEvent {
     public static final int WITHDRAW = 2;
 
     private int type = 0;
+    private double amount = 0.0;
     private Payment payment;
 
     /**
@@ -22,8 +23,9 @@ public class TransactionEvent {
      * @param type      the type of transaction
      * @param payment   the payment method
      */
-    public TransactionEvent(int type, Payment payment) {
+    public TransactionEvent(int type, double amount, Payment payment) {
         this.type = type;
+        this.amount = amount;
         this.payment = payment;
     }
 
@@ -38,6 +40,13 @@ public class TransactionEvent {
     }
 
     /**
+     * @return the amount of the transaction
+     */
+    public double getAmount() {
+        return this.amount;
+    }
+
+    /**
      * @return the payment method used for this transaction
      */
     public Payment getPayment() {
@@ -46,10 +55,18 @@ public class TransactionEvent {
 
     /**
      * Sets the type of transaction event
-     * @param type  the transaction event
+     * @param type      the transaction event
      */
     public void setType(int type) {
         this.type = type;
+    }
+
+    /**
+     * Sets the transaction amount
+     * @param amount    the amount of the transaction
+     */
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     /**
@@ -60,13 +77,14 @@ public class TransactionEvent {
         this.payment = payment;
     }
 
+
     /**
      * Checks if the amount is larger than 0.0 and if its a
      * deposit or withdrawal.
      *
-     * @return  true if the event is valid, else false
+     * @return true if the event is valid, else false
      */
-    public Boolean isValid() {
-        return (this.payment.getAmount() > 0.0 && this.type == TransactionEvent.DEPOSIT || this.type == TransactionEvent.WITHDRAW);
+    public boolean isValid() {
+        return (this.amount > 0.0 && this.type == TransactionEvent.DEPOSIT || this.type == TransactionEvent.WITHDRAW);
     }
 }

@@ -96,8 +96,17 @@ public class CreditCard extends Payment {
      */
     @Override
     public void pay() {
+        // Fake bank
         Bank bank = new Bank();
-        bank.authorized();
+
+        // Authorize this payment
+        bank.authorize(this);
+
+        // Get the reply from the bank
+        boolean authorizationReply = bank.authorized();
+
+        // Set the bank reply
+        this.setAuthorized(authorizationReply);
     }
 
     /**

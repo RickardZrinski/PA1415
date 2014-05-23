@@ -14,25 +14,33 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Oliver on 2014-05-16.
+ * @author  Oliver Nilsson
+ * @since   16/05/2014
  */
 public class GameDataDao implements IDao<GameData> {
     Dapper<GameData> gameData;
     Dapper<WinningCondition> winningConditionData;
     Dapper<Combination> combinationData;
     Connection connection;
+
     public GameDataDao(){
-            this.gameData = new Dapper<>(GameData.class);
-            this.winningConditionData = new Dapper<>(WinningCondition.class);
-            this.combinationData = new Dapper<>(Combination.class);
+        this.gameData = new Dapper<>(GameData.class);
+        this.winningConditionData = new Dapper<>(WinningCondition.class);
+        this.combinationData = new Dapper<>(Combination.class);
     }
 
     /**
-     * WARNING! Not implemented! Returns FAKE values
-     * @return a collection of gameData objects
+     * Retrieves a collection of GameData objects
+     *
+     * @return collection of GameData objects
      */
     public Collection<GameData> getCollection() {
-        return this.gameData.getCollection();
+        Collection<GameData> data = new ArrayList<>();
+
+        for(GameData game: this.gameData.getCollection())
+            data.add(this.get(game.getId()));
+
+        return data;
     }
 
     /**

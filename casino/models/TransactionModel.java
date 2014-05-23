@@ -61,7 +61,7 @@ public class TransactionModel {
             Receipt receipt = new Receipt();
 
             receipt.setTimestamp( this.transaction.getTimestamp() );
-            receipt.setAmount( this.transaction.getTimestamp() );
+            receipt.setAmount( this.transaction.getAmount() );
 
             receipt.send( this.transaction.getUser() );
         } catch (Exception e) {

@@ -3,6 +3,7 @@ package casino.controllers;
 import casino.MainFrame;
 import casino.events.TransactionEvent;
 import casino.events.TransactionListener;
+import casino.models.TransactionModel;
 import casino.views.DepositView;
 import casino.views.WithdrawView;
 
@@ -15,6 +16,7 @@ import java.awt.*;
 public class TransactionController implements TransactionListener {
     private DepositView depositView = new DepositView();
     private WithdrawView withdrawView = new WithdrawView();
+    private TransactionModel model = new TransactionModel();
 
     public TransactionController() {
         this.depositView.subscribe(this);
@@ -25,12 +27,22 @@ public class TransactionController implements TransactionListener {
     }
 
     @Override
-    public void depositPerformed(TransactionEvent e) {
-        System.out.println(String.format("Deposit performed: %s", e.getPayment()));
+    public void depositPerformed(TransactionEvent event) {
+        System.out.println("Deposit performed");
+
+        model.deposit(event.getAmount());
+        model.makePayment(event.getPayment());
+        model.makeTransaction();
+        model.endTransaction();
     }
 
     @Override
-    public void withdrawPerformed(TransactionEvent e) {
-        System.out.println(String.format("Withdraw performed: %s", e.getPayment()));
+    public void withdrawPerformed(TransactionEvent event) {
+        System.out.println("Withdraw performed");
+
+        model.withdraw(event.getAmount());
+        model.makePayment(event.getPayment());
+        model.makeTransaction();
+        model.endTransaction();
     }
 }

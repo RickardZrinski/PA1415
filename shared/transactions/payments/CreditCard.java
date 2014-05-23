@@ -21,15 +21,13 @@ public class CreditCard extends Payment {
     /**
      * Creates a new credit card payment
      *
-     * @param amount            the amount to bind to this payment
      * @param holder            the holder of this credit card
      * @param number            the number of this credit card
      * @param securityCode      the security code of this credit card
      * @param expirationMonth   the expiration month for this credit card in M format (e.g. 5)
      * @param expirationYear    the expiration year for this credit card in YYYY format (e.g. 2014)
      */
-    public CreditCard(double amount, String holder, long number, int securityCode, int expirationMonth, int expirationYear) {
-        super.setAmount(amount);
+    public CreditCard(String holder, long number, int securityCode, int expirationMonth, int expirationYear) {
         this.holder = holder;
         this.number = number;
         this.securityCode = securityCode;

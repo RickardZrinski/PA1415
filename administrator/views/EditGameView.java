@@ -102,16 +102,6 @@ public class EditGameView extends View
         cellPanel = new JPanel();
         cellPanel.add(m_nrOfDicesField);
         this.add(cellPanel, constraints);
-
-        // A label for the winning conditions
-        constraints = new GridBagConstraints();
-        constraints.gridy = m_nextGridPosY;
-        m_nextGridPosY++;
-        constraints.anchor = GridBagConstraints.WEST;
-
-        cellPanel = new JPanel();
-        cellPanel.add(new JLabel("Winning Conditions"));
-        this.add(cellPanel, constraints);
     }
 
     public void addWinningCondition(WinningCondition winningCondition)

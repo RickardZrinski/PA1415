@@ -51,10 +51,19 @@ public class WinningConditionView extends View
         GridBagConstraints constraints;
         JPanel cellPanel;
 
-        // A label for the name text field
+        // A label for the winning condition
         constraints = new GridBagConstraints();
         constraints.gridy = m_nextGridPosY;
         m_nextGridPosY++;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        cellPanel = new JPanel();
+        cellPanel.add(new JLabel("Winning Condition"));
+        this.add(cellPanel, constraints);
+
+        // A label for the name text field
+        constraints = new GridBagConstraints();
+        constraints.gridy = m_nextGridPosY;
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.WEST;
 
@@ -76,8 +85,7 @@ public class WinningConditionView extends View
         // The name text field
         constraints = new GridBagConstraints();
         constraints.gridy = m_nextGridPosY;
-        m_nextGridPosY++;
-        constraints.gridx = m_nextGridPosY;
+        constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.WEST;
 
         cellPanel = new JPanel();

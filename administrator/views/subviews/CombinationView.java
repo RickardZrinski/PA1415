@@ -16,7 +16,8 @@ public class CombinationView extends View
     public CombinationView()
     {
         initialize();
-        configure();
+        configureView();
+        configureComponents();
         addComponents();
     }
 
@@ -26,9 +27,15 @@ public class CombinationView extends View
         m_quantity = new JTextField();
     }
 
-    private void configure()
+    private void configureView()
     {
         this.setLayout(new GridBagLayout());
+    }
+
+    private void configureComponents()
+    {
+        m_name.setColumns(10);
+        m_quantity.setColumns(10);
     }
 
     private void addComponents()
@@ -37,9 +44,20 @@ public class CombinationView extends View
         GridBagConstraints constraints;
         JPanel cellPanel;
 
-        // The name text field
+        // A combination label
         constraints = new GridBagConstraints();
         constraints.gridy = 0;
+        constraints.gridx = 0;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        cellPanel = new JPanel();
+        cellPanel.add(new JLabel("Combination"));
+        this.add(cellPanel, constraints);
+
+        // The name text field
+        constraints = new GridBagConstraints();
+        constraints.gridy = 1;
+        constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.WEST;
 
         cellPanel = new JPanel();
@@ -49,6 +67,7 @@ public class CombinationView extends View
         // The quantity text field
         constraints = new GridBagConstraints();
         constraints.gridy = 1;
+        constraints.gridx = 1;
         constraints.anchor = GridBagConstraints.WEST;
 
         cellPanel = new JPanel();

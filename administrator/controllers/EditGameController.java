@@ -3,6 +3,7 @@ package administrator.controllers;
 import administrator.models.GamesModel;
 import administrator.views.EditGameView;
 import administrator.GUI;
+import shared.game.Combination;
 import shared.game.GameData;
 import shared.game.WinningCondition;
 
@@ -38,12 +39,18 @@ public class EditGameController extends Controller
         m_view.setNrOfThrows(game.getNumberOfThrows());
         m_view.setNrOfDices(game.getNumberOfDice());
 
-        System.out.println("Number of Winning Conditions: " + game.getNumberOfWinningConditions());
-
+        // Some temporary stuff, delete later
         // Add already existing winning conditions
-        for(int i = 0; i < game.getNumberOfWinningConditions(); i++)
+        //int nrOfWinningConditions = game.getNumberOfWinningConditions();
+        int nrOfWinningConditions = 2;
+        for(int i = 0; i < nrOfWinningConditions; i++)
         {
-            m_view.addWinningCondition(game.getWinningCondition(i));
+            WinningCondition condition = new WinningCondition("Test");
+            condition.addCombination(new Combination("Full House"));
+            //condition.addCombination(new Combination("Par"));
+
+            //m_view.addWinningCondition(game.getWinningCondition(i));
+            m_view.addWinningCondition(condition);
         }
 
         this.getGui().addView(m_view, "EditGameView");

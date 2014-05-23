@@ -8,11 +8,21 @@ package shared.transactions;
 public class Withdraw extends Transaction {
 
     /**
-     * Transfers the payment from the player bank to the business bank
+     * Sets the amount of the payment
+     *
+     * @param amount the amount to withdraw
+     */
+    public Withdraw(double amount) {
+        super.setAmount(amount);
+    }
+
+    /**
+     * Verifies the payment and withdraws money from the business bank.
      */
     @Override
     public void paymentTransfer() {
-        this.getPayment().pay();
+        if (this.getUser().getAccount().isWithdrawable(this.getAmount()))
+            this.getPayment().pay();
     }
 
     /**
@@ -20,7 +30,6 @@ public class Withdraw extends Transaction {
      */
     @Override
     public void accountTransfer() {
-        if (this.getUser().getAccount().isWithdrawable(this.getAmount()))
-            this.getUser().getAccount().withdraw(this.getAmount());
+        this.getUser().getAccount().withdraw(this.getAmount());
     }
 }

@@ -83,20 +83,12 @@ public class WithdrawView extends AbstractView implements ActionListener, Credit
 
     @Override
     public void creditCardAction(CreditCard card) {
-        double amount = new Double(this.simpleForm.getFormattedField().getText());
+        TransactionEvent event = new TransactionEvent(TransactionEvent.DEPOSIT, new Double(this.simpleForm.getFormattedField().getText()), card);
 
-        TransactionEvent event = new TransactionEvent(TransactionEvent.DEPOSIT, amount, card);
-
-        // We retrieved a credit card, check if there was an amount set
-        if (!event.isValid()) {
+        if (!event.isValid())
             JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Set the amount and send the deposit request.
-            card.setAmount(amount);
-
-            // Notify our listeners
+        else
             this.notify("withdrawPerformed", event);
-        }
     }
 
     @Override

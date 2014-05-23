@@ -70,18 +70,12 @@ public class DepositView extends AbstractView implements ActionListener, CreditC
 
     @Override
     public void creditCardAction(CreditCard card) {
-        String amount = this.simpleForm.getFormattedField().getText();
+        TransactionEvent event = new TransactionEvent(TransactionEvent.DEPOSIT, new Double(this.simpleForm.getFormattedField().getText()), card);
 
-        // We retrieved a credit card, check if there was an amount set
-        if (amount.isEmpty()) {
+        if (!event.isValid())
             JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Set the amount and send the deposit request.
-            card.setAmount(new Double(amount));
-
-            // Notify our listeners
-            this.notify("depositPerformed", new TransactionEvent(TransactionEvent.DEPOSIT, card));
-        }
+        else
+            this.notify("depositPerformed", event);
     }
 
     @Override

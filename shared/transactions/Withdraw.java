@@ -21,8 +21,8 @@ public class Withdraw extends Transaction {
      */
     @Override
     public void paymentTransfer() {
-        if (this.getUser().getAccount().isWithdrawable(this.getAmount()))
-            this.getPayment().pay();
+        this.getPayment().setAmount(super.getAmount());
+        this.getPayment().pay();
     }
 
     /**
@@ -30,6 +30,6 @@ public class Withdraw extends Transaction {
      */
     @Override
     public void accountTransfer() {
-        this.getUser().getAccount().withdraw(this.getAmount());
+        this.getUser().getAccount().withdraw(super.getAmount());
     }
 }

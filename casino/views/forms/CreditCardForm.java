@@ -157,7 +157,7 @@ public class CreditCardForm extends AbstractView {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                CreditCard card = new CreditCard(0.0, CreditCardForm.this.holderTextField.getText(),
+                CreditCard card = new CreditCard(CreditCardForm.this.holderTextField.getText(),
                         new Long(CreditCardForm.this.numberTextField.getText().replace(" ", "")),
                         new Integer(CreditCardForm.this.securityCodeTextField.getText()),
                         CreditCardForm.this.expirationMonthBox.getSelectedIndex(),

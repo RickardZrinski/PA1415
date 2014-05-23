@@ -104,4 +104,10 @@ public abstract class Transaction {
      * Transfers money from / to player.
      */
     public abstract void accountTransfer();
+
+    @Override
+    public String toString() {
+        return String.format("timestamp: %d, amount: %s, payment: %s, user: %s", this.timestamp, this.amount,
+                                                                                 this.payment, this.user);
+    }
 }

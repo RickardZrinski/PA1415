@@ -1,14 +1,14 @@
 package administrator.models;
 
-import casino.AbstractModel;
+import administrator.events.ListAllGamesListener;
+import shared.Model;
 import shared.dao.GameDataDao;
 import shared.game.GameData;
 import shared.game.WinningCondition;
-import utilities.sql.Dapper;
 
 import java.util.ArrayList;
 
-public class GamesModel extends AbstractModel
+public class GamesModel extends Model<ListAllGamesListener>
 {
     private ArrayList<GameData> games;
     private int nrOfGames;
@@ -61,8 +61,9 @@ public class GamesModel extends AbstractModel
 
     private boolean gameExist(String title) {
         boolean exist = false;
-        for (int i = 0; i < games.size(); i++) {
-            if (games.get(i).getGameName() == title) {
+
+        for (int i = 0; i < games.size() && !exist; i++) {
+            if (games.get(i).getGameName().equals(title)) {
                 exist = true;
             }
         }
@@ -101,6 +102,6 @@ public class GamesModel extends AbstractModel
 
     public void requestAllGames()
     {
-        this.notify("listAllGamesResponse", this.games);
+        this.getObservers().forEach(e -> e.listAllGamesResponse(this.games));//this.notify("listAllGamesResponse", this.games);
     }
 }

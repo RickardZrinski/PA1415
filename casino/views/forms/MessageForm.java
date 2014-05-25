@@ -5,13 +5,12 @@ import utilities.GridBagUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   19/05/2014
  */
-public class MessageForm extends JPanel implements Form {
+public class MessageForm extends JPanel {
 
     private JTextField nameTextField;
     private JTextField subjectTextField;
@@ -25,7 +24,7 @@ public class MessageForm extends JPanel implements Form {
         // Form elements
         this.nameTextField = new JTextField();
         this.subjectTextField = new JTextField();
-        this.categoryComboBox  = new JComboBox<String>(new String[] {"Support", "Praise", "Feature request"});
+        this.categoryComboBox  = new JComboBox<>(new String[] {"Support", "Praise", "Feature request"});
         this.contactDetailsTextField = new JTextField();
         this.messageTextArea = new JTextArea();
         this.sendButton = new JButton("Send");
@@ -36,13 +35,10 @@ public class MessageForm extends JPanel implements Form {
 
     private void configure()
     {
-        this.sendButton.setActionCommand("send");
-        this.cancelButton.setActionCommand("cancel");
+        this.setLayout(new GridBagLayout());
     }
 
     private void addComponents() {
-        this.setLayout(new GridBagLayout());
-
         JLabel nameLabel = new JLabel("Full Name");
         JLabel subjectLabel = new JLabel("Subject");
         JLabel categoryLabel = new JLabel("Category");
@@ -55,25 +51,25 @@ public class MessageForm extends JPanel implements Form {
         // Create a scroll pane for the text area
         JScrollPane pane = new JScrollPane(this.messageTextArea);
 
-        GridBagUtilities.makeCell(this, nameLabel,              new Point(0, 0), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, this.nameTextField,     new Point(1, 0), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, nameLabel, new Point(0, 0), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.nameTextField, new Point(1, 0), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, subjectLabel,           new Point(0, 1), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, this.subjectTextField,  new Point(1, 1), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, subjectLabel, new Point(0, 1), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.subjectTextField, new Point(1, 1), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, categoryLabel,          new Point(0, 2), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, this.categoryComboBox,  new Point(1, 2), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, categoryLabel, new Point(0, 2), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.categoryComboBox, new Point(1, 2), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, contactDetailsLabel,            new Point(0, 3), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, this.contactDetailsTextField,   new Point(1, 3), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, contactDetailsLabel, new Point(0, 3), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, this.contactDetailsTextField, new Point(1, 3), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, contactDetailsInfoLabel,        new Point(1, 4), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, contactDetailsInfoLabel, new Point(1, 4), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, messageLabel,                   new Point(0, 5), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, pane,                           new Point(1, 5), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, messageLabel, new Point(0, 5), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, pane, new Point(1, 5), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
 
-        GridBagUtilities.makeCell(this, buttons,                        new Point(1, 6), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, buttons, new Point(1, 6), 0.8, 1, GridBagConstraints.HORIZONTAL);
     }
 
     public JTextField getNameTextField() {
@@ -96,10 +92,12 @@ public class MessageForm extends JPanel implements Form {
         return this.messageTextArea;
     }
 
-    @Override
-    public void setActionListener(ActionListener listener) {
-        this.sendButton.addActionListener(listener);
-        this.cancelButton.addActionListener(listener);
+    public JButton getSendButton() {
+        return this.sendButton;
+    }
+
+    public JButton getCancelButton() {
+        return this.cancelButton;
     }
 
     @Override

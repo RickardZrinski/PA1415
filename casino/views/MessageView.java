@@ -1,19 +1,19 @@
 package casino.views;
 
-import casino.AbstractView;
+import shared.View;
 import casino.MainFrame;
 import casino.events.MessageEvent;
+import casino.events.MessageListener;
 import casino.views.forms.MessageForm;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  John Mogensen
  * @since   20/05/2014
  */
-public class MessageView extends AbstractView implements ActionListener {
+public class MessageView extends View<MessageListener> {
     private MenuView menuView = new MenuView();
     private MessageForm messageForm = new MessageForm();
 
@@ -25,7 +25,8 @@ public class MessageView extends AbstractView implements ActionListener {
     }
 
     private void configure() {
-        this.messageForm.setActionListener(this);
+        this.messageForm.getSendButton().addActionListener(this::sendAction);
+        this.messageForm.getCancelButton().addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
@@ -34,16 +35,15 @@ public class MessageView extends AbstractView implements ActionListener {
         this.add(this.messageForm, BorderLayout.CENTER);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("send")) {
-            this.notify("messageSend", new MessageEvent(this.messageForm.getNameTextField().getText(), this.messageForm.getSubjectTextField().getText(),
-                        this.messageForm.getCategoryComboBox().getActionCommand(), this.messageForm.getContactDetailsTextField().getText(),
-                        this.messageForm.getMessageTextArea().getText()));
-        }
-        else
-        {
-            System.out.println("User canceled.");
-        }
+    private void sendAction(ActionEvent e) {
+        this.getObservers().forEach(o -> o.messageSend(
+            new MessageEvent(this.messageForm.getNameTextField().getText(), this.messageForm.getSubjectTextField().getText(),
+                             this.messageForm.getCategoryComboBox().getActionCommand(), this.messageForm.getContactDetailsTextField().getText(),
+                             this.messageForm.getMessageTextArea().getText())
+        ));
+    }
+
+    private void cancelAction(ActionEvent e) {
+        System.out.println("Canceled");
     }
 }

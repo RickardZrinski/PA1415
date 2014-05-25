@@ -1,40 +1,33 @@
 package casino.views.forms;
 
-import casino.AbstractView;
+import casino.events.CreditCardListener;
+import shared.View;
 import shared.transactions.payments.CreditCard;
 import utilities.ComponentUtilities;
 import utilities.GridBagUtilities;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.NumberFormat;
-import java.util.Formatter;
 
 /**
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class CreditCardForm extends AbstractView {
+public class CreditCardForm extends View<CreditCardListener> {
     private JLabel resultLabel = new JLabel();
     private JTextField resultTextField = new JTextField();
     private JTextField holderTextField = new JTextField();
     private JFormattedTextField numberTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("#### #### #### ####"));
     private JFormattedTextField securityCodeTextField = new JFormattedTextField(ComponentUtilities.createMaskFormat("###"));
 
-    private JComboBox<Integer> expirationMonthBox;
-    private JComboBox<Integer> expirationYearBox;
+    private JComboBox<Integer> expirationMonthBox = new JComboBox<>();
+    private JComboBox<Integer> expirationYearBox = new JComboBox<>();
 
     private JButton nextButton;
     private JButton cancelButton;
 
     public CreditCardForm(String text) {
-        this.expirationMonthBox = new JComboBox<>();
-        this.expirationYearBox = new JComboBox<>();
-
         this.nextButton = new JButton("Next");
         this.cancelButton = new JButton("Cancel");
 
@@ -63,10 +56,8 @@ public class CreditCardForm extends AbstractView {
         ComponentUtilities.setPreferredWidth(40, this.securityCodeTextField);
 
         // The next button should listen to this class, it emits a creditCardAction event
-        this.nextButton.addActionListener(new NextAction());
-        this.cancelButton.addActionListener(new CancelAction());
-
-        this.cancelButton.setActionCommand("cancel");
+        this.nextButton.addActionListener(this::nextAction);
+        this.cancelButton.addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
@@ -153,9 +144,7 @@ public class CreditCardForm extends AbstractView {
     /**
      * The user pushes next
      */
-    private class NextAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    private void nextAction(ActionEvent e) {
             try {
                 CreditCard card = new CreditCard(CreditCardForm.this.holderTextField.getText(),
                         new Long(CreditCardForm.this.numberTextField.getText().replace(" ", "")),
@@ -163,20 +152,17 @@ public class CreditCardForm extends AbstractView {
                         CreditCardForm.this.expirationMonthBox.getSelectedIndex(),
                         CreditCardForm.this.expirationYearBox.getSelectedIndex());
 
-                CreditCardForm.this.notify("creditCardAction", card);
+                this.getObservers().forEach(o -> o.creditCardAction(card));
             } catch (Exception exception) {
-                CreditCardForm.this.notify("creditCardError");
+                this.getObservers().forEach(CreditCardListener::creditCardError);
             }
         }
-    }
+
 
     /**
      * The user cancels the operation
      */
-    private class CancelAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            CreditCardForm.this.notify("creditCardCancel");
-        }
+    private void cancelAction(ActionEvent e) {
+        this.getObservers().forEach(CreditCardListener::creditCardCancel);
     }
 }

@@ -1,19 +1,19 @@
 package casino.views;
 
-import casino.AbstractView;
+import shared.View;
 import casino.events.MenuEvent;
+import casino.events.MenuListener;
 import shared.AuthenticationSession;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 /**
  * @author  Dino Opijac
  * @since   18/05/14
  */
-public class MenuView extends AbstractView implements ItemListener {
+public class MenuView extends View<MenuListener> {
     private JLabel usernameLabel;
     private JLabel balanceLabel;
     private JComboBox<String> menu;
@@ -52,7 +52,7 @@ public class MenuView extends AbstractView implements ItemListener {
         this.menu.addItem("Menu Item 2");
         this.menu.addItem("Menu Item 3");
 
-        this.menu.addItemListener(this);
+        this.menu.addItemListener(this::itemStateChanged);
 
         // Make the left and right panels opaque
         this.left.setOpaque(false);
@@ -88,13 +88,12 @@ public class MenuView extends AbstractView implements ItemListener {
         this.menu.removeItem(item);
     }
 
-    @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.DESELECTED)
             event.setDeselected(e.getItem());
         else {
             event.setSelected(e.getItem());
-            this.notify("menuItemChanged", event);
+            this.getObservers().forEach(o -> o.menuItemChanged(event) );
 
             // Clear cache and reset for a new event
             event = new MenuEvent();

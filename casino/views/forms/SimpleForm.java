@@ -5,13 +5,12 @@ import utilities.GridBagUtilities;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   20/05/2014
  */
-public class SimpleForm extends JPanel implements Form {
+public class SimpleForm extends JPanel {
     private JLabel textLabel;
     private JFormattedTextField formattedField;
 
@@ -80,11 +79,6 @@ public class SimpleForm extends JPanel implements Form {
 
     public JFormattedTextField getFormattedField() {
         return this.formattedField;
-    }
-
-    @Override
-    public void setActionListener(ActionListener listener) {
-        this.confirmButton.addActionListener(listener);
     }
 
     @Override

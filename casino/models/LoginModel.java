@@ -1,12 +1,13 @@
 package casino.models;
-import casino.AbstractModel;
+import shared.Model;
 import casino.events.LoginEvent;
+import casino.events.LoginResponse;
 import shared.AuthenticationSession;
 import shared.dao.UserDao;
 import shared.users.User;
 import utilities.Hash;
 
-public class LoginModel extends AbstractModel {
+public class LoginModel extends Model<LoginResponse> {
     private UserDao users = new UserDao();
 
     public LoginModel() {}
@@ -25,13 +26,12 @@ public class LoginModel extends AbstractModel {
                 AuthenticationSession.start(user);
 
                 // Let our listeners know that sign in was a success.
-                this.notify("loginSuccessful");
-
+                this.getObservers().forEach(LoginResponse::loginSuccessful);
             } else
-                this.notify("loginUnsuccessful"); // The password is wrong or the user cannot log in
+                this.getObservers().forEach(LoginResponse::loginUnsuccessful); // The password is wrong or the user cannot log in
 
         } catch (Exception e) {
-            this.notify("loginUnsuccessful");
+            this.getObservers().forEach(LoginResponse::loginUnsuccessful);
             e.printStackTrace();
         }
     }

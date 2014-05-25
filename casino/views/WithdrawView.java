@@ -1,36 +1,30 @@
 package casino.views;
 
-import casino.AbstractView;
+import casino.events.*;
+import shared.View;
 import casino.MainFrame;
-import casino.events.CreditCardListener;
-import casino.events.TransactionEvent;
 import casino.views.forms.CreditCardForm;
 import casino.views.forms.SimpleForm;
 import shared.AuthenticationSession;
-import shared.dao.DAOFactory;
 import shared.transactions.payments.CreditCard;
-import shared.transactions.payments.Payment;
-import utilities.ComponentUtilities;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class WithdrawView extends AbstractView implements ActionListener, CreditCardListener {
+public class WithdrawView extends View<TransactionListener> implements CreditCardListener, TransactionResponse {
     private static final String TITLE1 = "Withdraw - Amount";
     private static final String TITLE2 = "Withdraw - Credit card details";
 
     private CardLayout card = new CardLayout();
     private JPanel view = new JPanel();
     private MenuView menu = new MenuView();
-    private SimpleForm simpleForm = new SimpleForm("Withdraw", "OK");
 
+    private SimpleForm simpleForm = new SimpleForm("Withdraw", "OK");
     private CreditCardForm creditCardForm = new CreditCardForm("Amount to withdraw");
 
     public WithdrawView() {
@@ -45,7 +39,7 @@ public class WithdrawView extends AbstractView implements ActionListener, Credit
         this.view.setLayout(this.card);
 
         // Register listeners
-        this.simpleForm.setActionListener(this);
+        this.simpleForm.getConfirmButton().addActionListener(this::nextButton);
         this.creditCardForm.subscribe(this);
     }
 
@@ -57,8 +51,7 @@ public class WithdrawView extends AbstractView implements ActionListener, Credit
         this.add(this.view, BorderLayout.CENTER);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    private void nextButton(ActionEvent e) {
         String amount = this.simpleForm.getFormattedField().getText();
 
         if (amount.isEmpty()) {
@@ -88,7 +81,7 @@ public class WithdrawView extends AbstractView implements ActionListener, Credit
         if (!event.isValid())
             JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
         else
-            this.notify("withdrawPerformed", event);
+            this.getObservers().forEach(o -> o.withdrawPerformed(event));
     }
 
     @Override
@@ -100,5 +93,15 @@ public class WithdrawView extends AbstractView implements ActionListener, Credit
     @Override
     public void creditCardError() {
         JOptionPane.showMessageDialog(null, "There is a error in the form", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void transactionSuccessful() {
+        JOptionPane.showMessageDialog(null, "Your transaction has been completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void transactionUnsuccessful() {
+        JOptionPane.showMessageDialog(null, "Your transaction could not be processed, please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

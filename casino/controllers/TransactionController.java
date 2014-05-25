@@ -23,6 +23,9 @@ public class TransactionController implements TransactionListener {
         this.depositView.subscribe(this);
         this.withdrawView.subscribe(this);
 
+        this.model.subscribe(this.depositView);
+        this.model.subscribe(this.withdrawView);
+
         //MainFrame.getInstance().add(this.depositView, BorderLayout.CENTER);
         MainFrame.getInstance().add(this.withdrawView, BorderLayout.CENTER);
     }

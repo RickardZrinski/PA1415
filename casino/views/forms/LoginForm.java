@@ -6,6 +6,10 @@ import utilities.GridBagUtilities;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author  Dino Opijac
+ * @since   18/05/2014
+ */
 public class LoginForm extends JPanel {
     private JTextField usernameTextField = new JTextField();
     private JPasswordField passwordPasswordField = new JPasswordField();

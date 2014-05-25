@@ -5,7 +5,6 @@ import utilities.GridBagUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * @author  John Mogensen

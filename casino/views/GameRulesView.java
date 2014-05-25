@@ -1,6 +1,5 @@
 package casino.views;
 
-import shared.View;
 import casino.MainFrame;
 import casino.views.forms.GameRulesResultForm;
 

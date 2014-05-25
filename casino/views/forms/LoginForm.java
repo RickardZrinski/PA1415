@@ -5,9 +5,8 @@ import utilities.GridBagUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
-public class LoginForm extends JPanel implements Form {
+public class LoginForm extends JPanel {
     private JTextField usernameTextField = new JTextField();
     private JPasswordField passwordPasswordField = new JPasswordField();
     private JButton signInButton = new JButton("Sign In");
@@ -66,10 +65,12 @@ public class LoginForm extends JPanel implements Form {
         return this.passwordPasswordField;
     }
 
-    @Override
-    public void setActionListener(ActionListener listener) {
-        this.signInButton.addActionListener(listener);
-        this.resetButton.addActionListener(listener);
+    public JButton getSignInButton() {
+        return signInButton;
+    }
+
+    public JButton getResetButton() {
+        return resetButton;
     }
 
     @Override

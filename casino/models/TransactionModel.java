@@ -1,5 +1,7 @@
 package casino.models;
 
+import shared.Model;
+import casino.events.TransactionResponse;
 import shared.AuthenticationSession;
 import shared.dao.DAOFactory;
 import shared.transactions.Deposit;
@@ -12,7 +14,7 @@ import shared.transactions.payments.Payment;
  * @author  Dino Opijac
  * @since   23/05/2014
  */
-public class TransactionModel {
+public class TransactionModel extends Model<TransactionResponse> {
     private Transaction transaction;
 
     /**
@@ -64,8 +66,10 @@ public class TransactionModel {
             receipt.setAmount( this.transaction.getAmount() );
 
             receipt.send( this.transaction.getUser() );
+
+            this.getObservers().forEach(TransactionResponse::transactionSuccessful); // Notify all listeners
         } catch (Exception e) {
-            e.printStackTrace();
+            this.getObservers().forEach(TransactionResponse::transactionUnsuccessful); // Notify all listeners
         }
     }
 }

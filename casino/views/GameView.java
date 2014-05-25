@@ -1,7 +1,6 @@
 package casino.views;
 
-import casino.AbstractView;
-import casino.MainFrame;
+import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
 import utilities.ComponentUtilities;
@@ -9,13 +8,12 @@ import utilities.ComponentUtilities;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class GameView extends AbstractView implements ActionListener {
+public class GameView extends View {
     private MenuView menu = new MenuView();
     private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();
@@ -35,9 +33,7 @@ public class GameView extends AbstractView implements ActionListener {
 
     private void configure() {
         this.setLayout(new BorderLayout());
-
-        this.nextButton.setActionCommand("nextView");
-        this.nextButton.addActionListener(this);
+        this.nextButton.addActionListener(this::nextAction);
     }
 
     private void addComponents() {
@@ -62,13 +58,7 @@ public class GameView extends AbstractView implements ActionListener {
         this.add(this.nextButton, BorderLayout.PAGE_END);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("nextView")) {
-            this.cards.next(this.card);
-            this.card.setSize(MainFrame.getInstance().getSize());
-        } else {
-            System.out.println(e);
-        }
+    private void nextAction(ActionEvent e) {
+        this.cards.next(this.card);
     }
 }

@@ -1,0 +1,34 @@
+package shared;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
+ * @author  Dino Opijac
+ * @since   18/05/14
+ */
+public abstract class Model<M> {
+    private Collection<M> observers = new ArrayList<>();
+    /**
+     * Subscribes a new subject to the observer
+     * @param subject the subject that wishes to subscribe
+     */
+    public void subscribe(M subject) {
+        this.observers.add(subject);
+    }
+
+    /**
+     * Unsubscribes a new subject from the observer
+     * @param subject the subject that wishes to unsubscribe
+     */
+    public void unsubscribe(M subject) {
+        this.observers.remove(subject);
+    }
+
+    /**
+     * @return returns a collection of observers
+     */
+    public Collection<M> getObservers() {
+        return this.observers;
+    }
+}

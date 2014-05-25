@@ -1,26 +1,24 @@
 package casino.views;
 
-import casino.AbstractView;
+import casino.events.TransactionListener;
+import shared.View;
 import casino.MainFrame;
 import casino.events.CreditCardListener;
 import casino.events.TransactionEvent;
+import casino.events.TransactionResponse;
 import casino.views.forms.CreditCardForm;
 import casino.views.forms.SimpleForm;
 import shared.transactions.payments.CreditCard;
-import shared.transactions.payments.Payment;
-import utilities.ComponentUtilities;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class DepositView extends AbstractView implements ActionListener, CreditCardListener {
+public class DepositView extends View<TransactionListener> implements CreditCardListener, TransactionResponse {
     private static final String TITLE1 = "Deposit - Amount";
     private static final String TITLE2 = "Deposit - Credit card details";
 
@@ -43,7 +41,7 @@ public class DepositView extends AbstractView implements ActionListener, CreditC
         this.view.setLayout(this.card);
 
         // Register listeners
-        this.simpleForm.setActionListener(this);
+        this.simpleForm.getConfirmButton().addActionListener(this::nextButton);
         this.creditCardForm.subscribe(this);
     }
 
@@ -55,8 +53,7 @@ public class DepositView extends AbstractView implements ActionListener, CreditC
         this.add(this.view, BorderLayout.CENTER);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    private void nextButton(ActionEvent e) {
         String amount = this.simpleForm.getFormattedField().getText();
 
         if (amount.isEmpty()) {
@@ -75,7 +72,7 @@ public class DepositView extends AbstractView implements ActionListener, CreditC
         if (!event.isValid())
             JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
         else
-            this.notify("depositPerformed", event);
+            this.getObservers().forEach(o -> o.depositPerformed(event));
     }
 
     @Override
@@ -87,5 +84,15 @@ public class DepositView extends AbstractView implements ActionListener, CreditC
     @Override
     public void creditCardError() {
         JOptionPane.showMessageDialog(null, "There is a error in the form", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void transactionSuccessful() {
+        JOptionPane.showMessageDialog(null, "Your transaction has been completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void transactionUnsuccessful() {
+        JOptionPane.showMessageDialog(null, "Your transaction could not be processed, please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

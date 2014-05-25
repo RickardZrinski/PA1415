@@ -1,5 +1,6 @@
 package casino.views;
 
+import casino.events.GameListener;
 import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
@@ -13,7 +14,7 @@ import java.awt.event.ActionEvent;
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class GameView extends View {
+public class GameView extends View<GameListener> {
     private MenuView menu = new MenuView();
     private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();

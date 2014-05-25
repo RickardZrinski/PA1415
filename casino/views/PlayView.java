@@ -1,6 +1,5 @@
 package casino.views;
 
-import casino.MainFrame;
 import casino.views.components.Box;
 import utilities.ComponentUtilities;
 

@@ -1,6 +1,6 @@
 package casino.events;
 
-public interface LoginResponseListener {
+public interface LoginResponse {
     public void loginSuccessful();
     public void loginUnsuccessful();
 }

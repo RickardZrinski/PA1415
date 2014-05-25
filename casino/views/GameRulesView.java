@@ -1,20 +1,19 @@
 package casino.views;
 
-import casino.AbstractView;
+import shared.View;
 import casino.MainFrame;
 import casino.views.forms.GameRulesResultForm;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  John Mogensen
  * @since   21/05/2014
  */
-public class GameRulesView extends AbstractView implements ActionListener {
+public class GameRulesView extends JPanel {
     private GameRulesResultForm gameRulesForm;
-
 
     public GameRulesView() {
         this.gameRulesForm = new GameRulesResultForm("Game Rules", "RULES TEXT FROM A GAME", "Play");
@@ -27,22 +26,20 @@ public class GameRulesView extends AbstractView implements ActionListener {
 
     private void configure() {
         this.setLayout(new BorderLayout());
-        this.gameRulesForm.setActionListener(this);
+
+        this.gameRulesForm.getConfirmButton().addActionListener(this::nextAction);
+        this.gameRulesForm.getCancelButton().addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
         this.add(this.gameRulesForm, BorderLayout.CENTER);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("cancel")){
-            System.out.println("User canceled.");
-        }
-        else
-        {
-            System.out.println("Play");
-        }
+    private void nextAction(ActionEvent e) {
+        System.out.println("Next");
+    }
 
+    private void cancelAction(ActionEvent e) {
+        System.out.println("Cancel");
     }
 }

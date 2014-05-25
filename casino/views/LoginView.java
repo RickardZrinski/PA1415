@@ -1,7 +1,8 @@
 package casino.views;
 
-import casino.AbstractView;
-import casino.events.LoginResponseListener;
+import shared.View;
+import casino.events.LoginListener;
+import casino.events.LoginResponse;
 import casino.MainFrame;
 import casino.events.LoginEvent;
 import casino.views.forms.LoginForm;
@@ -9,13 +10,12 @@ import casino.views.forms.LoginForm;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
  * @since   18/05/2014
  */
-public class LoginView extends AbstractView implements ActionListener, LoginResponseListener {
+public class LoginView extends View<LoginListener> implements LoginResponse {
     private LoginForm form = new LoginForm();
 
     public LoginView() {
@@ -27,27 +27,29 @@ public class LoginView extends AbstractView implements ActionListener, LoginResp
 
     private void configure() {
         this.setLayout(new FlowLayout());
-        this.form.setActionListener(this);
+        this.form.getSignInButton().addActionListener(this::signInAction);
+        this.form.getResetButton().addActionListener(this::resetAction);
     }
 
     private void addComponents() {
         this.add(this.form);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("login"))
-            this.notify("loginPerformed", new LoginEvent(this.form.getUsernameTextField().getText(), this.form.getPasswordPasswordField().getPassword()));
-        else {
-            this.form.getUsernameTextField().setText("");
-            this.form.getPasswordPasswordField().setText("");
-        }
+    private void signInAction(ActionEvent e) {
+        this.getObservers().forEach(o -> o.loginPerformed(
+                new LoginEvent( this.form.getUsernameTextField().getText(),
+                                this.form.getPasswordPasswordField().getPassword())) );
+    }
+
+    private void resetAction(ActionEvent e) {
+        this.form.getUsernameTextField().setText("");
+        this.form.getPasswordPasswordField().setText("");
     }
 
     @Override
     public void loginSuccessful() {
         // The model has told us that everything checked out, tell the controller that we're done.
-        this.notify("authorizationPerformed");
+        this.getObservers().forEach(LoginListener::authorizationPerformed);
     }
 
     @Override

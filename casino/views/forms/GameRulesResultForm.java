@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * @author  John Mogensen
  * @since   21/05/2014
  */
-public class GameRulesResultForm extends JPanel implements Form {
+public class GameRulesResultForm extends JPanel {
     private JLabel titleLabel = new JLabel();
     private JTextArea textTextArea = new JTextArea();
     private JButton confirmButton = new JButton();
@@ -41,10 +41,19 @@ public class GameRulesResultForm extends JPanel implements Form {
         GridBagUtilities.makeCell(this, this.cancelButton,  new Point(1, 2), 0.1, 1, GridBagConstraints.HORIZONTAL);
     }
 
+    public JLabel getTitleLabel() {
+        return this.titleLabel;
+    }
 
-    @Override
-    public void setActionListener(ActionListener listener) {
-        this.confirmButton.addActionListener(listener);
-        this.cancelButton.addActionListener(listener);
+    public JTextArea getTextTextArea() {
+        return this.textTextArea;
+    }
+
+    public JButton getConfirmButton() {
+        return this.confirmButton;
+    }
+
+    public JButton getCancelButton() {
+        return this.cancelButton;
     }
 }

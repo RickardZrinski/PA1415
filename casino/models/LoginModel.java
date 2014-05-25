@@ -7,6 +7,10 @@ import shared.dao.UserDao;
 import shared.users.User;
 import utilities.Hash;
 
+/**
+ * @author  Dino Opijac
+ * @since   18/05/2014
+ */
 public class LoginModel extends Model<LoginResponse> {
     private UserDao users = new UserDao();
 

@@ -3,11 +3,9 @@ package casino.views;
 import casino.MainFrame;
 import casino.events.GameListener;
 import casino.events.GameResponse;
-import com.sun.codemodel.internal.JOp;
 import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
-import shared.game.Die;
 import utilities.ComponentUtilities;
 
 import javax.swing.*;
@@ -88,11 +86,11 @@ public class GameView extends View<GameListener> implements GameResponse{
     }
 
     private void tossAction(ActionEvent e) {
-        this.getObservers().forEach(o -> o.toss());
+        this.getObservers().forEach(GameListener::toss);
     }
 
     private void playAgainAction(ActionEvent e) {
-        this.getObservers().forEach(o -> o.playAgain());
+        this.getObservers().forEach(GameListener::playAgain);
     }
 
     @Override

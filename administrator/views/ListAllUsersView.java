@@ -71,7 +71,7 @@ public class ListAllUsersView extends View
 
     public void registerListener(ListAllGamesController controller)
     {
-        m_userTable.addMouseListener(controller);
+        //m_userTable.addMouseListener(controller);
     }
 
     public void addRow(String title)

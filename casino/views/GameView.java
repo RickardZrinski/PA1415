@@ -1,5 +1,6 @@
 package casino.views;
 
+import casino.MainFrame;
 import casino.events.GameListener;
 import casino.events.GameResponse;
 import com.sun.codemodel.internal.JOp;
@@ -43,7 +44,6 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.gameRulesView.getNextButton().addActionListener(this::nextAction);
         this.gameRulesView.getCancelButton().addActionListener(this::cancelAction);
         this.betView.getConfirmButton().addActionListener(this::betAction);
-
         // this.betView.getCANCELBUTTON
         this.playView.getTossButton().addActionListener(this::tossAction);
         // playView cancel
@@ -72,6 +72,8 @@ public class GameView extends View<GameListener> implements GameResponse{
 
         // Add the next button to the bottom
         this.add(this.nextButton, BorderLayout.PAGE_END);
+
+        MainFrame.getInstance().add(this);
     }
 
     private void nextAction(ActionEvent e) {

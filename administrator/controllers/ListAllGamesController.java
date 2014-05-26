@@ -44,6 +44,11 @@ public class ListAllGamesController extends Controller
         }
     }
 
+    public void editGame(int index)
+    {
+        new EditGameController(this.getGui(), m_gamesModel, index);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e)
     {

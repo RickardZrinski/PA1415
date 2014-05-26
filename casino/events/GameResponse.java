@@ -12,6 +12,7 @@ public interface GameResponse {
     public void betUnSuccessful();
     public void updateDie(int index, int face);
     public void updateNumberOfThrows(int numberOfThrows);
+    public void updateNumberOfDice(int numberOfDice);
     public void displayResult(String result);
 
 }

@@ -8,7 +8,7 @@ public interface GameListener {
     public void selectGame(int index);
     public void bet(double amount);
     public void toss();
-    public void saveDie(int index);
+    public void toggleSaveDie(int index);
     public void playAgain();
 
 }

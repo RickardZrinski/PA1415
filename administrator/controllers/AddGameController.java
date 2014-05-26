@@ -31,13 +31,13 @@ public class AddGameController extends Controller
 
     private void displayView()
     {
-        m_view.registerListener(this);
+        m_view.setController(this);
 
         this.getGui().addView(m_view, "AddGameView");
         this.getGui().showView("AddGameView", "Administrator - Add game");
     }
 
-    private void addGame(String title)
+    public void addGame(String title)
     {
         m_gamesModel.addGame(title);
     }
@@ -45,13 +45,6 @@ public class AddGameController extends Controller
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        String action = e.getActionCommand();
 
-        switch(action)
-        {
-            case "Save":
-                addGame(m_view.getTitle());
-                break;
-        }
     }
 }

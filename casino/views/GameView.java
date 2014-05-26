@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class GameView extends View<GameListener> implements GameResponse{
+public class GameView extends View<GameListener> implements GameResponse {
     private MenuView menu = new MenuView();
     private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();
@@ -43,6 +43,7 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.gameRulesView.getCancelButton().addActionListener(this::cancelAction);
         this.betView.getConfirmButton().addActionListener(this::betAction);
         this.playView.getTossButton().addActionListener(this::tossAction);
+        this.playView.getFinishButton().addActionListener(this::finishAction);
         this.gameResultView.getPlayAgainButton().addActionListener(this::playAgainAction);
         this.gameResultView.getCancelButton().addActionListener(this::cancelAction);
     }
@@ -84,6 +85,10 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.getObservers().forEach(o -> o.bet(amount));
     }
 
+    private void finishAction(ActionEvent actionEvent) {
+        this.cards.show(this.card, "5");
+    }
+
     private void tossAction(ActionEvent e) {
         this.getObservers().forEach(GameListener::toss);
     }
@@ -100,6 +105,11 @@ public class GameView extends View<GameListener> implements GameResponse{
     public void displayRules(String rules) {
         // Clear all the data inside the panels
         this.playView.clear();
+
+        // Toggle the buttons (hide 'Finish' and show 'Toss')
+        this.playView.toggleButtons();
+
+        // Set the rules and show the next card
         this.gameRulesView.setRules(rules);
         this.cards.show(this.card, "2");
     }
@@ -133,7 +143,10 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void displayResult(String result) {
+        // Set the game result
         this.gameResultView.setResult(result);
-        this.cards.show(this.card, "5");
+
+        // Toggle the buttons (show 'Finish' and hide 'Toss')
+        this.playView.toggleButtons();
     }
 }

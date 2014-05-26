@@ -42,7 +42,7 @@ public class GameController implements GameListener {
     @Override
     public void toggleSaveDie(int index) {
         gameSession.toggleSaveDie(index);
-        System.out.println(String.format("GameController: Toggle save die %i", index));
+        System.out.println(String.format("GameController: Toggle save die %d", index));
     }
 
     @Override

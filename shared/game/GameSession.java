@@ -111,22 +111,14 @@ public class GameSession extends Model<GameResponse>{
         resetDice();
         return resetData();
     }
-    /**
-     * Moves die in gameData to diceHand
-     * @param index index of die in gameData
-     */
-    public void saveDie(int index){
-        dice.get(index).setSaved(true);
-    }
 
     /**
-     * Moves die from diceHand to gameData
-     * @param index index of the die in diceHand
+     * Toggles saved in die
+     * @param index index of die
      */
-    public void unsaveDie(int index){
-        dice.get(index).setSaved(false);
+    public void toggleSaveDie(int index){
+        dice.get(index).toggleSaved();
     }
-
 
     private WinningCondition calculateReward(){
         Die[] dice = new Die[this.dice.size()];

@@ -13,6 +13,7 @@ public class GUI extends JFrame
     private JPanel m_mainPanel;
     private CardLayout m_layout;
     private Container m_contentPane;
+    private JScrollPane m_scrollPane;
 
     public GUI()
     {
@@ -26,6 +27,7 @@ public class GUI extends JFrame
         m_layout = new CardLayout();
         m_mainPanel = new JPanel(m_layout);
         m_contentPane = this.getContentPane();
+        m_scrollPane = new JScrollPane();
     }
 
     private void configure()
@@ -37,7 +39,8 @@ public class GUI extends JFrame
 
     private void addComponents()
     {
-        m_contentPane.add(m_mainPanel);
+        m_scrollPane.setViewportView(m_mainPanel);
+        m_contentPane.add(m_scrollPane);
     }
 
     public void addView(View view, String name)

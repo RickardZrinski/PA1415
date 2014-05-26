@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
  * @since   22/05/2014
  */
 public class PlayView extends JPanel {
+    private final String IMAGE_SOURCE = "shared/resources/%d.png";
     private JButton tossButton = new JButton("Toss");
     private JButton resetButton = new JButton("Reset");
     private JLabel progressText = new JLabel("Remaining Throws: 5");
@@ -38,17 +39,43 @@ public class PlayView extends JPanel {
         this.add(this.dicePanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Clears the view from all components and effectively resets it
+     */
+    public void clear() {
+        this.dicePanel.removeAll();
+    }
+
+    /**
+     * Adds new pushable boxes to the view
+     * @param number    the number of boxes to add
+     * @param listener  the listener for which these boxes will invoke
+     */
     public void addBoxes(int number, ActionListener listener) {
         for (int i = 0; i < number; i++) {
-            Box box = new Box("shared/resources/1.png");
+            Box box = new Box(String.format(IMAGE_SOURCE, 1));
             box.getButton().addActionListener(listener);
             this.dicePanel.add(box);
         }
     }
 
+    /**
+     * Updates the value of a given box
+     * @param index the index of the box to update
+     * @param face  the new face of the box
+     */
     public void updateBox(int index, int face) {
-        this.getBoxButton(index).setIcon(new ImageIcon(String.format("shared/resources/%d.png", face)));
+        this.getBoxButton(index).setIcon(new ImageIcon(String.format(IMAGE_SOURCE, face)));
         this.dicePanel.repaint();
+    }
+
+
+    /**
+     * Updates the progress of the game
+     * @param number    the number of "throws" left in the game
+     */
+    public void updateProgress(int number) {
+        this.progressText.setText(String.format("Remaining Throws: %d", number));
     }
 
     public JToggleButton getBoxButton(int index) {

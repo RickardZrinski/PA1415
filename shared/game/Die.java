@@ -22,7 +22,7 @@ public class Die {
      */
     public int toss(){
         Random random = new Random();
-        if (saved == false)
+        if (saved)
             face = random.nextInt(6) +1;
         return face;
     }
@@ -45,7 +45,10 @@ public class Die {
         return saved;
     }
 
-    public void setSaved(boolean save){
-        saved = save;
+    public void toggleSaved(){
+        if (saved)
+            saved = false;
+        else
+            saved = true;
     }
 }

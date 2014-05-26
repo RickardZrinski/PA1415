@@ -2,6 +2,8 @@ package casino.controllers;
 
 import casino.events.GameListener;
 import casino.views.GameView;
+import shared.dao.GameDataDao;
+import shared.game.GameSession;
 
 /**
  * @author  Dino Opijac
@@ -9,39 +11,49 @@ import casino.views.GameView;
  */
 public class GameController implements GameListener {
     private GameView view;
+    private GameSession gameSession;
+    private GameDataDao dao;
 
     public GameController() {
         this.view = new GameView();
         this.view.subscribe(this);
+        this.dao = new GameDataDao();
+        this.gameSession = new GameSession();
     }
 
     @Override
     public void selectGame(int index) {
+        gameSession.setGameData(dao.get(index));
         System.out.println(String.format("GameController: Selected game index: %d", index));
     }
 
     @Override
     public void bet(double amount) {
+        gameSession.bet(amount);
         System.out.println(String.format("GameController: Bet %f", amount));
     }
 
     @Override
     public void toss() {
+        gameSession.toss();
         System.out.println("GameController: Toss performed");
     }
 
     @Override
     public void saveDie(int index) {
+        gameSession.saveDie(index);
         System.out.println(String.format("GameController: Save die index: %d", index));
     }
 
     @Override
     public void end() {
+        gameSession.end();
         System.out.println("GameController: end");
     }
 
     @Override
     public void playAgain() {
+        gameSession.playAgain();
         System.out.println("GameController: playAgain");
     }
 }

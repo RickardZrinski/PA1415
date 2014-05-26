@@ -105,11 +105,13 @@ public class GameSession extends Model<GameResponse>{
     /**
      * Resets the shared.game to its original state
      */
-    public boolean playAgain(){
+    public void playAgain(){
         bet = 0;
 
         resetDice();
-        return resetData();
+        resetData();
+
+        this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
 
     /**
@@ -174,8 +176,11 @@ public class GameSession extends Model<GameResponse>{
     private boolean resetData(){
         GameDataDao dao = new GameDataDao();
         gameData = dao.get(gameData.getId());
-        if (gameData != null)
-            return  true;
+
+        if (gameData != null) {
+            numberOfThrows = gameData.getNumberOfThrows();
+            return true;
+        }
         else
             return  false;
     }

@@ -105,6 +105,11 @@ public class Combination {
         return faces.size();
     }
 
+    public ArrayList<String> getFaces()
+    {
+        return faces;
+    }
+
     public String getFace(int index){
         return faces.get(index);
     }

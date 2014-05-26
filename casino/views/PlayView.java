@@ -42,7 +42,7 @@ public class PlayView extends JPanel {
         for (int i = 0; i < number; i++) {
             Box box = new Box("shared/resources/1.png");
             box.getButton().addActionListener(listener);
-            this.add(box);
+            this.dicePanel.add(box);
         }
     }
 

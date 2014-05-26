@@ -57,7 +57,12 @@ public class PlayView extends JPanel {
     public void addBoxes(int number, ActionListener listener) {
         for (int i = 0; i < number; i++) {
             Box box = new Box(String.format(IMAGE_SOURCE, 1));
+
+            // Add button listeners and its identifier
             box.getButton().addActionListener(listener);
+            box.getButton().setActionCommand(String.valueOf(i));
+
+            // Attach this to the panel
             this.dicePanel.add(box);
         }
     }

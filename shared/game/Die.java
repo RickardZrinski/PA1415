@@ -22,7 +22,7 @@ public class Die {
      */
     public int toss(){
         Random random = new Random();
-        if (saved)
+        if (!saved)
             face = random.nextInt(6) +1;
         return face;
     }

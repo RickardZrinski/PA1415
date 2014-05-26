@@ -13,10 +13,12 @@ public class GameController implements GameListener {
     private GameView view;
     private GameSession gameSession;
 
+
     public GameController() {
         this.view = new GameView();
         this.view.subscribe(this);
         this.gameSession = new GameSession();
+        this.gameSession.subscribe(this.view);
     }
 
     @Override

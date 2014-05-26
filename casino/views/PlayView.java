@@ -16,9 +16,8 @@ public class PlayView extends JPanel {
     private JLabel progressText = new JLabel("Remaining Throws: 5");
     private JPanel dicePanel;
 
-    public PlayView(int die) {
-        this.dicePanel = Box.create(die, "Test");
-
+    public PlayView() {
+        this.dicePanel = new JPanel(new GridLayout( 0, 5 ));
         this.configure();
         this.addComponents();
     }
@@ -35,6 +34,16 @@ public class PlayView extends JPanel {
         this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.progressText), BorderLayout.PAGE_START);
         this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.tossButton, this.resetButton), BorderLayout.PAGE_END);
         this.add(this.dicePanel, BorderLayout.CENTER);
+    }
+
+    public void addBoxes(int number) {
+        for (int i = 0; i < number; i++)
+            this.dicePanel.add(new Box("shared/resources/1.png"));
+    }
+
+    public void updateBox(int index, int face) {
+        ((Box)this.dicePanel.getComponent(index)).getButton().setIcon(new ImageIcon(String.format("shared/resources/%d.png", face)));
+        this.dicePanel.repaint();
     }
 
     public JButton getTossButton() {

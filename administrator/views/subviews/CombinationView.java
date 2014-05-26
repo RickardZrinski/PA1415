@@ -1,6 +1,7 @@
 package administrator.views.subviews;
 
 import administrator.views.View;
+import shared.game.Combination;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,6 +74,17 @@ public class CombinationView extends View
         cellPanel = new JPanel();
         cellPanel.add(m_quantity);
         this.add(cellPanel, constraints);
+    }
+
+    public Combination getAsCombination()
+    {
+        Combination combination = new Combination();
+
+        combination.setName(this.getName());
+        combination.setQuantity(this.getQuantity());
+
+        System.out.println("getAsCombination: " + this.getName());
+        return combination;
     }
 
     public void setName(String name)

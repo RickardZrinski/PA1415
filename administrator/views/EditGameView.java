@@ -1,11 +1,14 @@
 package administrator.views;
 
 import administrator.controllers.EditGameController;
+import administrator.utilities.gui.DefaultButton;
 import administrator.views.subviews.WinningConditionView;
 import shared.game.WinningCondition;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +20,10 @@ public class EditGameView extends View
     private JTextField m_nrOfThrowsField;
     private JTextField m_nrOfDicesField;
     private ArrayList<WinningConditionView> m_winningCondViews;
+    private DefaultButton m_addWinCondBtn;
+    private DefaultButton m_saveBtn;
     private int m_nextGridPosY;
+    private EditGameController m_controller;
 
     public EditGameView()
     {
@@ -33,6 +39,8 @@ public class EditGameView extends View
         m_nrOfThrowsField = new JTextField();
         m_nrOfDicesField = new JTextField();
         m_winningCondViews = new ArrayList<WinningConditionView>();
+        m_addWinCondBtn = new DefaultButton("Add winning condition");
+        m_saveBtn = new DefaultButton("Save");
         m_nextGridPosY = 0;
     }
 
@@ -45,6 +53,9 @@ public class EditGameView extends View
     {
         m_nrOfThrowsField.setColumns(10);
         m_nrOfDicesField.setColumns(10);
+
+        m_addWinCondBtn.addActionListener(new AddWinningConditionListener());
+        m_saveBtn.addActionListener(new SaveButtonListener());
     }
 
     private void addComponents()
@@ -52,6 +63,16 @@ public class EditGameView extends View
         // Configure the overall layout and add components
         GridBagConstraints constraints;
         JPanel cellPanel;
+
+        // The "Save" button
+        constraints = new GridBagConstraints();
+        constraints.gridy = m_nextGridPosY;
+        m_nextGridPosY++;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        cellPanel = new JPanel();
+        cellPanel.add(m_saveBtn);
+        this.add(cellPanel, constraints);
 
         // A label for the title
         constraints = new GridBagConstraints();
@@ -102,23 +123,22 @@ public class EditGameView extends View
         cellPanel = new JPanel();
         cellPanel.add(m_nrOfDicesField);
         this.add(cellPanel, constraints);
-    }
 
-    public void addWinningCondition(WinningCondition winningCondition)
-    {
-        System.out.println("addWinningCondition");
-
-        WinningConditionView view = new WinningConditionView();
-        view.setData(winningCondition);
-
-        // A winning conditions view
-        GridBagConstraints constraints = new GridBagConstraints();
+        // The "Add winning condition" button
+        constraints = new GridBagConstraints();
         constraints.gridy = m_nextGridPosY;
         m_nextGridPosY++;
         constraints.anchor = GridBagConstraints.WEST;
 
-        m_winningCondViews.add(view);
-        this.add(view, constraints);
+        cellPanel = new JPanel();
+        cellPanel.add(m_addWinCondBtn);
+        this.add(cellPanel, constraints);
+    }
+
+    public void addWinningCondition(WinningCondition winningCondition)
+    {
+        WinningConditionView view = this.addWinningCondition();
+        view.setData(winningCondition);
     }
 
     public void setTitle(String title)
@@ -136,8 +156,61 @@ public class EditGameView extends View
         m_nrOfDicesField.setText(Integer.toString(nrOfDices));
     }
 
-    public void registerListener(EditGameController controller)
+    public void setController(EditGameController controller)
     {
+        m_controller = controller;
+    }
 
+    private WinningConditionView addWinningCondition()
+    {
+        WinningConditionView view = new WinningConditionView();
+
+        // A winning conditions view
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy = m_nextGridPosY;
+        m_nextGridPosY++;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        m_winningCondViews.add(view);
+        this.add(view, constraints);
+
+        return view;
+    }
+
+    public int getNrOfThrows()
+    {
+        return Integer.parseInt(m_nrOfThrowsField.getText());
+    }
+
+    public int getNrOfDices()
+    {
+        return Integer.parseInt(m_nrOfDicesField.getText());
+    }
+
+    private class AddWinningConditionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            addWinningCondition();
+            revalidate();
+        }
+    }
+
+    private class SaveButtonListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            ArrayList<WinningCondition> winningConditions = new ArrayList<>();
+            WinningCondition winningCondition;
+            for(WinningConditionView winCondView: m_winningCondViews)
+            {
+                winningCondition = winCondView.getAsWinningCondition();
+                winningConditions.add(winningCondition);
+            }
+
+            m_controller.editGame(getNrOfThrows(), getNrOfDices(), winningConditions);
+        }
     }
 }

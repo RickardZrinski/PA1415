@@ -123,7 +123,7 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void updateNumberOfThrows(int numberOfThrows) {
-
+        this.playView.updateProgress(numberOfThrows);
     }
 
     @Override

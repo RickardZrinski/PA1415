@@ -98,7 +98,7 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     private void toggleDieAction(ActionEvent e) {
-        System.out.println(e);
+        this.getObservers().forEach(o -> o.toggleSaveDie( new Integer(e.getActionCommand()) ));
     }
 
     @Override

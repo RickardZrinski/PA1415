@@ -123,6 +123,11 @@ public class GameView extends View<GameListener> implements GameResponse{
     }
 
     @Override
+    public void updateNumberOfDice(int numberOfDice){
+
+    }
+
+    @Override
     public void displayResult(String result) {
         this.gameResultView.setResult(result);
         this.cards.show(this.card, "5");

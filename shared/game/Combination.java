@@ -37,7 +37,7 @@ public class Combination {
      */
     public Combination(int quantity, String[] faces) {
         this.quantity = quantity;
-        this.faces = new ArrayList<>();
+        this.faces = new ArrayList<String>();
     }
 
     /**
@@ -108,6 +108,11 @@ public class Combination {
     public ArrayList<String> getFaces()
     {
         return faces;
+    }
+
+    public void setFaces(ArrayList<String> faces)
+    {
+        this.faces = faces;
     }
 
     public String getFace(int index){

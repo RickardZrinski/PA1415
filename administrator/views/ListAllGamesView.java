@@ -1,22 +1,26 @@
 package administrator.views;
 
+import administrator.controllers.EditGameController;
 import administrator.controllers.ListAllGamesController;
 import administrator.events.ListAllGamesListener;
 import shared.game.GameData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
  * Created by Rickard Zrinski on 2014-05-16.
  */
-public class ListAllGamesView extends View implements ListAllGamesListener
+public class ListAllGamesView extends View
 {
     // Table of games
     private JTable m_gameTable;
     private JScrollPane m_gameTablePane;
     private GameTableModel m_gameTableModel;
+    private ListAllGamesController m_controller;
 
     // A custom table model for the table of games
     private class GameTableModel extends DefaultTableModel
@@ -65,9 +69,9 @@ public class ListAllGamesView extends View implements ListAllGamesListener
         this.add(m_gameTablePane);
     }
 
-    public void registerListener(ListAllGamesController controller)
+    public void setController(ListAllGamesController controller)
     {
-        m_gameTable.addMouseListener(controller);
+        m_controller = controller;
     }
 
     public void addRow(String title)
@@ -79,19 +83,54 @@ public class ListAllGamesView extends View implements ListAllGamesListener
         m_gameTableModel.addRow(row);
     }
 
-    @Override
-    public void listAllGamesResponse(ArrayList<GameData> gameData)
-    {
-        this.clearTable();
-
-        for(GameData game: gameData)
-        {
-            this.addRow(game.getGameName());
-        }
-    }
-
     private void clearTable()
     {
         m_gameTableModel.setRowCount(0);
+    }
+
+    private class EditGameListener implements MouseListener
+    {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            /*Object obj = e.getSource();
+
+            if(obj instanceof JTable)
+            {
+                JTable table = (JTable)obj;
+
+                int selectedCol = table.getSelectedColumn();
+                int selectedRow = table.getSelectedRow();
+
+                if(selectedCol == 1)
+                {
+                    new EditGameController(this.getGui(), m_gamesModel, selectedRow);
+                }
+            }*/
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e)
+        {
+
+        }
     }
 }

@@ -3,6 +3,7 @@ package administrator.controllers;
 import administrator.GUI;
 import administrator.models.GamesModel;
 import administrator.views.ListAllGamesView;
+import shared.game.GameData;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by Martin on 2014-05-15.
  */
-public class ListAllGamesController extends Controller implements MouseListener
+public class ListAllGamesController extends Controller
 {
     private GamesModel m_gamesModel;
     private ListAllGamesView m_view;
@@ -29,63 +30,22 @@ public class ListAllGamesController extends Controller implements MouseListener
     public void listAllGames()
     {
         m_view = new ListAllGamesView();
-        m_view.registerListener(this);
+        m_view.setController(this);
 
         this.getGui().addView(m_view, "ListAllGamesView");
         this.getGui().showView("ListAllGamesView", "Administrator - List all games");
 
-        // Subscribe view to model
-        m_gamesModel.subscribe(m_view);
-
         // Request model to send all games to view
-        m_gamesModel.requestAllGames();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        Object obj = e.getSource();
-
-        if(obj instanceof JTable)
+        for(int i = 0; i < m_gamesModel.getNrOfGames(); i++)
         {
-            JTable table = (JTable)obj;
+            GameData gameData = m_gamesModel.getGame(i);
 
-            int selectedCol = table.getSelectedColumn();
-            int selectedRow = table.getSelectedRow();
-
-            if(selectedCol == 1)
-            {
-                new EditGameController(this.getGui(), m_gamesModel, selectedRow);
-            }
+            m_view.addRow(gameData.getGameName());
         }
     }
 
     @Override
-    public void mousePressed(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e)
+    public void actionPerformed(ActionEvent e)
     {
 
     }

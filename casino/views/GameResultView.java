@@ -22,20 +22,21 @@ public class GameResultView extends JPanel {
 
     private void configure() {
         this.setLayout(new BorderLayout());
-
-        this.gameResultForm.getConfirmButton().addActionListener(this::nextAction);
-        this.gameResultForm.getCancelButton().addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
         this.add(this.gameResultForm, BorderLayout.CENTER);
     }
 
-    private void nextAction(ActionEvent e) {
-        System.out.println("Next");
+    public JButton getPlayAgainButton() {
+        return this.gameResultForm.getConfirmButton();
     }
 
-    private void cancelAction(ActionEvent e) {
-        System.out.println("Cancel");
+    public JButton getCancelButton() {
+        return this.gameResultForm.getCancelButton();
+    }
+
+    public void setResult(String result) {
+        this.gameResultForm.getTextTextArea().setText(result);
     }
 }

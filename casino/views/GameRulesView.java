@@ -15,30 +15,29 @@ public class GameRulesView extends JPanel {
     private GameRulesResultForm gameRulesForm;
 
     public GameRulesView() {
-        this.gameRulesForm = new GameRulesResultForm("Game Rules", "RULES TEXT FROM A GAME", "Play");
+        this.gameRulesForm = new GameRulesResultForm("Game Rules", "RULES GOES HERE", "Play");
 
         this.configure();
         this.addComponents();
-
-        MainFrame.getInstance().setTitle("GAME TITLE");
     }
 
     private void configure() {
         this.setLayout(new BorderLayout());
-
-        this.gameRulesForm.getConfirmButton().addActionListener(this::nextAction);
-        this.gameRulesForm.getCancelButton().addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
         this.add(this.gameRulesForm, BorderLayout.CENTER);
     }
 
-    private void nextAction(ActionEvent e) {
-        System.out.println("Next");
+    public JButton getNextButton() {
+        return this.gameRulesForm.getConfirmButton();
     }
 
-    private void cancelAction(ActionEvent e) {
-        System.out.println("Cancel");
+    public JButton getCancelButton() {
+        return this.gameRulesForm.getCancelButton();
+    }
+
+    public void setRules(String rules) {
+        this.gameRulesForm.getTextTextArea().setText(rules);
     }
 }

@@ -1,9 +1,12 @@
 package casino.views;
 
 import casino.events.GameListener;
+import casino.events.GameResponse;
+import com.sun.codemodel.internal.JOp;
 import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
+import shared.game.Die;
 import utilities.ComponentUtilities;
 
 import javax.swing.*;
@@ -14,7 +17,7 @@ import java.awt.event.ActionEvent;
  * @author  Dino Opijac
  * @since   21/05/2014
  */
-public class GameView extends View<GameListener> {
+public class GameView extends View<GameListener> implements GameResponse{
     private MenuView menu = new MenuView();
     private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();
@@ -35,6 +38,18 @@ public class GameView extends View<GameListener> {
     private void configure() {
         this.setLayout(new BorderLayout());
         this.nextButton.addActionListener(this::nextAction);
+
+        // configure buttons
+        this.gameRulesView.getNextButton().addActionListener(this::nextAction);
+        this.gameRulesView.getCancelButton().addActionListener(this::cancelAction);
+        this.betView.getConfirmButton().addActionListener(this::betAction);
+
+        // this.betView.getCANCELBUTTON
+        this.playView.getTossButton().addActionListener(this::tossAction);
+        // playView cancel
+        this.gameResultView.getPlayAgainButton().addActionListener(this::playAgainAction);
+        this.gameResultView.getCancelButton().addActionListener(this::cancelAction);
+
     }
 
     private void addComponents() {
@@ -61,5 +76,55 @@ public class GameView extends View<GameListener> {
 
     private void nextAction(ActionEvent e) {
         this.cards.next(this.card);
+    }
+
+    private void cancelAction(ActionEvent e) {
+        this.cards.show(this.card, "1");
+    }
+
+    private void betAction(ActionEvent e) {
+        double amount = new Double(this.betView.getFormattedField().getText());
+        this.getObservers().forEach(o -> o.bet(amount));
+    }
+
+    private void tossAction(ActionEvent e) {
+        this.getObservers().forEach(o -> o.toss());
+    }
+
+    private void playAgainAction(ActionEvent e) {
+        this.getObservers().forEach(o -> o.playAgain());
+    }
+
+    @Override
+    public void displayRules(String rules) {
+        this.gameRulesView.setRules(rules);
+        this.cards.show(this.card, "2");
+    }
+
+    @Override
+    public void betSuccessful() {
+
+    }
+
+    @Override
+    public void betUnSuccessful() {
+        JOptionPane.showMessageDialog(null, "Bet was unsuccessful.");
+        this.cards.show(this.card, "1");
+    }
+
+    @Override
+    public void updateDie(int index, int face) {
+
+    }
+
+    @Override
+    public void updateNumberOfThrows(int numberOfThrows) {
+
+    }
+
+    @Override
+    public void displayResult(String result) {
+        this.gameResultView.setResult(result);
+        this.cards.show(this.card, "5");
     }
 }

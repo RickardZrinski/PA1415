@@ -10,7 +10,7 @@ public interface GameResponse {
     public void displayRules(String rules);
     public void betSuccessful();
     public void betUnSuccessful();
-    public void updateDie(int index, Die die);
+    public void updateDie(int index, int face);
     public void updateNumberOfThrows(int numberOfThrows);
     public void displayResult(String result);
 

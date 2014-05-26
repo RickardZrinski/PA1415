@@ -19,7 +19,8 @@ public class Die {
      */
     public int toss(){
         Random random = new Random();
-        face = random.nextInt(6) +1;
+        if (saved == false)
+            face = random.nextInt(6) +1;
         return face;
     }
 

@@ -44,9 +44,7 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.gameRulesView.getNextButton().addActionListener(this::nextAction);
         this.gameRulesView.getCancelButton().addActionListener(this::cancelAction);
         this.betView.getConfirmButton().addActionListener(this::betAction);
-        // this.betView.getCANCELBUTTON
         this.playView.getTossButton().addActionListener(this::tossAction);
-        // playView cancel
         this.gameResultView.getPlayAgainButton().addActionListener(this::playAgainAction);
         this.gameResultView.getCancelButton().addActionListener(this::cancelAction);
 
@@ -105,7 +103,7 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void betSuccessful() {
-
+        this.cards.show(this.card, "4");
     }
 
     @Override

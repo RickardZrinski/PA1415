@@ -202,15 +202,28 @@ public class EditGameView extends View
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            ArrayList<WinningCondition> winningConditions = new ArrayList<>();
-            WinningCondition winningCondition;
-            for(WinningConditionView winCondView: m_winningCondViews)
-            {
-                winningCondition = winCondView.getAsWinningCondition();
-                winningConditions.add(winningCondition);
-            }
+            // Show confirmation window
+            int answer = showSaveConfirmationWindow();
 
-            m_controller.editGame(getNrOfThrows(), getNrOfDices(), winningConditions);
+            if(answer == JOptionPane.OK_OPTION)
+            {
+                ArrayList<WinningCondition> winningConditions = new ArrayList<>();
+                WinningCondition winningCondition;
+                for (WinningConditionView winCondView : m_winningCondViews) {
+                    winningCondition = winCondView.getAsWinningCondition();
+                    winningConditions.add(winningCondition);
+                }
+
+                m_controller.editGame(getNrOfThrows(), getNrOfDices(), winningConditions);
+            }
         }
+    }
+
+    private int showSaveConfirmationWindow()
+    {
+        int answer = JOptionPane.showConfirmDialog(this, "Do you want to save the game parameters?",
+                "Confirm save?", JOptionPane.OK_CANCEL_OPTION);
+
+        return answer;
     }
 }

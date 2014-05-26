@@ -1,5 +1,7 @@
 package shared.game;
 
+import casino.events.GameResponse;
+import shared.Model;
 import shared.dao.GameDataDao;
 import shared.users.User;
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Oliver on 2014-05-13.
  */
-public class GameSession {
+public class GameSession extends Model<GameResponse>{
     private double bet;
     private boolean active;
     private User user;
@@ -49,8 +51,16 @@ public class GameSession {
      * Tosses all dice in shared.game
      */
     public void toss(){
-        for (Die die: dice){
-            die.toss();
+        GameResponse[] observers = (GameResponse[])this.getObservers().toArray();
+
+        for (int i = 0; i < getNumberOfDice(); i++){
+            if (!dice.get(i).isSaved()) {
+                dice.get(i).toss();
+                for (int j = 0; j < this.getObservers().size(); j++){
+                    observers[j].updateDie(i, dice.get(i));
+                }
+            }
+
         }
         this.numberOfThrows--;
     }
@@ -61,6 +71,11 @@ public class GameSession {
      */
     public void bet(double bet){
         this.bet = bet;
+        //@TODO implement transaction
+
+        //If successful
+        this.getObservers().forEach(GameResponse::betSuccessful);
+        this.getObservers().forEach(o -> o.updateNumberOfThrows(numberOfThrows));
     }
 
     /**
@@ -76,7 +91,11 @@ public class GameSession {
      */
     public WinningCondition end(){
         active = false;
-        return calculateReward();
+        WinningCondition reward = calculateReward();
+        String rewardString = "You have won %f SEK by betting %f SEK";
+        double winnings = bet * reward.getReward();
+        this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, winnings, bet)));
+        return reward;
     }
 
     /**
@@ -176,5 +195,8 @@ public class GameSession {
     public void selectGame(int id){
         gameData = dao.get(id);
         this.numberOfThrows = gameData.getNumberOfThrows();
+        this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
+
+
 }

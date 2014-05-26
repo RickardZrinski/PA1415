@@ -61,6 +61,9 @@ public class ListAllGamesView extends View
 
         // Add table to a Scroll Pane
         m_gameTablePane.setViewportView(m_gameTable);
+
+        // Add listener to table
+        m_gameTable.addMouseListener(new EditGameListener());
     }
 
     private void addComponents()
@@ -93,20 +96,13 @@ public class ListAllGamesView extends View
         @Override
         public void mouseClicked(MouseEvent e)
         {
-            /*Object obj = e.getSource();
+            int selectedCol = m_gameTable.getSelectedColumn();
+            int selectedRow = m_gameTable.getSelectedRow();
 
-            if(obj instanceof JTable)
+            if(selectedCol == 1)
             {
-                JTable table = (JTable)obj;
-
-                int selectedCol = table.getSelectedColumn();
-                int selectedRow = table.getSelectedRow();
-
-                if(selectedCol == 1)
-                {
-                    new EditGameController(this.getGui(), m_gamesModel, selectedRow);
-                }
-            }*/
+                m_controller.editGame(selectedRow);
+            }
         }
 
         @Override

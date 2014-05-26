@@ -2,7 +2,6 @@ package administrator.views;
 
 import administrator.controllers.EditGameController;
 import administrator.controllers.ListAllGamesController;
-import administrator.events.ListAllGamesListener;
 import shared.game.GameData;
 
 import javax.swing.*;

@@ -45,7 +45,6 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.playView.getTossButton().addActionListener(this::tossAction);
         this.gameResultView.getPlayAgainButton().addActionListener(this::playAgainAction);
         this.gameResultView.getCancelButton().addActionListener(this::cancelAction);
-
     }
 
     private void addComponents() {
@@ -93,6 +92,10 @@ public class GameView extends View<GameListener> implements GameResponse{
         this.getObservers().forEach(GameListener::playAgain);
     }
 
+    private void toggleDieAction(ActionEvent e) {
+        System.out.println(e);
+    }
+
     @Override
     public void displayRules(String rules) {
         this.gameRulesView.setRules(rules);
@@ -124,7 +127,7 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void updateNumberOfDice(int numberOfDice) {
-        this.playView.addBoxes(numberOfDice);
+        this.playView.addBoxes(numberOfDice, this::toggleDieAction);
     }
 
     @Override

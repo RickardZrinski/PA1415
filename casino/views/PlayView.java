@@ -5,6 +5,8 @@ import utilities.ComponentUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author  Dino Opijac
@@ -36,14 +38,21 @@ public class PlayView extends JPanel {
         this.add(this.dicePanel, BorderLayout.CENTER);
     }
 
-    public void addBoxes(int number) {
-        for (int i = 0; i < number; i++)
-            this.dicePanel.add(new Box("shared/resources/1.png"));
+    public void addBoxes(int number, ActionListener listener) {
+        for (int i = 0; i < number; i++) {
+            Box box = new Box("shared/resources/1.png");
+            box.getButton().addActionListener(listener);
+            this.add(box);
+        }
     }
 
     public void updateBox(int index, int face) {
-        ((Box)this.dicePanel.getComponent(index)).getButton().setIcon(new ImageIcon(String.format("shared/resources/%d.png", face)));
+        this.getBoxButton(index).setIcon(new ImageIcon(String.format("shared/resources/%d.png", face)));
         this.dicePanel.repaint();
+    }
+
+    public JToggleButton getBoxButton(int index) {
+        return ((Box)this.dicePanel.getComponent(index)).getButton();
     }
 
     public JButton getTossButton() {

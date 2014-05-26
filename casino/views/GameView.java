@@ -26,7 +26,7 @@ public class GameView extends View<GameListener> implements GameResponse{
     private JPanel selectableGamesView;
     private GameRulesView gameRulesView = new GameRulesView();
     private SimpleForm betView = new SimpleForm("Amount to bet", "Bet");
-    private PlayView playView = new PlayView(15);
+    private PlayView playView = new PlayView();
     private GameResultView gameResultView = new GameResultView();
 
     public GameView() {
@@ -112,7 +112,9 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void updateDie(int index, int face) {
-
+        System.out.println("UpdateDie!");
+        this.playView.updateBox(index, face);
+        this.playView.repaint();
     }
 
     @Override
@@ -121,8 +123,8 @@ public class GameView extends View<GameListener> implements GameResponse{
     }
 
     @Override
-    public void updateNumberOfDice(int numberOfDice){
-
+    public void updateNumberOfDice(int numberOfDice) {
+        this.playView.addBoxes(numberOfDice);
     }
 
     @Override

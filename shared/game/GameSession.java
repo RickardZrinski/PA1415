@@ -30,6 +30,9 @@ public class GameSession extends Model<GameResponse>{
         this.gameData = null;
         dao = new GameDataDao();
         gameData = dao.get(12);
+        numberOfThrows = gameData.getNumberOfThrows();
+        for (int i = 0; i < gameData.getNumberOfDice(); i++)
+            dice.add(new Die());
     }
 
     /**

@@ -57,7 +57,7 @@ public class GameSession extends Model<GameResponse>{
             if (!dice.get(i).isSaved()) {
                 dice.get(i).toss();
                 for (int j = 0; j < this.getObservers().size(); j++){
-                    observers[j].updateDie(i, dice.get(i));
+                    observers[j].updateDie(i, dice.get(i).getFace());
                 }
             }
 

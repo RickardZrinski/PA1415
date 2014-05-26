@@ -5,7 +5,6 @@ import utilities.ComponentUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
@@ -15,6 +14,7 @@ import java.awt.event.ActionListener;
 public class PlayView extends JPanel {
     private final String IMAGE_SOURCE = "shared/resources/%d.png";
     private JButton tossButton = new JButton("Toss");
+    private JButton finishButton = new JButton("Finish");
     private JButton resetButton = new JButton("Reset");
     private JLabel progressText = new JLabel("Remaining Throws: 5");
     private JPanel dicePanel;
@@ -31,11 +31,14 @@ public class PlayView extends JPanel {
         // The reset button should be disabled until the user
         // has toggled Box (dice)
         this.resetButton.setEnabled(false);
+
+        // Make the finish button hidden
+        this.finishButton.setVisible(false);
     }
 
     private void addComponents() {
         this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.progressText), BorderLayout.PAGE_START);
-        this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.tossButton, this.resetButton), BorderLayout.PAGE_END);
+        this.add(ComponentUtilities.flow(FlowLayout.CENTER, this.finishButton, this.tossButton, this.resetButton), BorderLayout.PAGE_END);
         this.add(this.dicePanel, BorderLayout.CENTER);
     }
 
@@ -76,6 +79,15 @@ public class PlayView extends JPanel {
      */
     public void updateProgress(int number) {
         this.progressText.setText(String.format("Remaining Throws: %d", number));
+    }
+
+    public void toggleButtons() {
+        ComponentUtilities.toggleComponent(this.finishButton);
+        ComponentUtilities.toggleComponent(this.tossButton);
+    }
+
+    public JButton getFinishButton() {
+        return this.finishButton;
     }
 
     public JToggleButton getBoxButton(int index) {

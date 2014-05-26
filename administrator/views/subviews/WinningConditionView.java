@@ -142,8 +142,7 @@ public class WinningConditionView extends View
             Combination comb = winningCondition.getCombination(i);
 
             // Set data in CombinationView
-            view.setName(comb.getName());
-            view.setQuantity(comb.getQuantity());
+            view.setData(comb);
         }
     }
 

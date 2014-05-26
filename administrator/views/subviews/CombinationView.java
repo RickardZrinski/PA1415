@@ -13,6 +13,7 @@ public class CombinationView extends View
 {
     private JTextField m_name;
     private JTextField m_quantity;
+    private FacesView m_facesView;
 
     public CombinationView()
     {
@@ -26,6 +27,7 @@ public class CombinationView extends View
     {
         m_name = new JTextField();
         m_quantity = new JTextField();
+        m_facesView = new FacesView();
     }
 
     private void configureView()
@@ -93,6 +95,14 @@ public class CombinationView extends View
         cellPanel = new JPanel();
         cellPanel.add(m_quantity);
         this.add(cellPanel, constraints);
+
+        // The FacesView
+        constraints = new GridBagConstraints();
+        constraints.gridy = 3;
+        constraints.gridx = 0;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        this.add(m_facesView, constraints);
     }
 
     public Combination getAsCombination()
@@ -101,9 +111,17 @@ public class CombinationView extends View
 
         combination.setName(this.getName());
         combination.setQuantity(this.getQuantity());
+        combination.setFaces(m_facesView.getAsFaces());
 
         System.out.println("getAsCombination: " + this.getName());
         return combination;
+    }
+
+    public void setData(Combination combination)
+    {
+        this.setName(combination.getName());
+        this.setQuantity(combination.getQuantity());
+        m_facesView.setData(combination.getFaces());
     }
 
     public void setName(String name)

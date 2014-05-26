@@ -63,7 +63,12 @@ public class GameSession extends Model<GameResponse>{
             }
 
         }
+        // Decrease number of throws
         this.numberOfThrows--;
+
+        // Notify our observers
+        this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));
+
         if (numberOfThrows == 0)
             end();
     }

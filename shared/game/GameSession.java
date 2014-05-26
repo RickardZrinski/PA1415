@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Oliver on 2014-05-13.
  */
 public class GameSession {
-    private int bet;
+    private double bet;
     private boolean active;
     private User user;
     private GameData gameData;
@@ -54,7 +54,7 @@ public class GameSession {
      * Sets bet
      * @param bet player's bet
      */
-    public void bet(int bet){
+    public void bet(double bet){
         this.bet = bet;
     }
 
@@ -135,7 +135,7 @@ public class GameSession {
      * Retrieves bet-value
      * @return  the bet-value
      */
-    public int getBet() {
+    public double getBet() {
         return bet;
     }
 
@@ -166,5 +166,9 @@ public class GameSession {
     private void resetDice(){
         for (Die die : dice)
             die.reset();
+    }
+
+    public void setGameData(GameData gameData){
+        this.gameData = gameData;
     }
 }

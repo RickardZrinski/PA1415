@@ -9,6 +9,6 @@ public interface GameListener {
     public void bet(double amount);
     public void toss();
     public void saveDie(int index);
-    public void end();
     public void playAgain();
+
 }

@@ -11,16 +11,14 @@ import java.util.ArrayList;
 public class GamesModel extends Model<ListAllGamesListener>
 {
     private ArrayList<GameData> games;
-    private int nrOfGames;
 
     public GamesModel() {
         games = new ArrayList<GameData>();
-        nrOfGames = 0;
         AddGamesFromDB();
     }
 
     public int getNrOfGames() {
-        return nrOfGames;
+        return games.size();
     }
 
     public boolean addGame(String title) {
@@ -98,10 +96,5 @@ public class GamesModel extends Model<ListAllGamesListener>
             games.add(object);
         }
 
-    }
-
-    public void requestAllGames()
-    {
-        this.getObservers().forEach(e -> e.listAllGamesResponse(this.games));//this.notify("listAllGamesResponse", this.games);
     }
 }

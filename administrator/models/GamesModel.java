@@ -1,14 +1,12 @@
 package administrator.models;
 
-import administrator.events.ListAllGamesListener;
-import shared.Model;
 import shared.dao.GameDataDao;
 import shared.game.GameData;
 import shared.game.WinningCondition;
 
 import java.util.ArrayList;
 
-public class GamesModel extends Model<ListAllGamesListener>
+public class GamesModel
 {
     private ArrayList<GameData> games;
 

@@ -68,7 +68,7 @@ public class MainMenuController extends Controller
     private void displayMenu()
     {
         m_view = new MainMenuView();
-        m_view.registerListener(this);
+        m_view.setController(this);
 
         getGui().addView(m_view, "MainMenuView");
         getGui().showView("MainMenuView", "Administrator - Main Menu");
@@ -77,16 +77,16 @@ public class MainMenuController extends Controller
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        String menuItem = e.getActionCommand();
 
-        switch(menuItem)
-        {
-            case "ListAllGames":
-                new ListAllGamesController(this.getGui(), m_gamesModel);
-                break;
-            case "AddGame":
-                new AddGameController(this.getGui(), m_gamesModel);
-                break;
-        }
+    }
+
+    public void showListAllGames()
+    {
+        new ListAllGamesController(this.getGui(), m_gamesModel);
+    }
+
+    public void showAddGame()
+    {
+        new AddGameController(this.getGui(), m_gamesModel);
     }
 }

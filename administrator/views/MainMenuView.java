@@ -1,5 +1,7 @@
 package administrator.views;
 
+import administrator.controllers.AddGameController;
+import administrator.controllers.ListAllGamesController;
 import administrator.controllers.MainMenuController;
 import administrator.utilities.gui.DefaultButton;
 
@@ -9,6 +11,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -19,12 +23,14 @@ public class MainMenuView extends View
     private GridLayout m_gridLayout;
     private JPanel m_menu;
     private ArrayList<JButton> m_menuItems;
+    private MainMenuController m_controller;
 
     public MainMenuView()
     {
         initialize();
         configure();
         addComponents();
+        configureComponents();
     }
 
     private void initialize()
@@ -65,6 +71,15 @@ public class MainMenuView extends View
         this.add(m_menu);
     }
 
+    private void configureComponents()
+    {
+        MenuItemListener listener = new MenuItemListener();
+        for(JButton item: m_menuItems)
+        {
+            item.addActionListener(listener);
+        }
+    }
+
     private void addMenuItems()
     {
         for(JButton item: m_menuItems)
@@ -80,11 +95,27 @@ public class MainMenuView extends View
         return button;
     }
 
-    public void registerListener(MainMenuController controller)
+    public void setController(MainMenuController controller)
     {
-        for(JButton item: m_menuItems)
+        m_controller = controller;
+    }
+
+    private class MenuItemListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
         {
-            item.addActionListener(controller);
+            String menuItem = e.getActionCommand();
+
+            switch(menuItem)
+            {
+                case "ListAllGames":
+                    m_controller.showListAllGames();
+                    break;
+                case "AddGame":
+                    m_controller.showAddGame();
+                    break;
+            }
         }
     }
 }

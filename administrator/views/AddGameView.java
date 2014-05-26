@@ -5,6 +5,8 @@ import administrator.utilities.gui.DefaultButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Rickard Zrinski on 2014-05-18.
@@ -13,6 +15,7 @@ public class AddGameView extends View
 {
     private JTextField m_fieldTitle;
     private DefaultButton m_saveBtn;
+    private AddGameController m_controller;
 
     public AddGameView()
     {
@@ -37,7 +40,7 @@ public class AddGameView extends View
     {
         m_fieldTitle.setColumns(10);
 
-        m_saveBtn.setActionCommand("Save");
+        m_saveBtn.addActionListener(new AddGameButtonListener());
     }
 
     private void addComponents()
@@ -79,8 +82,17 @@ public class AddGameView extends View
         return m_fieldTitle.getText();
     }
 
-    public void registerListener(AddGameController controller)
+    public void setController(AddGameController controller)
     {
-        m_saveBtn.addActionListener(controller);
+        m_controller = controller;
+    }
+
+    private class AddGameButtonListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            m_controller.addGame(getTitle());
+        }
     }
 }

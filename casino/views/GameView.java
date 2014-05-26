@@ -104,6 +104,7 @@ public class GameView extends View<GameListener> implements GameResponse{
     @Override
     public void betSuccessful() {
         this.cards.show(this.card, "4");
+
     }
 
     @Override

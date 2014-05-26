@@ -63,6 +63,8 @@ public class GameSession extends Model<GameResponse>{
 
         }
         this.numberOfThrows--;
+        if (numberOfThrows == 0)
+            end();
     }
 
     /**
@@ -89,7 +91,7 @@ public class GameSession extends Model<GameResponse>{
      * Called when the shared.game ends
      * @return the fulfilled winningCondition, if none: default WinningCondition
      */
-    public WinningCondition end(){
+    private WinningCondition end(){
         active = false;
         WinningCondition reward = calculateReward();
         String rewardString = "You have won %f SEK by betting %f SEK";

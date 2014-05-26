@@ -49,8 +49,8 @@ public class GamesModel extends Model<ListAllGamesListener>
             games.get(index).setWinningCondition(winningCondition);
 
             //updates changed parameters to the object in the database
-            //GameDataDao dao = new GameDataDao();
-           // dao.update(games.get(index));
+            GameDataDao dao = new GameDataDao();
+            dao.update(games.get(index));
         }
 
     }

@@ -115,7 +115,6 @@ public class GameView extends View<GameListener> implements GameResponse{
 
     @Override
     public void updateDie(int index, int face) {
-        System.out.println("UpdateDie!");
         this.playView.updateBox(index, face);
         this.playView.repaint();
     }

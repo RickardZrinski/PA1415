@@ -14,6 +14,8 @@ public class GameSession {
     private User user;
     private GameData gameData;
     private ArrayList<Die> dice;
+    private GameDataDao dao;
+    private int numberOfThrows;
 
     /**
      * Creates a new empty GameSession
@@ -24,6 +26,7 @@ public class GameSession {
         this.dice = new ArrayList<Die>();
         this.user = null;
         this.gameData = null;
+        dao = new GameDataDao();
     }
 
     /**
@@ -39,6 +42,7 @@ public class GameSession {
            dice.add(new Die());
         this.user = user;
         this.gameData = gameData;
+        this.dao = new GameDataDao();
     }
 
     /**
@@ -48,6 +52,7 @@ public class GameSession {
         for (Die die: dice){
             die.toss();
         }
+        this.numberOfThrows--;
     }
 
     /**
@@ -168,7 +173,8 @@ public class GameSession {
             die.reset();
     }
 
-    public void setGameData(GameData gameData){
-        this.gameData = gameData;
+    public void selectGame(int id){
+        gameData = dao.get(id);
+        this.numberOfThrows = gameData.getNumberOfThrows();
     }
 }

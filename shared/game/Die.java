@@ -11,7 +11,10 @@ public class Die {
     /**
      * Creates a new Die with face value one.
      */
-    public Die(){this.face = 1;}
+    public Die(){
+        this.face = 1;
+        this.saved = false;
+    }
 
     /**
      * Simulates a toss by assigning die.face a random value.

@@ -114,9 +114,6 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     @Override
     public void displayRules(String rules) {
-        // Clear all the data inside the panels
-        this.playView.clear();
-
         // Set the rules and show the next card
         this.gameRulesView.setRules(rules);
         this.cards.show(this.card, "2");

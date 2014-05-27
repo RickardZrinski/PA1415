@@ -75,7 +75,7 @@ public class PlayView extends JPanel {
     /**
      * Clears the view from all components and effectively resets it
      */
-    public void clear() {
+    private void clear() {
         this.dicePanel.removeAll();
     }
 
@@ -85,6 +85,9 @@ public class PlayView extends JPanel {
      * @param listener  the listener for which these boxes will invoke
      */
     public void addBoxes(int number, ActionListener listener) {
+        // Remove all old boxes.
+        this.clear();
+
         for (int i = 0; i < number; i++) {
             Box box = new Box(String.format(IMAGE_SOURCE, 1));
 

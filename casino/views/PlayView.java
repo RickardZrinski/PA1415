@@ -43,6 +43,36 @@ public class PlayView extends JPanel {
     }
 
     /**
+     * Sets the enabled state for the box buttons. Set to 'true'
+     * for enabling the buttons and 'false' for disabling
+     *
+     * @param value     boolean value for the state
+     */
+    private void setEnabledStateForBoxButtons(boolean value) {
+        for(Component c: this.dicePanel.getComponents()) {
+            if (c instanceof Box) {
+                ((Box) c).getButton().setEnabled(value);
+            }
+        }
+    }
+
+    /**
+     * Enables all box buttons
+     * @see PlayView#setEnabledStateForBoxButtons(boolean)
+     */
+    public void enableBoxButtons() {
+        this.setEnabledStateForBoxButtons(true);
+    }
+
+    /**
+     * Disables all box buttons
+     * @see PlayView#setEnabledStateForBoxButtons(boolean)
+     */
+    public void disableBoxButtons() {
+        this.setEnabledStateForBoxButtons(false);
+    }
+
+    /**
      * Clears the view from all components and effectively resets it
      */
     public void clear() {
@@ -86,19 +116,33 @@ public class PlayView extends JPanel {
         this.progressText.setText(String.format("Remaining Throws: %d", number));
     }
 
+    /**
+     * Toggles the finish and toss buttons (shows/hides)
+     */
     public void toggleButtons() {
         ComponentUtilities.toggleComponent(this.finishButton);
         ComponentUtilities.toggleComponent(this.tossButton);
     }
 
-    public JButton getFinishButton() {
-        return this.finishButton;
-    }
-
+    /**
+     * Retrieves an box button at the desired index
+     * @param index     the index of the box to retrieve
+     * @return          the box button at the desired index
+     */
     public JToggleButton getBoxButton(int index) {
         return ((Box)this.dicePanel.getComponent(index)).getButton();
     }
 
+    /**
+     * @return retrieves the button labeled 'Finish'
+     */
+    public JButton getFinishButton() {
+        return this.finishButton;
+    }
+
+    /**
+     * @return retrieves the button labeled 'Toss'
+     */
     public JButton getTossButton() {
         return this.tossButton;
     }

@@ -43,6 +43,10 @@ public class GameDataDao implements IDao<GameData> {
         return data;
     }
 
+    public Collection<GameData> getCollectionNames(){
+        return this.gameData.getCollection();
+    }
+
     /**
      * Retrieves gameData from the database
      * @param key   The gameData's ID
@@ -145,9 +149,9 @@ public class GameDataDao implements IDao<GameData> {
         if (this.gameData.count("ID", String.valueOf(gameData.getId())) > 0) {
             success = true;
             this.gameData.update(gameData.getId(), gameData);
-
+            int gameDataId = gameData.getId();
             //Check if any combinations have been deleted from a winningCondition
-            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++)
+            for (int i = 0; i < gameData.getNumberOfWinningConditions(); i++) //@TODO FIX weird iteration
                 deleteUnusedCombinations(gameData.getWinningCondition(i).getId(), gameData.getWinningCondition(i));
 
             //Check if any winningConditions have been deleted
@@ -198,7 +202,7 @@ public class GameDataDao implements IDao<GameData> {
                             else{
                                 result.moveToInsertRow();
                                 result.updateString(1, comb.getFace(k));
-                                result.updateInt(2, comb.getId());
+                                result.updateInt(2, combId);
                                 result.insertRow();
                                 result.moveToCurrentRow();
                             }

@@ -4,6 +4,7 @@ import administrator.GUI;
 import administrator.models.UsersModel;
 import administrator.views.ListAllGamesView;
 import administrator.views.ListAllUsersView;
+import shared.users.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,15 +30,21 @@ public class ListAllUsersController extends Controller
 
     public void listAllUsers()
     {
+        // Create view and set controller
         m_view = new ListAllUsersView();
         m_view.setController(this);
 
+        // Add view to GUI and show view
         this.getGui().addView(m_view, "ListAllUsersView");
         this.getGui().showView("ListAllUsersView", "Administrator - List all users");
 
-        // Only for testing, remove later
-        m_view.addRow("Admin", "Rickard", "Zrinski");
-        m_view.addRow("Test", "Test1", "Test2");
+        // Add rows to view
+        for(int i = 0; i < m_usersModel.getNrOfUsers(); i++)
+        {
+            User user = m_usersModel.getUser(i);
+
+            m_view.addRow(user.getUsername(), user.getFirstName(), user.getLastName());
+        }
     }
 
     @Override
@@ -48,6 +55,6 @@ public class ListAllUsersController extends Controller
 
     public void editUser(int index)
     {
-
+        new EditUserController(this.getGui(), m_usersModel, index);
     }
 }

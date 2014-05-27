@@ -91,7 +91,7 @@ public class ListAllUsersView extends View
             int selectedCol = m_userTable.getSelectedColumn();
             int selectedRow = m_userTable.getSelectedRow();
 
-            if(selectedCol == 1)
+            if(selectedCol == 3)
             {
                 m_controller.editUser(selectedRow);
             }

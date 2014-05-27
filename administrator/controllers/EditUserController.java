@@ -46,4 +46,12 @@ public class EditUserController extends Controller
     {
 
     }
+
+    public void editUser(String userName, String firstName, String lastName, String password)
+    {
+        if(userName != "" && firstName != "" && lastName != "" && password != "")
+        {
+            m_usersModel.editUser(m_userIndex, userName, password, firstName, lastName);
+        }
+    }
 }

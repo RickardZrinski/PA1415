@@ -5,6 +5,8 @@ import administrator.utilities.gui.DefaultButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Rickard Zrinski on 2014-05-27.
@@ -46,6 +48,8 @@ public class EditUserView extends View
         m_firstNameField.setColumns(10);
         m_lastNameField.setColumns(10);
         m_passwordField.setColumns(10);
+
+        m_saveBtn.addActionListener(new SaveButtonListener());
     }
 
     private void addComponents()
@@ -192,5 +196,14 @@ public class EditUserView extends View
         String passwordStr = new String(password);
 
         return passwordStr;
+    }
+
+    private class SaveButtonListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            m_controller.editUser(getUserName(), getFirstName(), getLastName(), getPassword());
+        }
     }
 }

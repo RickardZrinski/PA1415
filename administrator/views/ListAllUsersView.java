@@ -1,11 +1,11 @@
 package administrator.views;
 
-import administrator.controllers.Controller;
-import administrator.controllers.ListAllGamesController;
 import administrator.controllers.ListAllUsersController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by Rickard Zrinski on 2014-05-16.
@@ -13,6 +13,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class ListAllUsersView extends View
 {
+    private JTable m_userTable;
+    private JScrollPane m_userTablePane;
+    private UserTableModel m_userTableModel;
+    private ListAllUsersController m_controller;
+    
     private class UserTableModel extends DefaultTableModel
     {
         @Override
@@ -20,11 +25,6 @@ public class ListAllUsersView extends View
         {
             return false;
         }
-    }
-
-    public void registerListener(ListAllUsersController controller)
-    {
-
     }
 
     public ListAllUsersView()
@@ -47,13 +47,11 @@ public class ListAllUsersView extends View
         m_userTable.setModel(m_userTableModel);
 
         // Add columns
-
         m_userTableModel.addColumn("Number");
         m_userTableModel.addColumn("Username");
         m_userTableModel.addColumn("Firstname");
         m_userTableModel.addColumn("Surname");
         m_userTableModel.addColumn("Edit");
-
 
         // Set some attributes
         m_userTable.getColumnModel().getColumn(1).setMaxWidth(70);
@@ -61,6 +59,9 @@ public class ListAllUsersView extends View
 
         // Add table to a Scroll Pane
         m_userTablePane.setViewportView(m_userTable);
+
+        // Add listener to table
+        m_userTable.addMouseListener(new EditUserListener());
     }
 
     private void addComponents()
@@ -69,23 +70,56 @@ public class ListAllUsersView extends View
         this.add(m_userTablePane);
     }
 
-    public void registerListener(ListAllGamesController controller)
-    {
-        //m_userTable.addMouseListener(controller);
-    }
-
-    public void addRow(String title)
+    public void addRow(String userName, String firstName, String lastName)
     {
         // Construct row
-        Object[] row = new Object[] {title, "Edit"};
+        Object[] row = new Object[] {userName, firstName, lastName, "Edit"};
 
         // Add row to table model
         m_userTableModel.addRow(row);
     }
 
+    public void setController(ListAllUsersController controller)
+    {
+        m_controller = controller;
+    }
 
+    private class EditUserListener implements MouseListener
+    {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            int selectedCol = m_userTable.getSelectedColumn();
+            int selectedRow = m_userTable.getSelectedRow();
 
-    private JTable m_userTable;
-    private JScrollPane m_userTablePane;
-    private UserTableModel m_userTableModel;
+            if(selectedCol == 1)
+            {
+                m_controller.editUser(selectedRow);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e)
+        {
+
+        }
+    }
 }

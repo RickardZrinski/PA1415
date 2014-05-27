@@ -25,19 +25,23 @@ public class ListAllUsersController extends Controller
     public void listAllUsers()
     {
         m_view = new ListAllUsersView();
-        m_view.registerListener(this);
+        m_view.setController(this);
 
         this.getGui().addView(m_view, "ListAllUsersView");
         this.getGui().showView("ListAllUsersView", "Administrator - List all users");
 
-
         // Only for testing, remove later
-        m_view.addRow("Test");
-        m_view.addRow("Test1");
+        m_view.addRow("Admin", "Rickard", "Zrinski");
+        m_view.addRow("Test", "Test1", "Test2");
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
+    {
+
+    }
+
+    public void editUser(int index)
     {
 
     }

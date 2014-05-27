@@ -30,10 +30,6 @@ public class GameSession extends Model<GameResponse>{
         this.user = null;
         this.gameData = null;
         dao = new GameDataDao();
-        gameData = dao.get(14);
-        numberOfThrows = gameData.getNumberOfThrows();
-        for (int i = 0; i < gameData.getNumberOfDice(); i++)
-            dice.add(new Die());
     }
 
     /**
@@ -214,6 +210,6 @@ public class GameSession extends Model<GameResponse>{
      * Loads all games from the database and shows it to the view
      */
     public void loadAll() {
-        this.getObservers().forEach(o -> o.showAllGames(DAOFactory.getGameDataDao().getCollection()));
+        this.getObservers().forEach(o -> o.showAllGames(DAOFactory.getGameDataDao().getCollectionNames()));
     }
 }

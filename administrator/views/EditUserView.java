@@ -203,7 +203,21 @@ public class EditUserView extends View
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            m_controller.editUser(getUserName(), getFirstName(), getLastName(), getPassword());
+            // Show confirmation window
+            int answer = showSaveConfirmationWindow();
+
+            if(answer == JOptionPane.OK_OPTION)
+            {
+                m_controller.editUser(getUserName(), getFirstName(), getLastName(), getPassword());
+            }
         }
+    }
+
+    private int showSaveConfirmationWindow()
+    {
+        int answer = JOptionPane.showConfirmDialog(this, "Do you want to save the user credentials?",
+                "Confirm save?", JOptionPane.OK_CANCEL_OPTION);
+
+        return answer;
     }
 }

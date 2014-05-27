@@ -104,7 +104,7 @@ public class GameData {
         //adds all winningConds array into existing WinningCondition array
         for(int i=0; i< winningConds.size(); i++)
         {
-            winningConditions.add(winningConds.get(i) );
+            addWinningCondition(winningConds.get(i));
         }
     }
 

@@ -136,7 +136,7 @@ public class GameSession extends Model<GameResponse>{
      * @param index index of the die in gameData
      * @return  the die
      */
-    public Die getGameDie(int index){
+    public Die getDie(int index){
         return dice.get(index);
     }
 

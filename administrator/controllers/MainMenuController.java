@@ -62,7 +62,7 @@ public class MainMenuController extends Controller
         // Add main menu to menu bar
         menuBar.add(mainMenu);
 
-        gui.setJMenuBar(menuBar);
+        gui.setMenuBar(menuBar);
     }
 
     private void displayMenu()

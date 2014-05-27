@@ -12,7 +12,6 @@ public class Main {
             @Override
             public void run() {
                 GUI frame = new GUI();
-                frame.setVisible(true);
 
                 MainMenuController controller = new MainMenuController(frame, new UsersModel(), new GamesModel());
             }

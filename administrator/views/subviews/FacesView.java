@@ -113,7 +113,7 @@ public class FacesView extends View
         {
             String faceFieldValue = faceField.getText();
 
-            if(faceFieldValue != "")
+            if(!faceFieldValue.equals(""))
             {
                 faces.add(faceFieldValue);
             }

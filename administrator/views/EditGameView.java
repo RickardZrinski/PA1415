@@ -209,7 +209,8 @@ public class EditGameView extends View
             {
                 ArrayList<WinningCondition> winningConditions = new ArrayList<>();
                 WinningCondition winningCondition;
-                for (WinningConditionView winCondView : m_winningCondViews) {
+                for (WinningConditionView winCondView : m_winningCondViews)
+                {
                     winningCondition = winCondView.getAsWinningCondition();
                     winningConditions.add(winningCondition);
                 }

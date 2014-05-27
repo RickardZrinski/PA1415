@@ -54,24 +54,6 @@ public class EditGameController extends Controller
     public void editGame(int nrOfThrows, int nrOfDices,
                          ArrayList<WinningCondition> winningConditions)
     {
-        // Temporary stuff for debugging
-        System.out.println("\nNr of throws: " + nrOfThrows);
-        System.out.println("\nNr of dices: " + nrOfDices);
-
-        for(int j = 0; j < winningConditions.size(); j++)
-        {
-            System.out.println("\nWinning Condition " + j + " - Name: " + winningConditions.get(j).getName());
-            System.out.println("\nWinning Condition " + j + " - Reward: " + winningConditions.get(j).getReward());
-            System.out.println("\nNr of combinations: " + winningConditions.get(j).getNumberOfCombinations());
-            for(int i = 0; i < winningConditions.get(j).getNumberOfCombinations(); i++)
-            {
-                Combination comb = winningConditions.get(j).getCombination(i);
-
-                System.out.println("\nCombination " + i + " - Name: " + comb.getName());
-                System.out.println("\nCombination " + i + " - Quantity: " + comb.getQuantity());
-            }
-        }
-
         m_gamesModel.sendEditedParameters(m_gameIndex, nrOfThrows, nrOfDices, winningConditions);
     }
 }

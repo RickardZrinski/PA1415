@@ -113,7 +113,6 @@ public class CombinationView extends View
         combination.setQuantity(this.getQuantity());
         combination.setFaces(m_facesView.getAsFaces());
 
-        System.out.println("getAsCombination: " + this.getName());
         return combination;
     }
 

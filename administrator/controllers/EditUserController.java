@@ -38,7 +38,7 @@ public class EditUserController extends Controller
         m_view.setPassword(user.getPassword());
 
         this.getGui().addView(m_view, "EditGameView");
-        this.getGui().showView("EditGameView", "Administrator - Edit game");
+        this.getGui().showView("EditGameView", "Administrator - Edit a user");
     }
 
     public void editUser(String userName, String firstName, String lastName, String password)

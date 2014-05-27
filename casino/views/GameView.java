@@ -83,6 +83,9 @@ public class GameView extends View<GameListener> implements GameResponse {
     private void betAction(ActionEvent e) {
         double amount = new Double(this.betView.getFormattedField().getText());
         this.getObservers().forEach(o -> o.bet(amount));
+
+        // Disable all buttons
+        this.playView.disableBoxButtons();
     }
 
     private void finishAction(ActionEvent actionEvent) {
@@ -91,6 +94,9 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     private void tossAction(ActionEvent e) {
         this.getObservers().forEach(GameListener::toss);
+
+        // Enable all buttons once the tossing has started
+        this.playView.enableBoxButtons();
     }
 
     private void playAgainAction(ActionEvent e) {

@@ -48,10 +48,4 @@ public class ListAllGamesController extends Controller
     {
         new EditGameController(this.getGui(), m_gamesModel, index);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
 }

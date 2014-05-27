@@ -51,12 +51,6 @@ public class EditGameController extends Controller
         this.getGui().showView("EditGameView", "Administrator - Edit game");
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
     public void editGame(int nrOfThrows, int nrOfDices,
                          ArrayList<WinningCondition> winningConditions)
     {

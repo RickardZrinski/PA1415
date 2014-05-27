@@ -47,12 +47,6 @@ public class ListAllUsersController extends Controller
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
     public void editUser(int index)
     {
         new EditUserController(this.getGui(), m_usersModel, index);

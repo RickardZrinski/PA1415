@@ -41,12 +41,6 @@ public class EditUserController extends Controller
         this.getGui().showView("EditGameView", "Administrator - Edit game");
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
     public void editUser(String userName, String firstName, String lastName, String password)
     {
         if(userName != "" && firstName != "" && lastName != "" && password != "")

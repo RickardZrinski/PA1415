@@ -41,10 +41,4 @@ public class AddGameController extends Controller
     {
         m_gamesModel.addGame(title);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
 }

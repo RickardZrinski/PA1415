@@ -74,12 +74,6 @@ public class MainMenuController extends Controller
         getGui().showView("MainMenuView", "Administrator - Main Menu");
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
     public void showListAllGames()
     {
         new ListAllGamesController(this.getGui(), m_gamesModel);

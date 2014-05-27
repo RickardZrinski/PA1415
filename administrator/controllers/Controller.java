@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Martin on 2014-05-15.
  */
-public abstract class Controller implements ActionListener
+public abstract class Controller
 {
     private GUI m_gui;
 

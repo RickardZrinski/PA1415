@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by Rickard Zrinski on 2014-05-15.
  */
-public class ListAllUsersController extends Controller implements MouseListener
+public class ListAllUsersController extends Controller
 {
     private ListAllUsersView m_view;
 
@@ -27,8 +27,8 @@ public class ListAllUsersController extends Controller implements MouseListener
         m_view = new ListAllUsersView();
         m_view.registerListener(this);
 
-        this.getGui().addView(m_view, "ListAllGamesView");
-        this.getGui().showView("ListAllGamesView", "Administrator - List all users");
+        this.getGui().addView(m_view, "ListAllUsersView");
+        this.getGui().showView("ListAllUsersView", "Administrator - List all users");
 
 
         // Only for testing, remove later
@@ -38,35 +38,6 @@ public class ListAllUsersController extends Controller implements MouseListener
 
     @Override
     public void actionPerformed(ActionEvent e)
-    {
-
-    }
-
-    public void mouseClicked(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e)
-    {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e)
     {
 
     }

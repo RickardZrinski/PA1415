@@ -114,7 +114,7 @@ public class GameSession extends Model<GameResponse>{
 
         resetDice();
         resetData();
-
+        active = true;
         this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
 

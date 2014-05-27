@@ -115,6 +115,9 @@ public class MainMenuView extends View
                 case "AddGame":
                     m_controller.showAddGame();
                     break;
+                case "ListAllUsers":
+                    m_controller.showListAllUsers();
+                    break;
             }
         }
     }

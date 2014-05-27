@@ -1,6 +1,7 @@
 package administrator.controllers;
 
 import administrator.GUI;
+import administrator.models.UsersModel;
 import administrator.views.ListAllGamesView;
 import administrator.views.ListAllUsersView;
 
@@ -14,11 +15,15 @@ import java.awt.event.MouseListener;
  */
 public class ListAllUsersController extends Controller
 {
+    private UsersModel m_usersModel;
     private ListAllUsersView m_view;
 
-    public ListAllUsersController(GUI gui)
+    public ListAllUsersController(GUI gui, UsersModel usersModel)
     {
         super(gui);
+
+        m_usersModel = usersModel;
+
         listAllUsers();
     }
 

@@ -89,4 +89,9 @@ public class MainMenuController extends Controller
     {
         new AddGameController(this.getGui(), m_gamesModel);
     }
+
+    public void showListAllUsers()
+    {
+        new ListAllUsersController(this.getGui(), m_usersModel);
+    }
 }

@@ -47,7 +47,6 @@ public class ListAllUsersView extends View
         m_userTable.setModel(m_userTableModel);
 
         // Add columns
-        m_userTableModel.addColumn("Number");
         m_userTableModel.addColumn("Username");
         m_userTableModel.addColumn("Firstname");
         m_userTableModel.addColumn("Surname");

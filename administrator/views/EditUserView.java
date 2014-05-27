@@ -149,4 +149,48 @@ public class EditUserView extends View
     {
         m_controller = controller;
     }
+
+    public void setUserName(String userName)
+    {
+        m_userNameField.setText(userName);
+    }
+
+    public void setFirstName(String firstName)
+    {
+        m_firstNameField.setText(firstName);
+    }
+
+    public void setLastName(String lastName)
+    {
+        m_lastNameField.setText(lastName);
+    }
+
+    public void setPassword(String password)
+    {
+        m_passwordField.setText(password);
+    }
+
+    public String getUserName()
+    {
+        return m_userNameField.getText();
+    }
+
+    public String getFirstName()
+    {
+        return m_firstNameField.getText();
+    }
+
+    public String getLastName()
+    {
+        return m_lastNameField.getText();
+    }
+
+    public String getPassword()
+    {
+        char[] password = m_passwordField.getPassword();
+
+        String passwordStr = new String(password);
+
+        return passwordStr;
+    }
 }

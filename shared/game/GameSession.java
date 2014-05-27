@@ -202,11 +202,15 @@ public class GameSession extends Model<GameResponse>{
      * @param id id of GameData-object
      */
     public void selectGame(int id){
-        gameData = dao.get(id);
+        this.gameData = dao.get(id);
         this.numberOfThrows = gameData.getNumberOfThrows();
-        for (int i = 0; i < gameData.getNumberOfDice(); i++){
+
+        // Empty the dice array before adding new dice
+        this.dice.clear();
+
+        for (int i = 0; i < gameData.getNumberOfDice(); i++)
             dice.add(new Die());
-        }
+
         this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
 

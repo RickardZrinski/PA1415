@@ -32,6 +32,10 @@ public class EditUserController extends Controller
         m_view.setController(this);
 
         User user = m_usersModel.getUser(m_userIndex);
+        m_view.setUserName(user.getUsername());
+        m_view.setFirstName(user.getFirstName());
+        m_view.setLastName(user.getLastName());
+        m_view.setPassword(user.getPassword());
 
         this.getGui().addView(m_view, "EditGameView");
         this.getGui().showView("EditGameView", "Administrator - Edit game");

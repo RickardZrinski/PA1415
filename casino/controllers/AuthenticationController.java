@@ -4,6 +4,7 @@ import casino.events.LoginListener;
 import casino.MainFrame;
 import casino.events.*;
 import casino.models.LoginModel;
+import casino.models.RegistrationModel;
 import casino.views.LoginView;
 import shared.AuthenticationSession;
 
@@ -14,14 +15,16 @@ import java.awt.*;
  * @since   18/05/14
  */
 public class AuthenticationController implements LoginListener {
-    private LoginModel model = new LoginModel();
+    private LoginModel loginModel = new LoginModel();
+    private RegistrationModel registrationModel = new RegistrationModel();
     private LoginView view = new LoginView();
 
     public AuthenticationController() {
         // Register the view to the controller
         // Register the model to the view
         this.view.subscribe(this);
-        this.model.subscribe(this.view);
+        this.loginModel.subscribe(this.view);
+        this.registrationModel.subscribe(this.view);
 
         MainFrame.getInstance().add(this.view, BorderLayout.CENTER);
     }
@@ -31,7 +34,7 @@ public class AuthenticationController implements LoginListener {
         // If the event is valid, send it to the model, else
         // just respond directly back to the view
         if (e.isValid())
-            this.model.authenticate(e);
+            this.loginModel.authenticate(e);
         else
             this.view.loginUnsuccessful();
     }
@@ -50,5 +53,10 @@ public class AuthenticationController implements LoginListener {
     @Override
     public void logoutPerformed() {
         // User wishes to log out
+    }
+
+    @Override
+    public void registrationPerformed(RegistrationEvent e) {
+        this.registrationModel.create(e);
     }
 }

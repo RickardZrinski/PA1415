@@ -52,22 +52,23 @@ public class GameSession extends Model<GameResponse>{
      * Tosses all dice in shared.game
      */
     public void toss(){
+        boolean tossed = false;
         for (int i = 0; i < getNumberOfDice(); i++){
             if (!dice.get(i).isSaved()) {
                 dice.get(i).toss();
                 int index = i;
+                tossed = true;
                 this.getObservers().forEach(o -> o.updateDie(index, dice.get(index).getFace()));
             }
-
         }
-        // Decrease number of throws
-        this.numberOfThrows--;
 
         // Notify our observers
         this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));
 
-        if (numberOfThrows == 0)
+        if (numberOfThrows == 0 || !tossed)
             end();
+        else
+            this.numberOfThrows--;
     }
 
     /**
@@ -203,6 +204,9 @@ public class GameSession extends Model<GameResponse>{
     public void selectGame(int id){
         gameData = dao.get(id);
         this.numberOfThrows = gameData.getNumberOfThrows();
+        for (int i = 0; i < gameData.getNumberOfDice(); i++){
+            dice.add(new Die());
+        }
         this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
 

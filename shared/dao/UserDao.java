@@ -78,7 +78,7 @@ public class UserDao implements IDao<User> {
      * @throws  Exception   if the user was not found
      */
     public User get(String username) throws Exception {
-        if (userData.count("username", username) == 0)
+        if (!this.exists(username))
             throw new Exception(String.format("Username '%s' does not exist in the database.", username));
         else {
             User user = userData.getUsingForeignKey("username", username);
@@ -86,6 +86,15 @@ public class UserDao implements IDao<User> {
 
             return user;
         }
+    }
+
+    /**
+     * Checks if a username exists in the database using COUNT
+     * @param   username  the username to check
+     * @return              true if the username exists, else false
+     */
+    public boolean exists(String username) {
+        return (userData.count("username", username) > 0);
     }
 
     /**

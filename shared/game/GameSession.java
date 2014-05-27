@@ -29,7 +29,7 @@ public class GameSession extends Model<GameResponse>{
         this.user = null;
         this.gameData = null;
         dao = new GameDataDao();
-        gameData = dao.get(12);
+        gameData = dao.get(14);
         numberOfThrows = gameData.getNumberOfThrows();
         for (int i = 0; i < gameData.getNumberOfDice(); i++)
             dice.add(new Die());
@@ -101,9 +101,10 @@ public class GameSession extends Model<GameResponse>{
     private WinningCondition end(){
         active = false;
         WinningCondition reward = calculateReward();
-        String rewardString = "You have won %f SEK by betting %f SEK";
+        String rewardString = "You have achieved %s!\nYou have won %d SEK by betting %d SEK";
         double winnings = bet * reward.getReward();
-        this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, winnings, bet)));
+        this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, reward.getName(), (int)winnings,
+                (int)bet)));
         return reward;
     }
 
@@ -191,13 +192,17 @@ public class GameSession extends Model<GameResponse>{
     }
 
     /**
-     * Moves all dice from diceHand and resets all dice
+     * Resets all dice to their original state
      */
     private void resetDice(){
         for (Die die : dice)
             die.reset();
     }
 
+    /**
+     * Selects a GameData
+     * @param id id of GameData-object
+     */
     public void selectGame(int id){
         gameData = dao.get(id);
         this.numberOfThrows = gameData.getNumberOfThrows();

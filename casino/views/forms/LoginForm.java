@@ -15,6 +15,7 @@ public class LoginForm extends JPanel {
     private JPasswordField passwordPasswordField = new JPasswordField();
     private JButton signInButton = new JButton("Sign In");
     private JButton resetButton = new JButton("Reset");
+    private JButton registerButton = new JButton("Register");
 
     public LoginForm() {
         this.configure();
@@ -32,7 +33,7 @@ public class LoginForm extends JPanel {
 
     private void addComponents() {
         // Create a JPanel for the two grouped buttons
-        JPanel buttons = ComponentUtilities.flow(FlowLayout.LEFT, this.signInButton, this.resetButton);
+        JPanel buttons = ComponentUtilities.flow(FlowLayout.LEFT, this.signInButton, this.resetButton, this.registerButton);
 
         /**
          * GridBagLayout works with grids. The point is a coordinate inside a table, for example:
@@ -75,6 +76,17 @@ public class LoginForm extends JPanel {
 
     public JButton getResetButton() {
         return resetButton;
+    }
+
+    public JButton getRegisterButton() {
+        return this.registerButton;
+    }
+
+    /**
+     * Hides the registration button, it might not be needed (admin interface for example)
+     */
+    public void hideRegisterButton() {
+        this.registerButton.setVisible(false);
     }
 
     @Override

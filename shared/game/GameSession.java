@@ -2,6 +2,7 @@ package shared.game;
 
 import casino.events.GameResponse;
 import shared.Model;
+import shared.dao.DAOFactory;
 import shared.dao.GameDataDao;
 import shared.users.User;
 
@@ -209,5 +210,10 @@ public class GameSession extends Model<GameResponse>{
         this.getObservers().forEach(o -> o.displayRules(gameData.getRules()));
     }
 
-
+    /**
+     * Loads all games from the database and shows it to the view
+     */
+    public void loadAll() {
+        this.getObservers().forEach(o -> o.showAllGames(DAOFactory.getGameDataDao().getCollection()));
+    }
 }

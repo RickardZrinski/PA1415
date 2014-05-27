@@ -1,6 +1,9 @@
 package casino.events;
 
 import shared.game.Die;
+import shared.game.GameData;
+
+import java.util.Collection;
 
 /**
  * @author  John Mogensen
@@ -14,5 +17,5 @@ public interface GameResponse {
     public void updateNumberOfThrows(int numberOfThrows);
     public void updateNumberOfDice(int numberOfDice);
     public void displayResult(String result);
-
+    public void showAllGames(Collection<GameData> games);
 }

@@ -19,6 +19,8 @@ public class GameController implements GameListener {
         this.view.subscribe(this);
         this.gameSession = new GameSession();
         this.gameSession.subscribe(this.view);
+
+        this.gameSession.loadAll();
     }
 
     @Override

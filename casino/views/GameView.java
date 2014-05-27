@@ -6,11 +6,13 @@ import casino.events.GameResponse;
 import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
+import shared.game.GameData;
 import utilities.ComponentUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 
 /**
  * @author  Dino Opijac
@@ -51,13 +53,7 @@ public class GameView extends View<GameListener> implements GameResponse {
     private void addComponents() {
         this.add(this.menu, BorderLayout.PAGE_START);
 
-        // Create the first selectable games view
-        this.selectableGamesView = Box.create(15, "Text");
-
-        ComponentUtilities.printDimensions(this.selectableGamesView);
-
         // Add all elements to the carded view
-        this.card.add(this.selectableGamesView, "1");
         this.card.add(this.gameRulesView, "2");
         this.card.add(this.betView, "3");
         this.card.add(this.playView, "4");
@@ -80,9 +76,17 @@ public class GameView extends View<GameListener> implements GameResponse {
         this.cards.show(this.card, "1");
     }
 
+    private void selectGameAction(ActionEvent e) {
+        int id = new Integer(e.getActionCommand());
+        this.getObservers().forEach(o -> o.selectGame(id));
+    }
+
     private void betAction(ActionEvent e) {
         double amount = new Double(this.betView.getFormattedField().getText());
         this.getObservers().forEach(o -> o.bet(amount));
+
+        this.playView.getTossButton().setVisible(true);
+        this.playView.getFinishButton().setVisible(false);
 
         // Disable all buttons
         this.playView.disableBoxButtons();
@@ -100,20 +104,18 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     private void playAgainAction(ActionEvent e) {
+        // Update all observers
         this.getObservers().forEach(GameListener::playAgain);
     }
 
     private void toggleDieAction(ActionEvent e) {
-        this.getObservers().forEach(o -> o.toggleSaveDie( new Integer(e.getActionCommand()) ));
+        this.getObservers().forEach(o -> o.toggleSaveDie(new Integer(e.getActionCommand())));
     }
 
     @Override
     public void displayRules(String rules) {
         // Clear all the data inside the panels
         this.playView.clear();
-
-        // Toggle the buttons (hide 'Finish' and show 'Toss')
-        this.playView.toggleButtons();
 
         // Set the rules and show the next card
         this.gameRulesView.setRules(rules);
@@ -153,6 +155,24 @@ public class GameView extends View<GameListener> implements GameResponse {
         this.gameResultView.setResult(result);
 
         // Toggle the buttons (show 'Finish' and hide 'Toss')
-        this.playView.toggleButtons();
+        this.playView.getTossButton().setVisible(false);
+        this.playView.getFinishButton().setVisible(true);
+    }
+
+    @Override
+    public void showAllGames(Collection<GameData> games) {
+        this.selectableGamesView = new JPanel();
+        this.selectableGamesView.setLayout(new GridLayout(0, 5));
+
+        for (GameData game : games) {
+            Box box = new Box("shared/resources/1.png", game.getGameName());
+            box.getButton().setActionCommand(String.valueOf(game.getId()));
+            box.getButton().addActionListener(this::selectGameAction);
+
+            this.selectableGamesView.add(box);
+        }
+
+        this.card.add(this.selectableGamesView, "1");
+        this.cards.show(this.card, "1");
     }
 }

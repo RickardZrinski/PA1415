@@ -1,5 +1,6 @@
 package administrator.models;
 
+import shared.dao.GameDataDao;
 import shared.dao.UserDao;
 import shared.users.User;
 import utilities.sql.Dapper;
@@ -12,11 +13,12 @@ import java.util.ArrayList;
 public class UsersModel
 {
     private ArrayList<User> users;
-    private int nrOfUsers;
+
     public UsersModel()
     {
-        nrOfUsers = 0;
         users = new ArrayList<User>();
+
+        AddUsersFromDB();
     }
 
     public int getNrOfUsers()
@@ -50,5 +52,13 @@ public class UsersModel
         return users.get(index);
     }
 
+    public void AddUsersFromDB()
+    {
+        UserDao dao = new UserDao();
 
+        for(User user: dao.getCollection())
+        {
+            users.add(user);
+        }
+    }
 }

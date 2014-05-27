@@ -38,6 +38,8 @@ public class Combination {
     public Combination(int quantity, String[] faces) {
         this.quantity = quantity;
         this.faces = new ArrayList<String>();
+        for (int i = 0; i < faces.length; i++)
+            this.faces.add(faces[i]);
     }
 
     /**

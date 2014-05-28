@@ -17,7 +17,7 @@ public class MessageController implements MessageListener {
     public void messageAction() {
         this.messageView = new MessageView();
         this.messageView.subscribe(this);
-        MainFrame.getInstanc().add(this.messageView);
+        MainFrame.getInstance().add(this.messageView);
     }
 
     @Override

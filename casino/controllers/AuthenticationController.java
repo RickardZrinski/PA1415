@@ -1,5 +1,9 @@
 package casino.controllers;
 
+import administrator.GUI;
+import administrator.controllers.MainMenuController;
+import administrator.models.GamesModel;
+import administrator.models.UsersModel;
 import casino.events.LoginListener;
 import casino.MainFrame;
 import casino.events.*;
@@ -53,10 +57,12 @@ public class AuthenticationController implements LoginListener {
     public void authorizationPerformed() {
         // User is finally logged in
         try {
-            System.out.println("User is now logged in!:");
-            System.out.println(AuthenticationSession.getInstance().getUser());
 
-            FrontController.getInstance().gameAction();
+            if(AuthenticationSession.getInstance().getUser().getRole().canAccessAdministration())
+                new MainMenuController(new GUI(), new UsersModel(), new GamesModel());
+            else
+                FrontController.getInstance().gameAction();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

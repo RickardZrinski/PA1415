@@ -31,6 +31,8 @@ public class GUI
         m_mainPanel = new JPanel(m_layout);
         m_contentPane = m_frame.getContentPane();
         m_scrollPane = new JScrollPane();
+
+        m_contentPane.removeAll();
     }
 
     private void configure()

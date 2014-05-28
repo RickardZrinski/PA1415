@@ -354,5 +354,9 @@ public class GameDataDao implements IDao<GameData> {
     public GameData getLastInserted(){
         return get(gameData.getLastInsertId());
     }
+
+    public GameData get(String gameName){
+        return get(gameData.getUsingForeignKey("gameName", gameName).getId());
+    }
 }
 

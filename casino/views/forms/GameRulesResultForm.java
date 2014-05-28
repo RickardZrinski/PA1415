@@ -1,6 +1,5 @@
 package casino.views.forms;
 
-import casino.MainFrame;
 import utilities.GridBagUtilities;
 
 import javax.swing.*;

@@ -1,11 +1,9 @@
 package casino.views;
 
-import casino.MainFrame;
 import casino.views.forms.GameRulesResultForm;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * @author  John Mogensen

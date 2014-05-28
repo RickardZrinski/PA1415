@@ -1,6 +1,5 @@
 package casino.views;
 
-import casino.controllers.FrontController;
 import casino.events.*;
 import casino.views.forms.RegisterForm;
 import shared.View;

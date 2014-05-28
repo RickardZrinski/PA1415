@@ -4,6 +4,7 @@ import casino.controllers.FrontController;
 import shared.View;
 import casino.events.MenuListener;
 import shared.AuthenticationSession;
+import shared.users.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,8 +36,15 @@ public class MenuBar extends View<MenuListener> {
     private void configure() {
         try {
             // Set the user in the menu
-            this.usernameLabel.setText(String.format("Player: %s", AuthenticationSession.getInstance().getUser().getUsername()));
-            this.setBalanceLabelValue(AuthenticationSession.getInstance().getUser().getAccount().getBalance());
+            User user = AuthenticationSession.getInstance().getUser();
+
+            this.usernameLabel.setText(String.format("Player: %s", user.getUsername()));
+
+            if (user.getRole().getName().equals("Player"))
+                this.setBalanceLabelValue(user.getAccount().getBalance());
+            else
+                this.setTrialsLabelValue(user.getNumberOfTrials());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,8 +88,20 @@ public class MenuBar extends View<MenuListener> {
         return balanceLabel;
     }
 
+    /**
+     * Sets the text "Balance: <number>:-"
+     * @param value the balance amount
+     */
     public void setBalanceLabelValue(double value) {
         this.balanceLabel.setText(String.format("Balance: %1$,.2f:-", value));
+    }
+
+    /**
+     * Sets the text, "Remaining Trials: <trials>"
+     * @param trials the amount of trials left
+     */
+    public void setTrialsLabelValue(int trials) {
+        this.balanceLabel.setText(String.format("Remaining Trials: %d", trials));
     }
 
     public JComboBox<String> getMenu() {

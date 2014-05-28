@@ -5,6 +5,7 @@ import casino.events.TransactionEvent;
 import shared.transactions.payments.CreditCard;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author  Dino Opijac
@@ -16,6 +17,7 @@ public class DepositView extends TransactionView {
 
         this.getSimpleForm().getTextLabel().setText("Deposit");
         this.getSimpleForm().getConfirmButton().setText("OK");
+        this.getSimpleForm().getConfirmButton().addActionListener(this::nextButton);
 
         this.getCreditCardForm().getResultLabel().setText("Amount to deposit");
     }
@@ -28,5 +30,16 @@ public class DepositView extends TransactionView {
             JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
         else
             this.getObservers().forEach(o -> o.depositPerformed(event));
+    }
+
+    private void nextButton(ActionEvent e) {
+        String amount = this.getSimpleForm().getFormattedField().getText();
+
+        if (amount.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "There is no amount set.", "Amount", JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.getCards().next(this.getView());
+            this.getCreditCardForm().getResultTextField().setText(this.getSimpleForm().getFormattedField().getText());
+        }
     }
 }

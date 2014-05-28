@@ -6,11 +6,9 @@ import casino.views.components.MenuBar;
 import shared.View;
 import casino.views.forms.CreditCardForm;
 import casino.views.forms.SimpleForm;
-import shared.AuthenticationSession;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * @author  Dino Opijac
@@ -36,7 +34,6 @@ public abstract class TransactionView extends View<TransactionListener> implemen
         this.view.setLayout(this.cards);
 
         // Register listeners
-        this.simpleForm.getConfirmButton().addActionListener(this::nextButton);
         this.creditCardForm.subscribe(this);
 
         // Show the result row and disable it
@@ -64,26 +61,12 @@ public abstract class TransactionView extends View<TransactionListener> implemen
         return this.menu;
     }
 
-    private void nextButton(ActionEvent e) {
-        String amount = this.simpleForm.getFormattedField().getText();
+    protected CardLayout getCards() {
+        return this.cards;
+    }
 
-        if (amount.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "There is no amount set", "Amount", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Check if this user can withdraw funds
-            try {
-                double balance = AuthenticationSession.getInstance().getUser().getAccount().getBalance();
-
-                if (balance >= new Double(amount)) {
-                    this.cards.next(this.view);
-                    this.creditCardForm.getResultTextField().setText(this.simpleForm.getFormattedField().getText());
-                } else {
-                    JOptionPane.showMessageDialog(null, "You do not have the sufficient balance", "Amount", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e1) {
-                JOptionPane.showMessageDialog(null, String.format("'%s' is not a number", amount), "Not a number", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+    protected JPanel getView() {
+        return this.view;
     }
 
     @Override

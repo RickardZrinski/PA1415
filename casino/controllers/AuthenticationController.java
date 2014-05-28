@@ -8,25 +8,35 @@ import casino.models.RegistrationModel;
 import casino.views.LoginView;
 import shared.AuthenticationSession;
 
-import java.awt.*;
-
 /**
  * @author  Dino Opijac
  * @since   18/05/14
  */
 public class AuthenticationController implements LoginListener {
-    private LoginModel loginModel = new LoginModel();
+    private LoginModel loginModel;
     private RegistrationModel registrationModel = new RegistrationModel();
     private LoginView view = new LoginView();
 
-    public AuthenticationController() {
-        // Register the view to the controller
-        // Register the model to the view
+    public AuthenticationController() {}
+
+    public void signInAction() {
+        this.loginModel = new LoginModel();
+        this.registrationModel = new RegistrationModel();
+        this.view = new LoginView();
+
         this.view.subscribe(this);
         this.loginModel.subscribe(this.view);
         this.registrationModel.subscribe(this.view);
 
-        MainFrame.getInstance().add(this.view, BorderLayout.CENTER);
+        MainFrame.getInstanc().add(this.view);
+    }
+
+    public void signOutAction() {
+        // Stop the authenticationSession
+        AuthenticationSession.stop();
+
+        // Go to sign in action
+        this.signInAction();
     }
 
     @Override
@@ -45,6 +55,8 @@ public class AuthenticationController implements LoginListener {
         try {
             System.out.println("User is now logged in!:");
             System.out.println(AuthenticationSession.getInstance().getUser());
+
+            FrontController.getInstance().gameAction();
         } catch (Exception e) {
             e.printStackTrace();
         }

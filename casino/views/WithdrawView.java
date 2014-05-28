@@ -1,18 +1,10 @@
 package casino.views;
 
-import casino.controllers.FrontController;
 import casino.events.*;
-import casino.views.components.MenuBar;
-import shared.View;
 import casino.MainFrame;
-import casino.views.forms.CreditCardForm;
-import casino.views.forms.SimpleForm;
-import shared.AuthenticationSession;
 import shared.transactions.payments.CreditCard;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * @author  Dino Opijac
@@ -20,6 +12,8 @@ import java.awt.event.ActionEvent;
  */
 public class WithdrawView extends TransactionView {
     public WithdrawView() {
+        MainFrame.getInstance().setTitle("Games");
+
         this.getSimpleForm().getTextLabel().setText("Withdraw");
         this.getSimpleForm().getConfirmButton().setText("OK");
 

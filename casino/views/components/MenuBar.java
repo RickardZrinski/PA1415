@@ -40,10 +40,10 @@ public class MenuBar extends View<MenuListener> {
 
             this.usernameLabel.setText(String.format("Player: %s", user.getUsername()));
 
-            if (user.getRole().getName().equals("Player"))
-                this.setBalanceLabelValue(user.getAccount().getBalance());
-            else
+            if (user.getRole().getName().equals("Trial Player"))
                 this.setTrialsLabelValue(user.getNumberOfTrials());
+            else
+                this.setBalanceLabelValue(user.getAccount().getBalance());
 
         } catch (Exception e) {
             e.printStackTrace();

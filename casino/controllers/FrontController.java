@@ -1,6 +1,7 @@
 package casino.controllers;
 
 import casino.MainFrame;
+import casino.events.MenuListener;
 import shared.AuthenticationSession;
 import shared.dao.DAOFactory;
 
@@ -10,7 +11,8 @@ import javax.swing.*;
  * @author  Dino Opijac
  * @since   20/05/2014
  */
-public class FrontController {
+public class FrontController implements MenuListener {
+    public static FrontController instance;
 
     public FrontController() {
         // Set up the parameters for the application
@@ -23,17 +25,38 @@ public class FrontController {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-        try {
-            // Start a fake AuthenticationSession
-            AuthenticationSession.start(DAOFactory.getUserDao().get("dino"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Always start the AuthenticationController using its sign in action.
+        (new AuthenticationController()).signInAction();
 
-        // new GameController();
-        // new AuthenticationController();
-        new TransactionController();
-        // new MessageController();
+        instance = this;
+    }
 
+    public static FrontController getInstance() {
+        return FrontController.instance;
+    }
+
+    @Override
+    public void gameAction() {
+        (new GameController()).gameAction();
+    }
+
+    @Override
+    public void depositAction() {
+        (new TransactionController()).depositAction();
+    }
+
+    @Override
+    public void withdrawAction() {
+        (new TransactionController()).withdrawAction();
+    }
+
+    @Override
+    public void messageAction() {
+        (new MessageController()).messageAction();
+    }
+
+    @Override
+    public void signOutAction() {
+        (new AuthenticationController()).signOutAction();
     }
 }

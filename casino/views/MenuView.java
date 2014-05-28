@@ -2,7 +2,6 @@ package casino.views;
 
 import casino.controllers.FrontController;
 import shared.View;
-import casino.events.MenuEvent;
 import casino.events.MenuListener;
 import shared.AuthenticationSession;
 

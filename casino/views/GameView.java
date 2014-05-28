@@ -4,6 +4,7 @@ import casino.events.GameListener;
 import casino.events.GameResponse;
 import casino.views.components.Box;
 import casino.views.components.MenuBar;
+import casino.views.forms.GameRulesResultForm;
 import shared.View;
 import casino.views.forms.SimpleForm;
 import shared.game.GameData;
@@ -25,10 +26,11 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     // All views contained in the UI.
     private JPanel selectableGamesView;
-    private GameRulesView gameRulesView = new GameRulesView();
     private SimpleForm betView = new SimpleForm("Amount to bet", "Bet");
     private PlayView playView = new PlayView();
-    private GameResultView gameResultView = new GameResultView();
+
+    private GameRulesResultForm rules   = new GameRulesResultForm("Game Rules", ":rules:", "Play");
+    private GameRulesResultForm results = new GameRulesResultForm("Results", ":play again:", "Play Again");
 
     public GameView() {
         this.configure();
@@ -40,23 +42,26 @@ public class GameView extends View<GameListener> implements GameResponse {
         this.nextButton.addActionListener(this::nextAction);
 
         // configure buttons
-        this.gameRulesView.getNextButton().addActionListener(this::nextAction);
-        this.gameRulesView.getCancelButton().addActionListener(this::cancelAction);
+        this.rules.getConfirmButton().addActionListener(this::nextAction);
+        this.rules.getCancelButton().addActionListener(this::cancelAction);
+
+        this.results.getConfirmButton().addActionListener(this::playAgainAction);
+        this.results.getCancelButton().addActionListener(this::cancelAction);
+
         this.betView.getConfirmButton().addActionListener(this::betAction);
+
         this.playView.getTossButton().addActionListener(this::tossAction);
         this.playView.getFinishButton().addActionListener(this::finishAction);
-        this.gameResultView.getPlayAgainButton().addActionListener(this::playAgainAction);
-        this.gameResultView.getCancelButton().addActionListener(this::cancelAction);
     }
 
     private void addComponents() {
         this.add(this.menu, BorderLayout.PAGE_START);
 
         // Add all elements to the carded view
-        this.card.add(this.gameRulesView, "2");
+        this.card.add(this.rules, "2");
         this.card.add(this.betView, "3");
         this.card.add(this.playView, "4");
-        this.card.add(this.gameResultView, "5");
+        this.card.add(this.results, "5");
 
         // Add the carded view to the center
         this.add(this.card, BorderLayout.CENTER);
@@ -112,7 +117,7 @@ public class GameView extends View<GameListener> implements GameResponse {
     @Override
     public void displayRules(String rules) {
         // Set the rules and show the next card
-        this.gameRulesView.setRules(rules);
+        this.rules.getTextTextArea().setText(rules);
         this.cards.show(this.card, "2");
     }
 
@@ -146,7 +151,7 @@ public class GameView extends View<GameListener> implements GameResponse {
     @Override
     public void displayResult(String result) {
         // Set the game result
-        this.gameResultView.setResult(result);
+        this.results.getTextTextArea().setText(result);
 
         // Toggle the buttons (show 'Finish' and hide 'Toss')
         this.playView.getTossButton().setVisible(false);

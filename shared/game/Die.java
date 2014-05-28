@@ -1,8 +1,10 @@
 package shared.game;
 
 import java.util.Random;
+
 /**
- * Created by Oliver on 2014-05-13.
+ * @author  Oliver Nilsson
+ * @since   13/05/2014
  */
 public class Die {
     private int face;

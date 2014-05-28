@@ -25,16 +25,18 @@ public class TransactionController implements TransactionListener {
         this.model = new TransactionModel();
         this.depositView = new DepositView();
         this.model.subscribe(this.depositView);
+        this.depositView.subscribe(this);
 
-        MainFrame.getInstanc().add(this.depositView);
+        MainFrame.getInstance().add(this.depositView);
     }
 
     public void withdrawAction() {
         this.model = new TransactionModel();
         this.withdrawView = new WithdrawView();
         this.model.subscribe(this.withdrawView);
+        this.withdrawView.subscribe(this);
 
-        MainFrame.getInstanc().add(this.withdrawView);
+        MainFrame.getInstance().add(this.withdrawView);
     }
 
     @Override

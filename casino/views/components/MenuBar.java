@@ -36,7 +36,7 @@ public class MenuBar extends View<MenuListener> {
         try {
             // Set the user in the menu
             this.usernameLabel.setText(String.format("Player: %s", AuthenticationSession.getInstance().getUser().getUsername()));
-            this.balanceLabel.setText(String.format("Balance: %f", AuthenticationSession.getInstance().getUser().getAccount().getBalance()));
+            this.setBalanceLabelValue(AuthenticationSession.getInstance().getUser().getAccount().getBalance());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +78,10 @@ public class MenuBar extends View<MenuListener> {
 
     public JLabel getBalanceLabel() {
         return balanceLabel;
+    }
+
+    public void setBalanceLabelValue(double value) {
+        this.balanceLabel.setText(String.format("Balance: %1$,.2f:-", value));
     }
 
     public JComboBox<String> getMenu() {

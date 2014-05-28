@@ -99,7 +99,7 @@ public abstract class TransactionView extends View<TransactionListener> implemen
         JOptionPane.showMessageDialog(null, "Your transaction has been completed", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         // Update the menu
-        this.getMenuBar().getBalanceLabel().setText(String.format("Balance: %f", amount));
+        this.getMenuBar().setBalanceLabelValue(amount);
 
         // Return to game
         FrontController.getInstance().gameAction();

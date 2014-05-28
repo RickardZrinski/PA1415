@@ -149,6 +149,11 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     @Override
+    public void updateBalance(double amount) {
+        this.menu.getBalanceLabel().setText(String.format("Balance: %f", amount));
+    }
+
+    @Override
     public void displayResult(String result) {
         // Set the game result
         this.results.getTextTextArea().setText(result);

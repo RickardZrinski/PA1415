@@ -15,6 +15,7 @@ public interface GameResponse {
     public void updateDie(int index, int face);
     public void updateNumberOfThrows(int numberOfThrows);
     public void updateNumberOfDice(int numberOfDice);
+    public void updateBalance(double amount);
     public void displayResult(String result);
     public void showAllGames(Collection<GameData> games);
 }

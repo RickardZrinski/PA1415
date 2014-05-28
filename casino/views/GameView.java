@@ -179,6 +179,11 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     @Override
+    public void updateNumberOfTrials(int trials) {
+        this.menu.setTrialsLabelValue(trials);
+    }
+
+    @Override
     public void displayResult(String result) {
         // Set the game result
         this.results.getTextTextArea().setText(result);

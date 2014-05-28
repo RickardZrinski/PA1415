@@ -12,7 +12,8 @@ import shared.users.User;
 import java.util.ArrayList;
 
 /**
- * Created by Oliver on 2014-05-13.
+ * @author  Oliver Nilsson
+ * @since   13/05/2014
  */
 public class GameSession extends Model<GameResponse>{
     private double bet;
@@ -136,8 +137,8 @@ public class GameSession extends Model<GameResponse>{
     }
     /**
      * Retrieves a die face from gameData
-     * @param index index of the die in gameData
-     * @return  the die
+     * @param   index   index of the die in gameData
+     * @return          the die
      */
     public Die getDie(int index){
         return dice.get(index);
@@ -145,7 +146,7 @@ public class GameSession extends Model<GameResponse>{
 
     /**
      * Retrieves number of dice currently in shared.game (excluding dice in diceHand)
-     * @return number of dice.
+     * @return  number of dice.
      */
     public int getNumberOfDice(){
         return dice.size();
@@ -202,7 +203,7 @@ public class GameSession extends Model<GameResponse>{
 
     /**
      * Selects a GameData
-     * @param id id of GameData-object
+     * @param   id  id of GameData-object
      */
     public void selectGame(int id){
         this.gameData = dao.get(id);

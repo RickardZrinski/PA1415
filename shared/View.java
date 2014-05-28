@@ -15,7 +15,8 @@ public abstract class View<V> extends JPanel {
      * @param subject the subject that wishes to subscribe
      */
     public void subscribe(V subject) {
-        this.observers.add(subject);
+        if (!this.observers.contains(subject))
+            this.observers.add(subject);
     }
 
     /**

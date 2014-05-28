@@ -1,13 +1,11 @@
 package casino.views;
 
-import casino.MainFrame;
 import casino.events.GameListener;
 import casino.events.GameResponse;
 import shared.View;
 import casino.views.components.Box;
 import casino.views.forms.SimpleForm;
 import shared.game.GameData;
-import utilities.ComponentUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,8 +62,6 @@ public class GameView extends View<GameListener> implements GameResponse {
 
         // Add the next button to the bottom
         this.add(this.nextButton, BorderLayout.PAGE_END);
-
-        MainFrame.getInstance().add(this);
     }
 
     private void nextAction(ActionEvent e) {

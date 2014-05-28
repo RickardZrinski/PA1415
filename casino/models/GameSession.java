@@ -112,8 +112,9 @@ public class GameSession extends Model<GameResponse> {
     public void trial(){
         try {
             user = AuthenticationSession.getInstance().getUser();
-            if (user.getNumberOfTrials() > 0 && user.getRole().getName().equals("Trial Player")){
-                user.setNumberOfTrials(user.getNumberOfTrials()-1);
+            if (user.getNumberOfTrials() > 0 && user.getRole().getName().equals("Trial Player")) {
+                int trials = user.getNumberOfTrials() - 1;
+                user.setNumberOfTrials(trials);
 
                 //Promote to player if all trails have been spent.
                 if (user.getNumberOfTrials() == 0)
@@ -123,6 +124,7 @@ public class GameSession extends Model<GameResponse> {
                 this.getObservers().forEach(GameResponse::trialSuccessful);
                 this.getObservers().forEach(o -> o.updateNumberOfThrows(numberOfThrows));
                 this.getObservers().forEach(o -> o.updateNumberOfDice(getNumberOfDice()));
+                this.getObservers().forEach(o -> o.updateNumberOfTrials(trials));
             }
             else
                 this.getObservers().forEach(GameResponse::trialUnsuccessful);

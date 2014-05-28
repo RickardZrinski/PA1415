@@ -1,5 +1,6 @@
 package casino.views;
 
+import casino.controllers.FrontController;
 import shared.View;
 import casino.events.MenuEvent;
 import casino.events.MenuListener;
@@ -17,7 +18,6 @@ public class MenuView extends View<MenuListener> {
     private JLabel usernameLabel;
     private JLabel balanceLabel;
     private JComboBox<String> menu;
-    private MenuEvent event = null;
 
     // Left and right panels
     private JPanel left  = new JPanel(new FlowLayout(FlowLayout.LEFT,  20, 15));
@@ -27,8 +27,6 @@ public class MenuView extends View<MenuListener> {
         this.usernameLabel = new JLabel("User");
         this.balanceLabel  = new JLabel("Balance");
         this.menu = new JComboBox<>();
-
-        this.event = new MenuEvent();
         this.configure();
         this.addComponents();
     }
@@ -48,11 +46,16 @@ public class MenuView extends View<MenuListener> {
 
         // Add items to the combo box
         this.menu.addItem("Menu");
-        this.menu.addItem("Menu Item 1");
-        this.menu.addItem("Menu Item 2");
-        this.menu.addItem("Menu Item 3");
+        this.menu.addItem("Games");
+        this.menu.addItem("Deposit");
+        this.menu.addItem("Withdraw");
+        this.menu.addItem("Message");
+        this.menu.addItem("Sign Out");
 
         this.menu.addItemListener(this::itemStateChanged);
+
+        // Subscribe this object to the FrontController
+        this.subscribe(FrontController.getInstance());
 
         // Make the left and right panels opaque
         this.left.setOpaque(false);
@@ -89,14 +92,14 @@ public class MenuView extends View<MenuListener> {
     }
 
     public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.DESELECTED)
-            event.setDeselected(e.getItem());
-        else {
-            event.setSelected(e.getItem());
-            this.getObservers().forEach(o -> o.menuItemChanged(event) );
-
-            // Clear cache and reset for a new event
-            event = new MenuEvent();
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            switch(String.valueOf(e.getItem())) {
+                case "Games":       this.getObservers().forEach(MenuListener::gameAction);      break;
+                case "Deposit":     this.getObservers().forEach(MenuListener::depositAction);   break;
+                case "Withdraw":    this.getObservers().forEach(MenuListener::withdrawAction);  break;
+                case "Message":     this.getObservers().forEach(MenuListener::messageAction);   break;
+                case "Sign Out":    this.getObservers().forEach(MenuListener::signOutAction);   break;
+            }
         }
     }
 }

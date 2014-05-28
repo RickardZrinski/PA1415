@@ -10,11 +10,14 @@ import casino.views.MessageView;
  * @since   20/05/2014
  */
 public class MessageController implements MessageListener {
-    private MessageView messageView = new MessageView();
+    private MessageView messageView;
 
-    public MessageController() {
+    public MessageController() {}
+
+    public void messageAction() {
+        this.messageView = new MessageView();
         this.messageView.subscribe(this);
-        MainFrame.getInstance().add(this.messageView);
+        MainFrame.getInstanc().add(this.messageView);
     }
 
     @Override

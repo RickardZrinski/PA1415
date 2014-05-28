@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
  * @since   27/05/2014
  */
 public abstract class TransactionView extends View<TransactionListener> implements CreditCardListener, TransactionResponse {
-    private CardLayout card = new CardLayout();
+    private CardLayout cards = new CardLayout();
     private JPanel view = new JPanel();
     private MenuBar menu = new MenuBar();
 
@@ -31,9 +31,9 @@ public abstract class TransactionView extends View<TransactionListener> implemen
 
     private void configure() {
         this.setLayout(new BorderLayout());
-        this.card.setVgap(20);
-        this.card.setHgap(20);
-        this.view.setLayout(this.card);
+        this.cards.setVgap(20);
+        this.cards.setHgap(20);
+        this.view.setLayout(this.cards);
 
         // Register listeners
         this.simpleForm.getConfirmButton().addActionListener(this::nextButton);
@@ -75,7 +75,7 @@ public abstract class TransactionView extends View<TransactionListener> implemen
                 double balance = AuthenticationSession.getInstance().getUser().getAccount().getBalance();
 
                 if (balance >= new Double(amount)) {
-                    this.card.next(this.view);
+                    this.cards.next(this.view);
                     this.creditCardForm.getResultTextField().setText(this.simpleForm.getFormattedField().getText());
                 } else {
                     JOptionPane.showMessageDialog(null, "You do not have the sufficient balance", "Amount", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +88,7 @@ public abstract class TransactionView extends View<TransactionListener> implemen
 
     @Override
     public void creditCardCancel() {
-        this.card.first(this.view);
+        this.cards.first(this.view);
     }
 
     @Override

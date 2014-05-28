@@ -346,5 +346,13 @@ public class GameDataDao implements IDao<GameData> {
         }
         return  false;
     }
+
+    public GameData getLastInsertedGameData(){
+        return gameData.getUsingPrimaryKey(gameData.getLastInsertId());
+    }
+
+    public GameData getLastInserted(){
+        return get(gameData.getLastInsertId());
+    }
 }
 

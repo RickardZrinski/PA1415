@@ -23,7 +23,7 @@ public class GameController implements GameListener {
         this.gameSession = new GameSession();
         this.gameSession.subscribe(this.view);
 
-        MainFrame.getInstanc().add(this.view);
+        MainFrame.getInstance().add(this.view);
 
         // Tell the model to load all games
         this.gameSession.loadAll();

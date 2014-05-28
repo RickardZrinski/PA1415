@@ -24,15 +24,13 @@ Welcome to the PA1415 repository for Group 11 and Group 12.
 >
 > _Rickard Zrinski_
 
-##### Project Lead
-* Dino Opijac (G12),
-* Rickard Zrinski (G11)
-
 ##### Group 11
+* Rickard Zrinski (Project Lead)
 * Pol Haghverdian
 * Martin Olsson
 
 ##### Group 12
+* Dino Opijac (Project Lead)
 * John Mogensen
 * Martin Larsson
 * Oliver Nilsson

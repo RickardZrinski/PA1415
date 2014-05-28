@@ -116,7 +116,7 @@ public class GameSession extends Model<GameResponse> {
                 int trials = user.getNumberOfTrials() - 1;
                 user.setNumberOfTrials(trials);
 
-                //Promote to player if all trails have been spent.
+                // Promote to player if all trails have been spent.
                 if (user.getNumberOfTrials() == 0)
                     user.setRole(DAOFactory.getUserDao().getRole("Player"));
 
@@ -159,7 +159,11 @@ public class GameSession extends Model<GameResponse> {
 
             // Update the user
             DAOFactory.getUserDao().update(user);
-            this.getObservers().forEach(o -> o.updateBalance(user.getAccount().getBalance()));
+
+            if (user.getRole().getName().equals("Trial Player"))
+                this.getObservers().forEach(o -> o.updateNumberOfTrials(user.getNumberOfTrials()));
+            else
+                this.getObservers().forEach(o -> o.updateBalance(user.getAccount().getBalance()));
         } catch (Exception e) {
             e.printStackTrace();
         }

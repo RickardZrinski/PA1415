@@ -87,19 +87,25 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     private void betAction(ActionEvent e) {
-        double amount = new Double(this.betView.getFormattedField().getText());
+        try {
+            double amount = new Double(this.betView.getFormattedField().getText());
 
-        if (amount > 0.0) {
-            this.getObservers().forEach(o -> o.bet(amount));
+            if (amount > 0.0) {
+                this.getObservers().forEach(o -> o.bet(amount));
 
-            this.playView.getTossButton().setVisible(true);
-            this.playView.getFinishButton().setVisible(false);
+                this.playView.getTossButton().setVisible(true);
+                this.playView.getFinishButton().setVisible(false);
 
-            // Disable all buttons
-            this.playView.disableBoxButtons();
-        } else {
+                // Disable all buttons
+                this.playView.disableBoxButtons();
+            } else {
+                this.betUnsuccessful();
+            }
+        } catch(Exception exception) {
+            // This was probably a number format exception
             this.betUnsuccessful();
         }
+
     }
 
     private void finishAction(ActionEvent actionEvent) {

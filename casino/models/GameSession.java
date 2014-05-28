@@ -66,10 +66,10 @@ public class GameSession extends Model<GameResponse>{
             }
         }
 
+        if (tossed)
+            numberOfThrows--;
         if (numberOfThrows == 0 || !tossed)
             end();
-        else
-            this.numberOfThrows--;
 
         // Notify our observers
         this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));

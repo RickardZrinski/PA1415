@@ -14,7 +14,7 @@ public class Bank {
 
     /**
      * Authorizes a payment with the bank.
-     * @param payment
+     * @param   payment   the payment to authorize
      */
     public void authorize(Payment payment) {
         // Just print the payment
@@ -23,6 +23,9 @@ public class Bank {
         this.authorized = true;
     }
 
+    /**
+     * @return true if the payment is authorized, else false
+     */
     public boolean authorized() {
         return this.authorized;
     }

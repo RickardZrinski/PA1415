@@ -185,8 +185,6 @@ public class Dapper<AnyType> extends Connector {
             // Bind the primary key to the statement to the last WHERE = ?
             statement.setObject(fields.length + 1, primaryKey);
 
-            System.out.println(statement);
-
             // Execute insertion and generate key
             this.execute(statement, true);
         } catch (Exception e) {
@@ -236,11 +234,8 @@ public class Dapper<AnyType> extends Connector {
 
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
-                System.out.println(num + " " + map.getValue());
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet())
                 statement.setObject(num++, map.getValue());
-
-            }
 
             // Bind the primary key to the last statement (WHERE <primaryKeyFieldName> = ?)
             statement.setObject(num, primaryKey);
@@ -595,9 +590,8 @@ public class Dapper<AnyType> extends Connector {
 
             statement = connection.prepareStatement(query);
 
-            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet()) {
+            for(Map.Entry<Object, Object> map: Builder.computeObjectMap(args).entrySet())
                 statement.setObject(num++, map.getValue());
-            }
 
             result = statement.executeQuery();
 

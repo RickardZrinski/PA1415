@@ -145,18 +145,18 @@ public class CreditCardForm extends View<CreditCardListener> {
      * The user pushes next
      */
     private void nextAction(ActionEvent e) {
-            try {
-                CreditCard card = new CreditCard(CreditCardForm.this.holderTextField.getText(),
-                        new Long(CreditCardForm.this.numberTextField.getText().replace(" ", "")),
-                        new Integer(CreditCardForm.this.securityCodeTextField.getText()),
-                        CreditCardForm.this.expirationMonthBox.getSelectedIndex(),
-                        CreditCardForm.this.expirationYearBox.getSelectedIndex());
+        try {
+            CreditCard card = new CreditCard(CreditCardForm.this.holderTextField.getText(),
+                    new Long(CreditCardForm.this.numberTextField.getText().replace(" ", "")),
+                    new Integer(CreditCardForm.this.securityCodeTextField.getText()),
+                    CreditCardForm.this.expirationMonthBox.getSelectedIndex(),
+                    CreditCardForm.this.expirationYearBox.getSelectedIndex());
 
-                this.getObservers().forEach(o -> o.creditCardAction(card));
-            } catch (Exception exception) {
-                this.getObservers().forEach(CreditCardListener::creditCardError);
-            }
+            this.getObservers().forEach(o -> o.creditCardAction(card));
+        } catch (Exception exception) {
+            this.getObservers().forEach(CreditCardListener::creditCardError);
         }
+    }
 
 
     /**

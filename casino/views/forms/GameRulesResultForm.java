@@ -30,6 +30,7 @@ public class GameRulesResultForm extends JPanel {
         this.setLayout(new GridBagLayout());
 
         this.textTextArea.setEditable(false);
+        this.textTextArea.setOpaque(false);
     }
 
     private void addComponents() {

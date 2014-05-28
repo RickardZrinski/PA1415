@@ -25,11 +25,11 @@ public class GamesModel
         if (gameExist(title) == false) {
             GameData newGame = new GameData();
             newGame.setGameName(title);
-            games.add(newGame);
 
             //inserts new game into the database
             GameDataDao dao = new GameDataDao();
             dao.insert(newGame);
+            games.add(dao.getLastInserted());
 
             gameAdded = true;
         }

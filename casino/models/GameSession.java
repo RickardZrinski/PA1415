@@ -66,13 +66,13 @@ public class GameSession extends Model<GameResponse>{
             }
         }
 
-        // Notify our observers
-        this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));
-
         if (numberOfThrows == 0 || !tossed)
             end();
         else
             this.numberOfThrows--;
+
+        // Notify our observers
+        this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));
     }
 
     /**

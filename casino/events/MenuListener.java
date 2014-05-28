@@ -1,11 +1,13 @@
 package casino.events;
 
-import casino.events.MenuEvent;
-
 /**
  * @author  Dino Opijac
  * @since   18/05/2014
  */
 public interface MenuListener {
-    public void menuItemChanged(MenuEvent e);
+    public void gameAction();
+    public void depositAction();
+    public void withdrawAction();
+    public void messageAction();
+    public void signOutAction();
 }

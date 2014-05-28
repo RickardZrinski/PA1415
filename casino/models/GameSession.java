@@ -120,14 +120,26 @@ public class GameSession extends Model<GameResponse> {
      * Called when the shared.game ends
      * @return the fulfilled winningCondition, if none: default WinningCondition
      */
-    private WinningCondition end(){
+    private WinningCondition end() {
         active = false;
         WinningCondition reward = calculateReward();
         String rewardString = "You have achieved %s!\nYou have won %d SEK by betting %d SEK";
 
         double winnings = bet * reward.getReward();
         this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, reward.getName(), (int)winnings, (int)bet)));
-        this.getObservers().forEach(o -> o.updateBalance(winnings));
+
+        // Deposit winnings to the user account
+        try {
+            User user = AuthenticationSession.getInstance().getUser();
+            user.getAccount().deposit(winnings);
+
+            // Update the user
+            DAOFactory.getUserDao().update(user);
+            this.getObservers().forEach(o -> o.updateBalance(user.getAccount().getBalance()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return reward;
     }

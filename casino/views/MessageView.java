@@ -7,6 +7,7 @@ import casino.events.MessageEvent;
 import casino.events.MessageListener;
 import casino.views.forms.MessageForm;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 public class MessageView extends View<MessageListener> {
     private MenuBar menuView = new casino.views.components.MenuBar();
     private MessageForm messageForm = new MessageForm();
+    private JPanel view = new JPanel(new FlowLayout(FlowLayout.LEADING, 20, 20));
 
     public MessageView() {
         this.configure();
@@ -32,8 +34,11 @@ public class MessageView extends View<MessageListener> {
 
     private void addComponents() {
         this.setLayout(new BorderLayout());
+
+        this.view.add(this.messageForm);
+
         this.add(this.menuView, BorderLayout.PAGE_START);
-        this.add(this.messageForm, BorderLayout.CENTER);
+        this.add(this.view, BorderLayout.CENTER);
     }
 
     private void sendAction(ActionEvent e) {

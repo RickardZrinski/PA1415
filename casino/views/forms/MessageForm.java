@@ -65,11 +65,14 @@ public class MessageForm extends JPanel {
 
         GridBagUtilities.makeCell(this, contactDetailsInfoLabel, new Point(1, 4), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
-        GridBagUtilities.makeCell(this, messageLabel, new Point(0, 5), 0.2, 1, GridBagConstraints.HORIZONTAL);
-        GridBagUtilities.makeCell(this, pane, new Point(1, 5), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        // Create empty space
+        GridBagUtilities.makeCell(this, new JLabel(" "), new Point(0, 5), 1, 2, GridBagConstraints.HORIZONTAL);
+
+        GridBagUtilities.makeCell(this, messageLabel, new Point(0, 6), 0.2, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, pane, new Point(1, 6), 0.8, 1, GridBagConstraints.HORIZONTAL);
 
 
-        GridBagUtilities.makeCell(this, buttons, new Point(1, 6), 0.8, 1, GridBagConstraints.HORIZONTAL);
+        GridBagUtilities.makeCell(this, buttons, new Point(1, 7), 0.8, 1, GridBagConstraints.HORIZONTAL);
     }
 
     public JTextField getNameTextField() {

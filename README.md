@@ -23,3 +23,17 @@ Welcome to the PA1415 repository for Group 11 and Group 12.
 > "Don't get pissed."
 >
 > _Rickard Zrinski_
+
+##### Group 11
+* Rickard Zrinski (Project Lead)
+* Pol Haghverdian
+* Martin Olsson
+
+##### Group 12
+* Dino Opijac (Project Lead)
+* John Mogensen
+* Martin Larsson
+* Oliver Nilsson
+
+Software Engineering HT-13
+Blekinge Institute of Technology, course PA1415

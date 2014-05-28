@@ -27,7 +27,7 @@ public class RegistrationModel extends Model<RegistrationResponse> {
             // Create the new user using the details given from the event
             User newUser = new User(e.getUsername(), String.valueOf(e.getPassword()), e.getFirstName(), e.getLastName(), 5, e.getSsn(), e.getEmail());
 
-            if (users.insert(newUser))
+            if (e.getPassword().length > 0 && users.insert(newUser))
                 this.getObservers().forEach(RegistrationResponse::registrationSuccessful);
             else
                 this.getObservers().forEach(o -> o.registrationUnsuccessful(RegistrationResponse.Registration.INVALID));

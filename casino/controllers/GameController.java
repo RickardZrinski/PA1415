@@ -1,5 +1,6 @@
 package casino.controllers;
 
+import casino.MainFrame;
 import casino.events.GameListener;
 import casino.views.GameView;
 import shared.dao.GameDataDao;
@@ -13,13 +14,18 @@ public class GameController implements GameListener {
     private GameView view;
     private GameSession gameSession;
 
+    public GameController() {}
 
-    public GameController() {
+    public void gameAction() {
         this.view = new GameView();
         this.view.subscribe(this);
+
         this.gameSession = new GameSession();
         this.gameSession.subscribe(this.view);
 
+        MainFrame.getInstanc().add(this.view);
+
+        // Tell the model to load all games
         this.gameSession.loadAll();
     }
 

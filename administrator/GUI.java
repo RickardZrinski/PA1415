@@ -26,7 +26,7 @@ public class GUI
 
     private void initialize()
     {
-        m_frame = MainFrame.getInstance();
+        m_frame = MainFrame.getInstance().getFrame();
         m_layout = new CardLayout();
         m_mainPanel = new JPanel(m_layout);
         m_contentPane = m_frame.getContentPane();

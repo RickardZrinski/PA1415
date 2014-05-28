@@ -30,7 +30,7 @@ public class Dapper<AnyType> extends Connector {
      * If set to true:  Statements will be printed.
      * If set to false: Statements will not be printed.
      */
-    public static boolean PRINT_STATEMENTS = true;
+    public static boolean PRINT_STATEMENTS = false;
 
     /**
      * Used for debugging purposes.

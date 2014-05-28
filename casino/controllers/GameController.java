@@ -3,8 +3,7 @@ package casino.controllers;
 import casino.MainFrame;
 import casino.events.GameListener;
 import casino.views.GameView;
-import shared.dao.GameDataDao;
-import shared.game.GameSession;
+import casino.models.GameSession;
 
 /**
  * @author  Dino Opijac

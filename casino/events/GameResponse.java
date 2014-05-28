@@ -1,6 +1,5 @@
 package casino.events;
 
-import shared.game.Die;
 import shared.game.GameData;
 
 import java.util.Collection;

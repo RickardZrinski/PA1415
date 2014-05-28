@@ -24,7 +24,9 @@ public class MenuBar extends View<MenuListener> {
 
     public MenuBar() {
         this.usernameLabel = new JLabel("User");
+        this.usernameLabel.setForeground(Color.WHITE);
         this.balanceLabel  = new JLabel("Balance");
+        this.balanceLabel.setForeground(Color.WHITE);
         this.menu = new JComboBox<>();
         this.configure();
         this.addComponents();

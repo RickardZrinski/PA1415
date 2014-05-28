@@ -33,9 +33,9 @@ public class MessageForm extends JPanel {
         this.addComponents();
     }
 
-    private void configure()
-    {
+    private void configure() {
         this.setLayout(new GridBagLayout());
+        this.messageTextArea.setRows(10);
     }
 
     private void addComponents() {

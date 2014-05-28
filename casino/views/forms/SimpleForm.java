@@ -19,7 +19,9 @@ public class SimpleForm extends JPanel {
     /**
      * Disable default constructor
      */
-    private SimpleForm() {}
+    public SimpleForm() {
+        this("", null, null);
+    }
 
     /**
      * A simple form that sets the initial text of the label

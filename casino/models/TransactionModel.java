@@ -23,6 +23,7 @@ public class TransactionModel extends Model<TransactionResponse> {
      */
     public void deposit(double amount) {
         this.transaction = new Deposit(amount);
+
     }
 
     /**
@@ -55,6 +56,11 @@ public class TransactionModel extends Model<TransactionResponse> {
         try {
             this.transaction.setUser(AuthenticationSession.getInstance().getUser());
             this.transaction.accountTransfer();
+
+            //Promote to player if user was trial player
+            if (this.transaction.getUser().getRole().getName().equals("Trial Player")){
+                this.transaction.getUser().setRole(DAOFactory.getUserDao().getRole("Player"));
+            }
 
             // Update our database records
             DAOFactory.getUserDao().update(this.transaction.getUser());

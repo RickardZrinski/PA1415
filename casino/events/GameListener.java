@@ -10,5 +10,5 @@ public interface GameListener {
     public void toss();
     public void toggleSaveDie(int index);
     public void playAgain();
-
+    public void trial();
 }

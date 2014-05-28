@@ -4,6 +4,7 @@ import casino.MainFrame;
 import casino.events.GameListener;
 import casino.views.GameView;
 import casino.models.GameSession;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 /**
  * @author  Dino Opijac
@@ -56,5 +57,11 @@ public class GameController implements GameListener {
     public void playAgain() {
         gameSession.playAgain();
         System.out.println("GameController: playAgain");
+    }
+
+    @Override
+    public void trial(){
+        gameSession.trial();
+        System.out.println("GameController: trial");
     }
 }

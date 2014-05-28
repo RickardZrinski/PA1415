@@ -29,8 +29,8 @@ public class GameView extends View<GameListener> implements GameResponse {
     private SimpleForm betView = new SimpleForm("Amount to bet", "Bet");
     private PlayView playView = new PlayView();
 
-    private GameRulesResultForm rules   = new GameRulesResultForm("Game Rules", ":rules:", "Play");
-    private GameRulesResultForm results = new GameRulesResultForm("Results", ":play again:", "Play Again");
+    private GameRulesResultForm rules   = new GameRulesResultForm("Game Rules", ":rules:", "Play", "Play Trial");
+    private GameRulesResultForm results = new GameRulesResultForm("Results", ":play again:", "Play Again", "Play Trial Again");
 
     public GameView() {
         MainFrame.getInstance().setTitle("Games");
@@ -47,8 +47,10 @@ public class GameView extends View<GameListener> implements GameResponse {
 
         // configure buttons
         this.rules.getConfirmButton().addActionListener(this::nextAction);
+        this.rules.getTrialButton().addActionListener(this::trialAction);
         this.rules.getCancelButton().addActionListener(this::cancelAction);
         this.results.getConfirmButton().addActionListener(this::playAgainAction);
+        this.results.getTrialButton().setVisible(false);
         this.results.getCancelButton().addActionListener(this::cancelAction);
         this.betView.getConfirmButton().addActionListener(this::betAction);
         this.playView.getTossButton().addActionListener(this::tossAction);
@@ -101,6 +103,20 @@ public class GameView extends View<GameListener> implements GameResponse {
             this.betUnsuccessful();
         }
 
+    }
+
+    private void trialAction(ActionEvent e){
+        this.getObservers().forEach(GameListener::trial);
+        this.playView.getTossButton().setVisible(true);
+        this.playView.getFinishButton().setVisible(false);
+
+        // Disable all buttons
+        this.playView.disableBoxButtons();
+    }
+
+    private void trialAgainAction(ActionEvent e){
+        this.getObservers().forEach(GameListener::playAgain);
+        this.getObservers().forEach(GameListener::trial);
     }
 
     private void finishAction(ActionEvent actionEvent) {
@@ -186,6 +202,17 @@ public class GameView extends View<GameListener> implements GameResponse {
         }
 
         this.card.add(this.selectableGamesView, "1");
+        this.cards.show(this.card, "1");
+    }
+
+    @Override
+    public void trialSuccessful(){
+        this.cards.show(this.card, "4");
+    }
+
+    @Override
+    public void trialUnsuccessful(){
+        JOptionPane.showMessageDialog(null, "Could not start trial game", "Not sufficient rights", JOptionPane.WARNING_MESSAGE);
         this.cards.show(this.card, "1");
     }
 }

@@ -109,6 +109,28 @@ public class GameSession extends Model<GameResponse> {
         }
     }
 
+    public void trial(){
+        try {
+            user = AuthenticationSession.getInstance().getUser();
+            if (user.getNumberOfTrials() > 0 && user.getRole().getName().equals("Trial Player")){
+                user.setNumberOfTrials(user.getNumberOfTrials()-1);
+
+                //Promote to player if all trails have been spent.
+                if (user.getNumberOfTrials() == 0)
+                    user.setRole(DAOFactory.getUserDao().getRole("Player"));
+
+                DAOFactory.getUserDao().update(user);
+                this.getObservers().forEach(GameResponse::trialSuccessful);
+                this.getObservers().forEach(o -> o.updateNumberOfThrows(numberOfThrows));
+                this.getObservers().forEach(o -> o.updateNumberOfDice(getNumberOfDice()));
+            }
+            else
+                this.getObservers().forEach(GameResponse::trialUnsuccessful);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Sets the shared.game to active
      */

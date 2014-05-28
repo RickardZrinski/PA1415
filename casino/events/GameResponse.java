@@ -18,4 +18,6 @@ public interface GameResponse {
     public void updateBalance(double amount);
     public void displayResult(String result);
     public void showAllGames(Collection<GameData> games);
+    public void trialSuccessful();
+    public void trialUnsuccessful();
 }

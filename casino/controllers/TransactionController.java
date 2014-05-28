@@ -15,19 +15,26 @@ import java.awt.*;
  * @since   21/05/2014
  */
 public class TransactionController implements TransactionListener {
-    private DepositView depositView = new DepositView();
-    private WithdrawView withdrawView = new WithdrawView();
-    private TransactionModel model = new TransactionModel();
+    private DepositView depositView;
+    private WithdrawView withdrawView;
+    private TransactionModel model;
 
-    public TransactionController() {
-        this.depositView.subscribe(this);
-        this.withdrawView.subscribe(this);
+    public TransactionController() {}
 
+    public void depositAction() {
+        this.model = new TransactionModel();
+        this.depositView = new DepositView();
         this.model.subscribe(this.depositView);
+
+        MainFrame.getInstanc().add(this.depositView);
+    }
+
+    public void withdrawAction() {
+        this.model = new TransactionModel();
+        this.withdrawView = new WithdrawView();
         this.model.subscribe(this.withdrawView);
 
-        //MainFrame.getInstance().add(this.depositView, BorderLayout.CENTER);
-        MainFrame.getInstance().add(this.withdrawView, BorderLayout.CENTER);
+        MainFrame.getInstanc().add(this.withdrawView);
     }
 
     @Override

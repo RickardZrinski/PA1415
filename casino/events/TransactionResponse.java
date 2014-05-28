@@ -5,6 +5,6 @@ package casino.events;
  * @since   25/05/14
  */
 public interface TransactionResponse {
-    public void transactionSuccessful();
+    public void transactionSuccessful(double amount);
     public void transactionUnsuccessful();
 }

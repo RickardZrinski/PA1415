@@ -67,7 +67,7 @@ public class TransactionModel extends Model<TransactionResponse> {
 
             receipt.send( this.transaction.getUser() );
 
-            this.getObservers().forEach(TransactionResponse::transactionSuccessful); // Notify all listeners
+            this.getObservers().forEach(o -> o.transactionSuccessful(this.transaction.getUser().getAccount().getBalance())); // Notify all listeners
         } catch (Exception e) {
             this.getObservers().forEach(TransactionResponse::transactionUnsuccessful); // Notify all listeners
         }

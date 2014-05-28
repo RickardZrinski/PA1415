@@ -1,5 +1,6 @@
 package casino.views;
 
+import casino.views.components.MenuBar;
 import shared.View;
 import casino.MainFrame;
 import casino.events.MessageEvent;
@@ -14,7 +15,7 @@ import java.awt.event.ActionEvent;
  * @since   20/05/2014
  */
 public class MessageView extends View<MessageListener> {
-    private MenuView menuView = new MenuView();
+    private MenuBar menuView = new casino.views.components.MenuBar();
     private MessageForm messageForm = new MessageForm();
 
     public MessageView() {

@@ -2,8 +2,9 @@ package casino.views;
 
 import casino.events.GameListener;
 import casino.events.GameResponse;
-import shared.View;
 import casino.views.components.Box;
+import casino.views.components.MenuBar;
+import shared.View;
 import casino.views.forms.SimpleForm;
 import shared.game.GameData;
 
@@ -17,7 +18,7 @@ import java.util.Collection;
  * @since   21/05/2014
  */
 public class GameView extends View<GameListener> implements GameResponse {
-    private MenuView menu = new MenuView();
+    private MenuBar menu = new casino.views.components.MenuBar();
     private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();
     private JPanel card = new JPanel(cards);

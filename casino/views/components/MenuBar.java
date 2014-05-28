@@ -1,4 +1,4 @@
-package casino.views;
+package casino.views.components;
 
 import casino.controllers.FrontController;
 import shared.View;
@@ -13,7 +13,7 @@ import java.awt.event.ItemEvent;
  * @author  Dino Opijac
  * @since   18/05/14
  */
-public class MenuView extends View<MenuListener> {
+public class MenuBar extends View<MenuListener> {
     private JLabel usernameLabel;
     private JLabel balanceLabel;
     private JComboBox<String> menu;
@@ -22,7 +22,7 @@ public class MenuView extends View<MenuListener> {
     private JPanel left  = new JPanel(new FlowLayout(FlowLayout.LEFT,  20, 15));
     private JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
 
-    public MenuView() {
+    public MenuBar() {
         this.usernameLabel = new JLabel("User");
         this.balanceLabel  = new JLabel("Balance");
         this.menu = new JComboBox<>();

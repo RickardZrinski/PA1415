@@ -1,6 +1,7 @@
 package casino.views;
 
 import casino.events.TransactionListener;
+import casino.views.components.MenuBar;
 import shared.View;
 import casino.MainFrame;
 import casino.events.CreditCardListener;
@@ -24,7 +25,7 @@ public class DepositView extends View<TransactionListener> implements CreditCard
 
     private CardLayout card = new CardLayout();
     private JPanel view = new JPanel();
-    private MenuView menu = new MenuView();
+    private MenuBar menu = new casino.views.components.MenuBar();
     private SimpleForm simpleForm = new SimpleForm("Deposit", "OK");
 
     private CreditCardForm creditCardForm = new CreditCardForm("Amount to deposit");

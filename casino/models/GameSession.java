@@ -130,6 +130,7 @@ public class GameSession extends Model<GameResponse> {
                 this.getObservers().forEach(GameResponse::trialUnsuccessful);
         } catch (Exception e) {
             e.printStackTrace();
+            this.getObservers().forEach(GameResponse::trialUnsuccessful);
         }
     }
 

@@ -1,9 +1,12 @@
-package shared.game;
+package casino.models;
 
 import casino.events.GameResponse;
 import shared.Model;
 import shared.dao.DAOFactory;
 import shared.dao.GameDataDao;
+import shared.game.Die;
+import shared.game.GameData;
+import shared.game.WinningCondition;
 import shared.users.User;
 
 import java.util.ArrayList;

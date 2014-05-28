@@ -2,8 +2,6 @@ package casino.controllers;
 
 import casino.MainFrame;
 import casino.events.MenuListener;
-import shared.AuthenticationSession;
-import shared.dao.DAOFactory;
 
 import javax.swing.*;
 

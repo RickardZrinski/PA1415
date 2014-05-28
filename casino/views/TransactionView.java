@@ -4,11 +4,9 @@ import casino.controllers.FrontController;
 import casino.events.*;
 import casino.views.components.MenuBar;
 import shared.View;
-import casino.MainFrame;
 import casino.views.forms.CreditCardForm;
 import casino.views.forms.SimpleForm;
 import shared.AuthenticationSession;
-import shared.transactions.payments.CreditCard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,12 +31,17 @@ public abstract class TransactionView extends View<TransactionListener> implemen
 
     private void configure() {
         this.setLayout(new BorderLayout());
+        this.card.setVgap(20);
+        this.card.setHgap(20);
         this.view.setLayout(this.card);
 
         // Register listeners
         this.simpleForm.getConfirmButton().addActionListener(this::nextButton);
         this.creditCardForm.subscribe(this);
+
+        // Show the result row and disable it
         this.creditCardForm.showResultRow();
+        this.creditCardForm.getResultTextField().setEnabled(false);
     }
 
     private void addComponents() {
@@ -74,7 +77,6 @@ public abstract class TransactionView extends View<TransactionListener> implemen
                 if (balance >= new Double(amount)) {
                     this.card.next(this.view);
                     this.creditCardForm.getResultTextField().setText(this.simpleForm.getFormattedField().getText());
-                    //MainFrame.getInstance().setTitle(WithdrawView.TITLE2);
                 } else {
                     JOptionPane.showMessageDialog(null, "You do not have the sufficient balance", "Amount", JOptionPane.ERROR_MESSAGE);
                 }

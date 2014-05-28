@@ -12,7 +12,7 @@ import javax.swing.*;
  */
 public class WithdrawView extends TransactionView {
     public WithdrawView() {
-        MainFrame.getInstance().setTitle("Games");
+        MainFrame.getInstance().setTitle("Withdraw");
 
         this.getSimpleForm().getTextLabel().setText("Withdraw");
         this.getSimpleForm().getConfirmButton().setText("OK");

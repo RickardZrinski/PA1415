@@ -21,7 +21,6 @@ import java.util.Collection;
  */
 public class GameView extends View<GameListener> implements GameResponse {
     private MenuBar menu = new casino.views.components.MenuBar();
-    private JButton nextButton = new JButton("Go to next card");
     private CardLayout cards = new CardLayout();
     private JPanel card = new JPanel(cards);
 
@@ -42,17 +41,16 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     private void configure() {
         this.setLayout(new BorderLayout());
-        this.nextButton.addActionListener(this::nextAction);
+
+        this.cards.setVgap(20);
+        this.cards.setHgap(20);
 
         // configure buttons
         this.rules.getConfirmButton().addActionListener(this::nextAction);
         this.rules.getCancelButton().addActionListener(this::cancelAction);
-
         this.results.getConfirmButton().addActionListener(this::playAgainAction);
         this.results.getCancelButton().addActionListener(this::cancelAction);
-
         this.betView.getConfirmButton().addActionListener(this::betAction);
-
         this.playView.getTossButton().addActionListener(this::tossAction);
         this.playView.getFinishButton().addActionListener(this::finishAction);
     }
@@ -67,10 +65,7 @@ public class GameView extends View<GameListener> implements GameResponse {
         this.card.add(this.results, "5");
 
         // Add the carded view to the center
-        this.add(this.card, BorderLayout.CENTER);
-
-        // Add the next button to the bottom
-        this.add(this.nextButton, BorderLayout.PAGE_END);
+        this.add(this.card);
     }
 
     private void nextAction(ActionEvent e) {

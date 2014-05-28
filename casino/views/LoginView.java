@@ -29,7 +29,6 @@ public class LoginView extends View<LoginListener> implements LoginResponse, Reg
     }
 
     private void configure() {
-        // this.setLayout(new FlowLayout());
         this.form.getSignInButton().addActionListener(this::signInAction);
         this.form.getResetButton().addActionListener(this::resetAction);
         this.form.getRegisterButton().addActionListener(this::registerFormAction);
@@ -62,8 +61,6 @@ public class LoginView extends View<LoginListener> implements LoginResponse, Reg
     private void resetAction(ActionEvent e) {
         this.form.getUsernameTextField().setText("");
         this.form.getPasswordPasswordField().setText("");
-
-        //FrontController.getInstance().showGameController();
     }
 
     private void confirmRegistrationAction(ActionEvent e) {

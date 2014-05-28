@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface GameResponse {
     public void displayRules(String rules);
     public void betSuccessful();
-    public void betUnSuccessful();
+    public void betUnsuccessful();
     public void updateDie(int index, int face);
     public void updateNumberOfThrows(int numberOfThrows);
     public void updateNumberOfDice(int numberOfDice);

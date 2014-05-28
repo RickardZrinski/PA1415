@@ -127,7 +127,7 @@ public class GameView extends View<GameListener> implements GameResponse {
     }
 
     @Override
-    public void betUnSuccessful() {
+    public void betUnsuccessful() {
         JOptionPane.showMessageDialog(null, "Bet was unsuccessful.");
         this.cards.show(this.card, "1");
     }

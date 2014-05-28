@@ -1,6 +1,7 @@
 package casino.models;
 
 import casino.events.GameResponse;
+import shared.AuthenticationSession;
 import shared.Model;
 import shared.dao.DAOFactory;
 import shared.dao.GameDataDao;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * @author  Oliver Nilsson
  * @since   13/05/2014
  */
-public class GameSession extends Model<GameResponse>{
+public class GameSession extends Model<GameResponse> {
     private double bet;
     private boolean active;
     private User user;
@@ -30,7 +31,7 @@ public class GameSession extends Model<GameResponse>{
     public GameSession() {
         this.bet = 0;
         this.active = false;
-        this.dice = new ArrayList<Die>();
+        this.dice = new ArrayList<>();
         this.user = null;
         this.gameData = null;
         dao = new GameDataDao();
@@ -44,7 +45,7 @@ public class GameSession extends Model<GameResponse>{
     public GameSession(User user, GameData gameData) {
         this.bet = 0;
         this.active = false;
-        this.dice = new ArrayList<Die>();
+        this.dice = new ArrayList<>();
         for (int i = 0; i < gameData.getNumberOfDice(); i++)
            dice.add(new Die());
         this.user = user;
@@ -67,26 +68,45 @@ public class GameSession extends Model<GameResponse>{
         }
 
         if (tossed)
-            numberOfThrows--;
+            this.numberOfThrows--;
+
         if (numberOfThrows == 0 || !tossed)
-            end();
+            this.end();
 
         // Notify our observers
         this.getObservers().forEach(o -> o.updateNumberOfThrows(this.numberOfThrows));
     }
 
     /**
-     * Sets bet
+     * Sets a bet and checks its validity. Responds to all listeners
+     * by invoking either betSuccessful or betUnsuccessful
+     *
      * @param bet player's bet
      */
-    public void bet(double bet){
-        this.bet = bet;
-        //@TODO implement transaction
+    public void bet(double bet) {
+        this.bet = 0;
 
-        //If successful
-        this.getObservers().forEach(GameResponse::betSuccessful);
-        this.getObservers().forEach(o -> o.updateNumberOfThrows(numberOfThrows));
-        this.getObservers().forEach(o -> o.updateNumberOfDice(getNumberOfDice()));
+        try {
+            User user = AuthenticationSession.getInstance().getUser();
+
+            if (user.getAccount().isWithdrawable(bet)) {
+                // Set the proper bet
+                this.bet = bet;
+
+                user.getAccount().withdraw(bet);        // Withdraw money from the account
+                DAOFactory.getUserDao().update(user);   // Store in the database
+
+                this.getObservers().forEach(GameResponse::betSuccessful);
+                this.getObservers().forEach(o -> o.updateBalance(user.getAccount().getBalance()));  // Update the balance
+                this.getObservers().forEach(o -> o.updateNumberOfThrows(numberOfThrows));
+                this.getObservers().forEach(o -> o.updateNumberOfDice(getNumberOfDice()));
+            } else {
+                // The bet could not be transferred.
+                this.getObservers().forEach(GameResponse::betUnsuccessful);
+            }
+        } catch(Exception e) {
+            this.getObservers().forEach(GameResponse::betUnsuccessful);
+        }
     }
 
     /**
@@ -104,9 +124,11 @@ public class GameSession extends Model<GameResponse>{
         active = false;
         WinningCondition reward = calculateReward();
         String rewardString = "You have achieved %s!\nYou have won %d SEK by betting %d SEK";
+
         double winnings = bet * reward.getReward();
-        this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, reward.getName(), (int)winnings,
-                (int)bet)));
+        this.getObservers().forEach(o -> o.displayResult(String.format(rewardString, reward.getName(), (int)winnings, (int)bet)));
+        this.getObservers().forEach(o -> o.updateBalance(winnings));
+
         return reward;
     }
 

@@ -85,13 +85,18 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     private void betAction(ActionEvent e) {
         double amount = new Double(this.betView.getFormattedField().getText());
-        this.getObservers().forEach(o -> o.bet(amount));
 
-        this.playView.getTossButton().setVisible(true);
-        this.playView.getFinishButton().setVisible(false);
+        if (amount > 0.0) {
+            this.getObservers().forEach(o -> o.bet(amount));
 
-        // Disable all buttons
-        this.playView.disableBoxButtons();
+            this.playView.getTossButton().setVisible(true);
+            this.playView.getFinishButton().setVisible(false);
+
+            // Disable all buttons
+            this.playView.disableBoxButtons();
+        } else {
+            this.betUnsuccessful();
+        }
     }
 
     private void finishAction(ActionEvent actionEvent) {
@@ -128,7 +133,7 @@ public class GameView extends View<GameListener> implements GameResponse {
 
     @Override
     public void betUnsuccessful() {
-        JOptionPane.showMessageDialog(null, "Bet was unsuccessful.");
+        JOptionPane.showMessageDialog(null, "Could not perform bet", "Wrong bet", JOptionPane.WARNING_MESSAGE);
         this.cards.show(this.card, "1");
     }
 

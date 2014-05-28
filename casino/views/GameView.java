@@ -1,5 +1,6 @@
 package casino.views;
 
+import casino.MainFrame;
 import casino.events.GameListener;
 import casino.events.GameResponse;
 import casino.views.components.Box;
@@ -33,6 +34,8 @@ public class GameView extends View<GameListener> implements GameResponse {
     private GameRulesResultForm results = new GameRulesResultForm("Results", ":play again:", "Play Again");
 
     public GameView() {
+        MainFrame.getInstance().setTitle("Games");
+
         this.configure();
         this.addComponents();
     }

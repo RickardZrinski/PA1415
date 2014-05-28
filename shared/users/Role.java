@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * @since   16/05/14
  */
 public class Role {
-    @PrimaryKey int id = 1;
+    @PrimaryKey int id = 4;
     private String name;
 
     private boolean canAccessAdministration = false;
@@ -41,12 +41,11 @@ public class Role {
      * Creates a default user role
      */
     public Role() {
-        this.name = "Player";
+        this.name = "Trial Player";
         this.canAuthenticate = true;
         this.canSendMessages = true;
 
         this.canDeposit = true;
-        this.canWithdraw = true;
     }
 
     public int getId() {

@@ -14,7 +14,8 @@ public abstract class Model<M> {
      * @param subject the subject that wishes to subscribe
      */
     public void subscribe(M subject) {
-        this.observers.add(subject);
+        if (!this.observers.contains(subject))
+            this.observers.add(subject);
     }
 
     /**

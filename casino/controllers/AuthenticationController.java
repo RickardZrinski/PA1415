@@ -28,7 +28,7 @@ public class AuthenticationController implements LoginListener {
         this.loginModel.subscribe(this.view);
         this.registrationModel.subscribe(this.view);
 
-        MainFrame.getInstanc().add(this.view);
+        MainFrame.getInstance().add(this.view);
     }
 
     public void signOutAction() {
